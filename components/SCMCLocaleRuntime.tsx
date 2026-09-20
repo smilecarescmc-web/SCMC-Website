@@ -231,7 +231,13 @@ function localizedHref(raw: string, locale: "en" | "ar") {
     (hash ? `#${hash}` : "");
 }
 
+function shouldSkipTranslation(node: Node) {
+  const parent = node instanceof Element ? node : node.parentElement;
+  return Boolean(parent?.closest("[data-scmc-no-translate]"));
+}
+
 function translateTextNode(text: Text) {
+  if (shouldSkipTranslation(text)) return;
   const raw = text.nodeValue || "";
   const trimmed = raw.trim();
   if (!trimmed) return;
@@ -243,8 +249,10 @@ function translateTextNode(text: Text) {
 }
 
 function translateAttributes(root: ParentNode) {
+  if (root instanceof Element && root.closest("[data-scmc-no-translate]")) return;
   for (const attr of ["placeholder", "aria-label", "title", "alt"] as const) {
     root.querySelectorAll<HTMLElement>(`[${attr}]`).forEach((el) => {
+      if (el.closest("[data-scmc-no-translate]")) return;
       const value = el.getAttribute(attr) || "";
       const translated = getTranslation(value);
       if (translated && translated !== value) {
@@ -255,6 +263,7 @@ function translateAttributes(root: ParentNode) {
 }
 
 function translateTree(root: ParentNode) {
+  if (root instanceof Element && root.closest("[data-scmc-no-translate]")) return;
   if (root instanceof Text) {
     translateTextNode(root);
     return;
