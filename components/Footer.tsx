@@ -65,9 +65,9 @@ export function Footer() {
       </div>
 
       <div className="scmc-shell scmc-footer__trust">
-        <div className="scmc-footer__logos">
-          <img src="/assets/smilecare-official/brand/logo.png" alt="Smile Care Medical Center" />
-          <img src="/v2/mohap.webp" alt="UAE Ministry of Health and Prevention" />
+        <div className="scmc-footer__mohap">
+          <img src="/assets/smilecare-official/brand/mohap.webp" alt="UAE Ministry of Health and Prevention" />
+          <span>{ar ? "منشأة طبية مرخصة · رقم 5080" : "Licensed medical facility · No. 5080"}</span>
         </div>
         <p>
           {ar ? "تصميم وتطوير " : "Designed & Developed by "}
