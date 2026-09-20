@@ -43,6 +43,29 @@ export function OfficialBlogArticleV13({ article, related = [] }: { article: Art
     ? new Intl.DateTimeFormat(ar ? "ar-AE" : "en-GB", { dateStyle: "long" }).format(new Date(article.date))
     : null;
 
+  if (ar && !hasArabic) {
+    return (
+      <ScmcFrame>
+        <section className="scmc-inner-hero">
+          <div className="scmc-shell scmc-inner-hero__grid">
+            <div>
+              <p className="scmc-eyebrow">المقال</p>
+              <h1>هذا المقال متاح باللغة الإنجليزية فقط.</h1>
+            </div>
+            <div>
+              <p style={{ color: "var(--scmc-text-soft)", marginBottom: 18 }}>
+                نحافظ على المحتوى الطبي المنشور رسمياً ولا نضيف ترجمة غير معتمدة للمقال.
+              </p>
+              <Link className="scmc-button scmc-button--primary" href={`/en/blog/${article.slug}`}>
+                فتح النسخة الإنجليزية
+              </Link>
+            </div>
+          </div>
+        </section>
+      </ScmcFrame>
+    );
+  }
+
   return (
     <ScmcFrame>
       <article className="scmc-article" data-scmc-no-translate="true">
