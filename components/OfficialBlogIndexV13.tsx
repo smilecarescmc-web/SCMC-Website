@@ -27,6 +27,8 @@ function categoryLabel(category: string, ar: boolean) {
 export function OfficialBlogIndexV13({ cards }: { cards: Card[] }) {
   const { ar, locale } = useScmcLocale();
 
+  const visibleCards = ar ? cards.filter((article) => article.hasArabic && article.titleAr) : cards;
+
   return (
     <ScmcFrame>
       <section className="scmc-inner-hero scmc-blog-intro">
@@ -41,7 +43,7 @@ export function OfficialBlogIndexV13({ cards }: { cards: Card[] }) {
 
       <section className="scmc-section scmc-section--soft">
         <div className="scmc-shell scmc-blog-grid">
-          {cards.map((article, index) => {
+          {visibleCards.map((article, index) => {
             const hasArabicTitle = ar && Boolean(article.titleAr);
             const title = hasArabicTitle ? article.titleAr! : article.titleEn;
             const date = article.date
@@ -49,7 +51,7 @@ export function OfficialBlogIndexV13({ cards }: { cards: Card[] }) {
               : null;
 
             return (
-              <Link key={article.slug} href={`/${locale}/blog/${article.slug}`} className={`scmc-blog-card ${index === 0 ? "is-featured" : ""}`}>
+              <Link key={article.slug} href={`/${locale}/blog/${article.slug}`} className={`scmc-blog-card ${index === 0 && visibleCards.length > 1 ? "is-featured" : ""}`}>
                 <div className="scmc-blog-card__media">
                   {article.featuredImage ? <img src={article.featuredImage} alt="" loading={index < 2 ? "eager" : "lazy"} /> : <div className="scmc-blog-card__fallback">SMILE CARE</div>}
                 </div>
