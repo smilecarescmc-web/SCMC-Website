@@ -1,37 +1,71 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Locale } from "@/lib/i18n";
-import { nav, site } from "@/lib/site";
+import { ArrowUpRight } from "lucide-react";
+import { clinic, services } from "@/lib/scmcFullData";
 
-export function Footer({ locale }: { locale: Locale }) {
-  const whatsapp = `https://wa.me/${site.whatsapp.replace(/\D/g, "")}`;
+export function Footer() {
   return (
-    <footer className="site-footer">
-      <div className="footer-grid shell">
-        <div className="footer-brand">
-          <Image src="/brand/scmc-lockup-beige.png" alt="Smile Care Medical Center" width={290} height={142} className="footer-logo" />
-          <p>{locale === "ar" ? "مركز طبي متعدد التخصصات في رأس الخيمة منذ عام 2007." : "A multidisciplinary medical center in Ras Al Khaimah, established in 2007."}</p>
+    <footer className="scmc-footer">
+      <div className="scmc-footer-orb scmc-footer-orb-a" />
+      <div className="scmc-footer-orb scmc-footer-orb-b" />
+
+      <div className="scmc-shell scmc-footer-grid">
+        <div className="scmc-footer-brand">
+          <Image
+            src="/assets/smilecare-official/brand/logo.png"
+            alt="Smile Care Medical Center"
+            width={192}
+            height={94}
+          />
+          <p>
+            Multidisciplinary medical care in Ras Al Khaimah, shaped around comfort,
+            clarity and a personal patient experience.
+          </p>
         </div>
-        <div>
-          <span className="footer-label">{locale === "ar" ? "استكشف" : "Explore"}</span>
-          <div className="footer-links">
-            {nav[locale].map(([label, href]) => <Link key={href} href={`/${locale}${href}`}>{label}</Link>)}
-          </div>
+
+        <div className="scmc-footer-col">
+          <span className="scmc-footer-label">Explore</span>
+          <Link href="/about">About</Link>
+          <Link href="/doctors">Doctors</Link>
+          <Link href="/services">Services</Link>
+          <Link href="/contact">Contact</Link>
         </div>
-        <div>
-          <span className="footer-label">{locale === "ar" ? "تواصل" : "Contact"}</span>
-          <div className="footer-links">
-            <a href={`tel:${site.phone}`}>{site.phone}</a>
-            <a href={`mailto:${site.email}`}>{site.email}</a>
-            <a href={whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
-            <span>{site.hours[locale]}</span>
-          </div>
+
+        <div className="scmc-footer-col">
+          <span className="scmc-footer-label">Departments</span>
+          {services.map((service) => (
+            <Link href={service.route} key={service.key}>{service.title}</Link>
+          ))}
+        </div>
+
+        <div className="scmc-footer-col scmc-footer-contact">
+          <span className="scmc-footer-label">Contact</span>
+          <a href={clinic.phoneHref}>{clinic.phoneDisplay}</a>
+          <a href={clinic.bookingWhatsApp} target="_blank" rel="noreferrer">
+            {clinic.whatsappDisplay}
+          </a>
+          <a href={`mailto:${clinic.email}`}>{clinic.email}</a>
+          <Link href="/contact#appointment" className="scmc-footer-book">
+            Request appointment <ArrowUpRight size={11} />
+          </Link>
         </div>
       </div>
-      <div className="footer-bottom shell">
-        <span>MOHAP License No. {site.mohap}</span>
-        <span>© {new Date().getFullYear()} Smile Care Medical Center</span>
+
+      <div className="scmc-shell scmc-footer-meta">
+        <span>MOHAP LICENSE NO. {clinic.license}</span>
+        <span>{clinic.address}</span>
+        <span>© {new Date().getFullYear()} SMILE CARE MEDICAL CENTER</span>
       </div>
-    </footer>
+          <div className="scmc-v12-footer-trust">
+        <div className="scmc-v12-footer-logos">
+          <img src="/v2/mohap.webp" alt="UAE Ministry of Health and Prevention" />
+        </div>
+        <p className="scmc-v12-footer-credit">
+          Designed &amp; Developed by <a href="https://7z-magic.com" target="_blank" rel="noopener noreferrer">7Z Magic</a>
+          &nbsp;&middot;&nbsp; <a href="/blog">Blog</a>
+        </p>
+      </div>    </footer>
   );
 }
+
+export default Footer;
