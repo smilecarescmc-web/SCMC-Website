@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ScmcFrame } from "@/components/ScmcFrame";
@@ -6,133 +8,117 @@ import { MediaImage } from "@/components/MediaImage";
 import { services } from "@/lib/scmcFullData";
 import { officialDoctors } from "@/lib/officialDoctors";
 import { scmcResolvedMedia } from "@/lib/scmcResolvedMedia";
+import { useScmcLocale } from "@/lib/locale-client";
 
+const arServices: Record<string, { title: string; description: string }> = {
+  dental: { title: "طب الأسنان", description: "رعاية أسنان عامة وترميمية وتجميلية وتخصصية ضمن فريق سريري واحد." },
+  "botox-fillers": { title: "البوتوكس والفيلر", description: "علاجات تجميلية طبية مدروسة تحافظ على التوازن والتعبير الطبيعي." },
+  dermatology: { title: "الجلدية والعناية بالبشرة", description: "تقييم طبي وخطط موجهة لمشكلات البشرة الشائعة والمزمنة والتجميلية." },
+  facials: { title: "علاجات الوجه", description: "بروتوكولات مخصصة لتجديد البشرة بحسب الحالة والاحتياج والنتيجة المطلوبة." },
+  "laser-hair-removal": { title: "إزالة الشعر بالليزر", description: "عناية بالليزر للنساء والرجال ضمن بروتوكولات آمنة ومناسبة للبشرة." },
+  laboratory: { title: "المختبر الطبي", description: "دعم مخبري داخل المركز للفحوصات الروتينية والتشخيصية وتنسيق الرعاية." },
+};
 
 function serviceMedia(key: (typeof services)[number]["key"]) {
   switch (key) {
-    case "dental":
-      return scmcResolvedMedia.clinic.dental;
-    case "botox-fillers":
-      return scmcResolvedMedia.clinic.botoxFillers;
-    case "dermatology":
-      return scmcResolvedMedia.clinic.dermatology;
-    case "facials":
-      return scmcResolvedMedia.clinic.facials;
-    case "laser-hair-removal":
-      return scmcResolvedMedia.clinic.laser;
-    case "laboratory":
-      return scmcResolvedMedia.clinic.laboratory;
+    case "dental": return scmcResolvedMedia.clinic.dental;
+    case "botox-fillers": return scmcResolvedMedia.clinic.botoxFillers;
+    case "dermatology": return scmcResolvedMedia.clinic.dermatology;
+    case "facials": return scmcResolvedMedia.clinic.facials;
+    case "laser-hair-removal": return scmcResolvedMedia.clinic.laser;
+    case "laboratory": return scmcResolvedMedia.clinic.laboratory;
   }
 }
 
 export default function HomePage() {
+  const { ar, href } = useScmcLocale();
+
   return (
     <ScmcFrame>
-      <section className="scmc-v10-hero" aria-label="Smile Care Medical Center">
-  <video
-    className="scmc-v10-hero__video"
-    src="/assets/HERO-Final.mp4"
-    autoPlay
-    muted
-    loop
-    playsInline
-    preload="auto"
-    aria-hidden="true"
-  />
-  <div className="scmc-v10-hero__veil" aria-hidden="true" />
-
-  <div className="scmc-v10-hero__inner">
-    <div className="scmc-v10-hero__copy">
-      <p className="scmc-v10-hero__eyebrow">SMILE CARE MEDICAL CENTER <span>RAS AL KHAIMAH</span></p>
-      <h1>Medical care that feels lighter, calmer and more personal.</h1>
-      <p className="scmc-v10-hero__lede">
-        Smile Care Medical Center brings dentistry, dermatology, aesthetics, laser and laboratory services together in a refined multidisciplinary environment.
-      </p>
-      <div className="scmc-v10-hero__actions">
-        <Link className="is-primary" href="/contact#appointment">Book appointment</Link>
-        <Link href="/doctors">Meet our doctors</Link>
-      </div>
-    </div>
-
-    <nav className="scmc-v10-hero__quick" aria-label="Featured services">
-      <Link href="/services/dental"><span>01</span><strong>Dental Care</strong><i>↗</i></Link>
-      <Link href="/services/dermatology"><span>02</span><strong>Dermatology</strong><i>↗</i></Link>
-      <Link href="/services/botox-fillers"><span>03</span><strong>Aesthetics</strong><i>↗</i></Link>
-    </nav>
-  </div>
-
-  <div className="scmc-v10-hero__rail">
-    <div><span>EST.</span><strong>2007</strong></div>
-    <div><span>MOHAP</span><strong>5080</strong></div>
-    <div><span>LOCATION</span><strong>RAS AL KHAIMAH</strong></div>
-    <div><span>HOURS</span><strong>SAT–THU · 09:00–21:00</strong></div>
-  </div>
-</section>
-
-      <section className="scmc-soft-section scmc-ambient-section">
-        <div className="scmc-ambient-blob scmc-ambient-blob-a" />
-        <div className="scmc-shell scmc-two-col">
-          <div>
-            <span className="scmc-section-label">OUR STORY</span>
-            <h2 data-soft-reveal>It began with one dental chair.</h2>
-          </div>
-
-          <div className="scmc-story-media-copy">
-            <figure className="scmc-story-image scmc-media-shell">
-              <MediaImage
-                src={scmcResolvedMedia.clinic.about}
-                alt="Smile Care Medical Center"
-                className="scmc-media-cover"
-              />
-            </figure>
-
-            <div className="scmc-reading-column">
-              <p data-soft-reveal>
-                Smile Care began serving patients in Ras Al Khaimah in 2007. Dr. Nael Adel,
-                with more than two decades of dentistry experience, and Mrs. Hanan Al Wawi,
-                a finance graduate with an MBA in business management, built the center around
-                a shared idea: medical care should feel safe, comfortable and genuinely cared for.
-              </p>
-              <p data-soft-reveal>
-                From its dental origins, Smile Care expanded into a multidisciplinary medical center
-                while keeping the personal character of a local clinic.
-              </p>
-              <Link href="/about" className="scmc-text-link" data-soft-reveal>
-                Read our story <ArrowUpRight size={11} />
+      <section className="scmc-hero" aria-label="Smile Care Medical Center">
+        <video className="scmc-hero__video" src="/assets/HERO-Final.mp4" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+        <div className="scmc-hero__overlay" aria-hidden="true" />
+        <div className="scmc-shell scmc-hero__content">
+          <div className="scmc-hero__copy">
+            <p className="scmc-eyebrow">{ar ? "مركز سمايل كير الطبي · رأس الخيمة" : "SMILE CARE MEDICAL CENTER · RAS AL KHAIMAH"}</p>
+            <h1>{ar ? "رعاية طبية أهدأ، أرقى، وأكثر قرباً من المريض." : "Medical care that feels calmer, refined and more personal."}</h1>
+            <p className="scmc-hero__lede">
+              {ar
+                ? "يجمع سمايل كير طب الأسنان والجلدية والتجميل والليزر والمختبر ضمن تجربة طبية متعددة التخصصات صُممت حول الراحة والثقة."
+                : "Dentistry, dermatology, aesthetics, laser and laboratory care come together in one multidisciplinary experience designed around comfort and trust."}
+            </p>
+            <div className="scmc-action-row">
+              <Link className="scmc-button scmc-button--primary" href={href("/contact#appointment")}>
+                {ar ? "احجز موعداً" : "Book appointment"} <ArrowUpRight size={13} />
+              </Link>
+              <Link className="scmc-button scmc-button--ghost" href={href("/doctors")}>
+                {ar ? "تعرّف على أطبائنا" : "Meet our doctors"}
               </Link>
             </div>
           </div>
+
+          <div className="scmc-hero__services">
+            {services.slice(0, 3).map((service) => (
+              <Link href={href(service.route)} key={service.key}>
+                <span>{service.index}</span>
+                <strong>{ar ? arServices[service.key].title : service.title}</strong>
+                <ArrowUpRight size={14} />
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="scmc-shell scmc-hero__facts">
+          <div><span>{ar ? "تأسس" : "EST."}</span><strong>2007</strong></div>
+          <div><span>{ar ? "وزارة الصحة" : "MOHAP"}</span><strong>5080</strong></div>
+          <div><span>{ar ? "الموقع" : "LOCATION"}</span><strong>{ar ? "رأس الخيمة" : "RAS AL KHAIMAH"}</strong></div>
+          <div><span>{ar ? "ساعات العمل" : "HOURS"}</span><strong>{ar ? "السبت–الخميس · 09:00–21:00" : "SAT–THU · 09:00–21:00"}</strong></div>
         </div>
       </section>
 
-      <section className="scmc-soft-section scmc-soft-section-tint scmc-ambient-section">
-        <div className="scmc-ambient-blob scmc-ambient-blob-b" />
+      <section className="scmc-section">
+        <div className="scmc-shell scmc-story">
+          <div className="scmc-section-copy">
+            <p className="scmc-eyebrow">{ar ? "قصتنا" : "OUR STORY"}</p>
+            <h2>{ar ? "بدأ كل شيء بكرسي أسنان واحد." : "It began with one dental chair."}</h2>
+            <p>
+              {ar
+                ? "منذ عام 2007، تطور سمايل كير من جذوره في طب الأسنان إلى مركز طبي متعدد التخصصات مع الحفاظ على الطابع الشخصي الذي شكّل سمعته."
+                : "Since 2007, Smile Care has grown from its dental roots into a multidisciplinary medical center while preserving the personal character that shaped its reputation."}
+            </p>
+            <Link href={href("/about")} className="scmc-text-link">
+              {ar ? "اقرأ قصتنا" : "Read our story"} <ArrowUpRight size={12} />
+            </Link>
+          </div>
+          <figure className="scmc-story__media scmc-media-frame scmc-media-frame--contain">
+            <MediaImage src={scmcResolvedMedia.clinic.about} alt={ar ? "مؤسسا مركز سمايل كير الطبي" : "Smile Care Medical Center founders"} className="scmc-media-contain" loading="eager" />
+          </figure>
+        </div>
+      </section>
+
+      <section className="scmc-section scmc-section--soft">
         <div className="scmc-shell">
-          <div className="scmc-section-heading">
+          <div className="scmc-section-head">
             <div>
-              <span className="scmc-section-label">DEPARTMENTS</span>
-              <h2 data-soft-reveal>Care under one roof.</h2>
+              <p className="scmc-eyebrow">{ar ? "الأقسام" : "DEPARTMENTS"}</p>
+              <h2>{ar ? "رعاية متكاملة تحت سقف واحد." : "Care under one roof."}</h2>
             </div>
-            <Link href="/services" className="scmc-text-link">
-              View all services <ArrowUpRight size={11} />
+            <Link href={href("/services")} className="scmc-text-link">
+              {ar ? "عرض جميع الخدمات" : "View all services"} <ArrowUpRight size={12} />
             </Link>
           </div>
 
-          <div className="scmc-service-cards">
+          <div className="scmc-service-grid">
             {services.map((service) => (
-              <Link href={service.route} className="scmc-service-card scmc-glass-card" key={service.key} data-soft-reveal>
-                <div className="scmc-service-card-image scmc-media-shell">
-                  <MediaImage
-                    src={serviceMedia(service.key)}
-                    alt={`${service.title} at Smile Care`}
-                    className="scmc-media-cover"
-                  />
-                  <div className="scmc-service-card-number">{service.index}</div>
+              <Link href={href(service.route)} className="scmc-service-card" key={service.key}>
+                <div className="scmc-service-card__media">
+                  <MediaImage src={serviceMedia(service.key)} alt={ar ? arServices[service.key].title : service.title} className="scmc-media-cover" />
+                  <span>{service.index}</span>
                 </div>
-                <div className="scmc-service-card-copy">
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                  <span>Explore <ArrowUpRight size={10} /></span>
+                <div className="scmc-service-card__body">
+                  <h3>{ar ? arServices[service.key].title : service.title}</h3>
+                  <p>{ar ? arServices[service.key].description : service.description}</p>
+                  <b>{ar ? "استكشف الخدمة" : "Explore service"} <ArrowUpRight size={11} /></b>
                 </div>
               </Link>
             ))}
@@ -140,52 +126,58 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="scmc-soft-section scmc-ambient-section">
+      <section className="scmc-section">
         <div className="scmc-shell">
-          <div className="scmc-section-heading">
+          <div className="scmc-section-head">
             <div>
-              <span className="scmc-section-label">MEDICAL TEAM</span>
-              <h2 data-soft-reveal>Meet the team behind the care.</h2>
+              <p className="scmc-eyebrow">{ar ? "الفريق الطبي" : "MEDICAL TEAM"}</p>
+              <h2>{ar ? "تعرّف على الفريق خلف الرعاية." : "Meet the team behind the care."}</h2>
             </div>
-            <Link href="/doctors" className="scmc-text-link">
-              All doctors <ArrowUpRight size={11} />
+            <Link href={href("/doctors")} className="scmc-text-link">
+              {ar ? "جميع الأطباء" : "All doctors"} <ArrowUpRight size={12} />
             </Link>
           </div>
 
           <div className="scmc-doctor-strip">
-            {officialDoctors.slice(0, 5).map((doctor, index) => (
-              <Link
-                href={`/doctors/${doctor.slug}`}
-                className="scmc-doctor-mini"
-                key={doctor.slug}
-                data-soft-reveal
-              >
-                <div className="scmc-doctor-mini-image scmc-person-image-frame">
-                  <img
-                    src={doctor.image}
-                    alt={doctor.nameEn}
-                    className="scmc-person-image"
-                    loading={index < 3 ? "eager" : "lazy"}
-                  />
+            {officialDoctors.slice(0, 5).map((doctor) => (
+              <Link href={href(`/doctors/${doctor.slug}`)} className="scmc-doctor-mini" key={doctor.slug}>
+                <div className="scmc-doctor-mini__media">
+                  <img src={doctor.image} alt={ar ? doctor.nameAr : doctor.nameEn} />
                 </div>
-                <h3>{doctor.nameEn}</h3>
-                <p>{doctor.specialtyEn}</p>
+                <h3>{ar ? doctor.nameAr : doctor.nameEn}</h3>
+                <p>{ar ? doctor.specialtyAr : doctor.specialtyEn}</p>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="scmc-soft-section scmc-soft-section-tint scmc-ambient-section">
-        <div className="scmc-ambient-blob scmc-ambient-blob-c" />
+      <section className="scmc-section scmc-section--soft">
         <div className="scmc-shell">
-          <div className="scmc-section-heading">
+          <div className="scmc-section-head scmc-section-head--insurance">
             <div>
-              <span className="scmc-section-label">INSURANCE</span>
-              <h2 data-soft-reveal>Accepted insurance networks.</h2>
+              <p className="scmc-eyebrow">{ar ? "التأمين" : "INSURANCE"}</p>
+              <h2>{ar ? "شبكات التأمين المعتمدة." : "Accepted insurance networks."}</h2>
             </div>
+            <p>{ar ? "تظهر أهلية التغطية بحسب الخطة والشبكة. يؤكد الفريق تفاصيل التغطية قبل الموعد." : "Coverage depends on the individual plan and network. Our team can confirm eligibility before your visit."}</p>
           </div>
           <InsuranceGrid />
+        </div>
+      </section>
+
+      <section className="scmc-section scmc-section--cta">
+        <div className="scmc-shell scmc-cta-panel">
+          <div>
+            <p className="scmc-eyebrow">{ar ? "ابدأ من هنا" : "START HERE"}</p>
+            <h2>{ar ? "موعدك يبدأ بمحادثة بسيطة." : "Your visit starts with a simple conversation."}</h2>
+            <p>{ar ? "أخبرنا بما تحتاجه وسيساعدك الفريق في اختيار الاختصاصي والوقت المناسب." : "Tell us what you need and the team will help match you with the right specialist and time."}</p>
+          </div>
+          <div className="scmc-action-row">
+            <Link className="scmc-button scmc-button--primary" href={href("/contact#appointment")}>
+              {ar ? "طلب موعد" : "Request appointment"} <ArrowUpRight size={13} />
+            </Link>
+            <a className="scmc-button scmc-button--ghost" href="https://wa.me/971543217712" target="_blank" rel="noreferrer">WhatsApp</a>
+          </div>
         </div>
       </section>
     </ScmcFrame>
