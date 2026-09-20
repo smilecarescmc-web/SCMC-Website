@@ -57,7 +57,7 @@ export default function HomePage() {
     <nav className="scmc-v10-hero__quick" aria-label="Featured services">
       <Link href="/services/dental"><span>01</span><strong>Dental Care</strong><i>↗</i></Link>
       <Link href="/services/dermatology"><span>02</span><strong>Dermatology</strong><i>↗</i></Link>
-      <Link href="/services/botox-fillers"><span>03</span><strong>Aesthetics</strong><i>↗</i></a>
+      <Link href="/services/botox-fillers"><span>03</span><strong>Aesthetics</strong><i>↗</i></Link>
     </nav>
   </div>
 
