@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -17,6 +18,7 @@ export function SCMCHeaderV10() {
   const pathname = usePathname() || "/";
   const locale: "en" | "ar" = pathname.startsWith("/ar") ? "ar" : "en";
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [menuOpen, setMenuOpen] = useState(false);
   const base = useMemo(() => stripLocale(pathname), [pathname]);
 
   useEffect(() => {
@@ -27,10 +29,13 @@ export function SCMCHeaderV10() {
         : window.matchMedia("(prefers-color-scheme: dark)").matches
           ? "dark"
           : "light";
+
     setTheme(initial);
     document.documentElement.dataset.theme = initial;
     document.documentElement.classList.toggle("dark", initial === "dark");
   }, []);
+
+  useEffect(() => setMenuOpen(false), [pathname]);
 
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
@@ -47,9 +52,12 @@ export function SCMCHeaderV10() {
           services: "الخدمات",
           doctors: "الأطباء",
           about: "من نحن",
+          blog: "المدونة",
           contact: "تواصل معنا",
           book: "احجز موعداً",
           menu: "التنقل الرئيسي",
+          openMenu: "فتح القائمة",
+          closeMenu: "إغلاق القائمة",
           theme: theme === "dark" ? "الوضع الفاتح" : "الوضع الداكن",
         }
       : {
@@ -57,44 +65,70 @@ export function SCMCHeaderV10() {
           services: "Services",
           doctors: "Doctors",
           about: "About",
+          blog: "Blog",
           contact: "Contact",
           book: "Book appointment",
           menu: "Primary navigation",
+          openMenu: "Open menu",
+          closeMenu: "Close menu",
           theme: theme === "dark" ? "Light mode" : "Dark mode",
         };
 
   const link = (path: string) => withLocale(path, locale);
 
+  const navItems = [
+    ["/", labels.home],
+    ["/services", labels.services],
+    ["/doctors", labels.doctors],
+    ["/about", labels.about],
+    ["/blog", labels.blog],
+    ["/contact", labels.contact],
+  ] as const;
+
   return (
-    <header className="scmc-v10-header">
-      <a className="scmc-v10-header__brand" href={link("/")} aria-label="Smile Care home">
+    <header className="scmc-v10-header" data-menu-open={menuOpen ? "true" : "false"}>
+      <Link className="scmc-v10-header__brand" href={link("/")} aria-label="Smile Care home">
         <img src="/assets/smilecare-official/brand/logo.png" alt="Smile Care Medical Center" />
-      </a>
+      </Link>
 
       <nav className="scmc-v10-header__nav" aria-label={labels.menu}>
-        <a className={base === "/" ? "is-active" : ""} href={link("/")}>{labels.home}</a>
-        <a className={base.startsWith("/services") ? "is-active" : ""} href={link("/services")}>{labels.services}</a>
-        <a className={base.startsWith("/doctors") ? "is-active" : ""} href={link("/doctors")}>{labels.doctors}</a>
-        <a className={base.startsWith("/about") ? "is-active" : ""} href={link("/about")}>{labels.about}</a>
-        <a className={base.startsWith("/contact") ? "is-active" : ""} href={link("/contact")}>{labels.contact}</a>
+        {navItems.map(([path, label]) => (
+          <Link
+            key={path}
+            className={base === path || (path !== "/" && base.startsWith(path)) ? "is-active" : ""}
+            href={link(path)}
+          >
+            {label}
+          </Link>
+        ))}
       </nav>
 
       <div className="scmc-v10-header__actions">
         <a className="scmc-v10-header__phone" href="tel:+97172282080">+971 7 228 2080</a>
 
-        <a
+        <Link
           className="scmc-v10-header__locale"
           href={withLocale(base, locale === "ar" ? "en" : "ar")}
           aria-label={locale === "ar" ? "English" : "العربية"}
         >
           {locale === "ar" ? "EN" : "AR"}
-        </a>
+        </Link>
 
         <button className="scmc-v10-header__theme" type="button" onClick={toggleTheme} aria-label={labels.theme}>
           <span aria-hidden="true">{theme === "dark" ? "☀" : "◐"}</span>
         </button>
 
-        <a className="scmc-v10-header__book" href={link("/contact#appointment")}>{labels.book}</a>
+        <Link className="scmc-v10-header__book" href={link("/contact#appointment")}>{labels.book}</Link>
+
+        <button
+          className="scmc-v10-header__menu"
+          type="button"
+          aria-expanded={menuOpen}
+          aria-label={menuOpen ? labels.closeMenu : labels.openMenu}
+          onClick={() => setMenuOpen((value) => !value)}
+        >
+          <span aria-hidden="true">{menuOpen ? "×" : "☰"}</span>
+        </button>
       </div>
     </header>
   );
