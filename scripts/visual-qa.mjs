@@ -61,8 +61,31 @@ for (const viewport of viewports) {
         const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
         status = response?.status() ?? null;
         await page.waitForSelector(".scmc-header", { timeout: 10000 });
-        await page.waitForTimeout(450);
-        await page.evaluate(async () => { if (document.fonts?.ready) await document.fonts.ready; });
+        await page.evaluate(async () => {
+          if (document.fonts?.ready) await document.fonts.ready;
+          const step = Math.max(320, Math.floor(window.innerHeight * 0.72));
+          for (let y = 0; y < document.body.scrollHeight; y += step) {
+            window.scrollTo(0, y);
+            await new Promise((resolve) => setTimeout(resolve, 70));
+          }
+          window.scrollTo(0, document.body.scrollHeight);
+          await new Promise((resolve) => setTimeout(resolve, 350));
+          await Promise.race([
+            Promise.all(
+              Array.from(document.images).map((img) =>
+                img.complete
+                  ? Promise.resolve()
+                  : new Promise((resolve) => {
+                      img.addEventListener("load", resolve, { once: true });
+                      img.addEventListener("error", resolve, { once: true });
+                    })
+              )
+            ),
+            new Promise((resolve) => setTimeout(resolve, 5000)),
+          ]);
+          window.scrollTo(0, 0);
+        });
+        await page.waitForTimeout(300);
 
         metrics = await page.evaluate(({ route, theme }) => {
           const root = document.documentElement;
