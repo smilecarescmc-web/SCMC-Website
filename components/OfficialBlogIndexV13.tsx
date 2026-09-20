@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { ArrowUpRight } from "lucide-react";
+import { useScmcLocale } from "@/lib/locale-client";
+import { ScmcFrame } from "@/components/ScmcFrame";
 
 type Card = {
   slug: string;
@@ -13,56 +15,58 @@ type Card = {
   hasArabic: boolean;
 };
 
+function categoryLabel(category: string, ar: boolean) {
+  if (!ar) return category;
+  const normalized = category.toUpperCase();
+  if (normalized.includes("DENT")) return "طب الأسنان";
+  if (normalized.includes("DERM") || normalized.includes("SKIN")) return "الجلدية";
+  if (normalized.includes("AESTH")) return "التجميل";
+  return "مقال طبي";
+}
+
 export function OfficialBlogIndexV13({ cards }: { cards: Card[] }) {
-  const pathname = usePathname();
-  const locale: "en" | "ar" = pathname.startsWith("/ar") ? "ar" : "en";
-  const ar = locale === "ar";
+  const { ar, locale } = useScmcLocale();
 
   return (
-    <main className="scmc-blog-page" data-scmc-no-translate>
-      <section className="scmc-blog-hero">
-        <div>
-          <span className="eyebrow">{ar ? "المدونة" : "Smile Care Journal"}</span>
-          <h1>{ar ? "مقالات سمايل كير المنشورة." : "Published medical reading from Smile Care."}</h1>
+    <ScmcFrame>
+      <section className="scmc-inner-hero scmc-blog-intro">
+        <div className="scmc-shell scmc-inner-hero__grid">
+          <div>
+            <p className="scmc-eyebrow">{ar ? "المدونة" : "SMILE CARE JOURNAL"}</p>
+            <h1>{ar ? "قراءة طبية من خبرة سمايل كير." : "Medical reading from Smile Care."}</h1>
+          </div>
+          <p>{ar ? "مقالات منشورة من المصدر الرسمي لسمايل كير، مع الحفاظ على النسخة العربية الرسمية عندما تكون متاحة." : "Published articles from Smile Care’s official source, presented in a calm editorial format with original source media."}</p>
         </div>
-        <p>
-          {ar
-            ? "يتم عرض المحتوى العربي فقط عندما يكون له مصدر عربي رسمي منشور. المقالات الأخرى تبقى بنصها الإنجليزي الرسمي دون ترجمة مصطنعة."
-            : "These articles are migrated from Smile Care’s official published source with the original article body, headings, and available source media."}
-        </p>
       </section>
 
-      <section className="scmc-blog-grid" aria-label={ar ? "مقالات سمايل كير" : "Smile Care articles"}>
-        {cards.map((article) => {
-          const title = ar && article.titleAr ? article.titleAr : article.titleEn;
-          const date = article.date
-            ? new Intl.DateTimeFormat(ar ? "ar-AE" : "en-GB", { dateStyle: "medium" }).format(new Date(article.date))
-            : null;
+      <section className="scmc-section scmc-section--soft">
+        <div className="scmc-shell scmc-blog-grid">
+          {cards.map((article, index) => {
+            const hasArabicTitle = ar && Boolean(article.titleAr);
+            const title = hasArabicTitle ? article.titleAr! : article.titleEn;
+            const date = article.date
+              ? new Intl.DateTimeFormat(ar ? "ar-AE" : "en-GB", { dateStyle: "medium" }).format(new Date(article.date))
+              : null;
 
-          return (
-            <Link
-              key={article.slug}
-              href={`/${locale}/blog/${article.slug}`}
-              className="scmc-blog-card"
-            >
-              <div className="scmc-blog-card-media">
-                {article.featuredImage ? <img src={article.featuredImage} alt="" loading="lazy" /> : null}
-              </div>
-              <div className="scmc-blog-card-body">
-                <div className="scmc-blog-card-meta">
-                  {date ? <span>{date}</span> : null}
-                  {article.categories[0] ? <span>{article.categories[0]}</span> : null}
-                  {ar && !article.hasArabic ? <span>EN</span> : null}
+            return (
+              <Link key={article.slug} href={`/${locale}/blog/${article.slug}`} className={`scmc-blog-card ${index === 0 ? "is-featured" : ""}`}>
+                <div className="scmc-blog-card__media">
+                  {article.featuredImage ? <img src={article.featuredImage} alt="" loading={index < 2 ? "eager" : "lazy"} /> : <div className="scmc-blog-card__fallback">SMILE CARE</div>}
                 </div>
-                <h2>{title}</h2>
-                <span className="scmc-blog-card-cta">
-                  {ar ? "قراءة المقال" : "Read article"} <span aria-hidden>↗</span>
-                </span>
-              </div>
-            </Link>
-          );
-        })}
+                <div className="scmc-blog-card__body">
+                  <div className="scmc-blog-card__meta">
+                    {date ? <span>{date}</span> : null}
+                    {article.categories[0] ? <span>{categoryLabel(article.categories[0], ar)}</span> : null}
+                    {ar && !article.hasArabic ? <span>EN</span> : null}
+                  </div>
+                  <h2>{title}</h2>
+                  <span className="scmc-text-link">{ar ? "قراءة المقال" : "Read article"} <ArrowUpRight size={11} /></span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </section>
-    </main>
+    </ScmcFrame>
   );
 }
