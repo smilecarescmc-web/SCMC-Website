@@ -60,7 +60,8 @@ for (const viewport of viewports) {
       try {
         const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
         status = response?.status() ?? null;
-        await page.waitForSelector(".scmc-header", { timeout: 10000 });\n        await page.waitForTimeout(450);
+        await page.waitForSelector(".scmc-header", { timeout: 10000 });
+        await page.waitForTimeout(450);
         await page.evaluate(async () => { if (document.fonts?.ready) await document.fonts.ready; });
 
         metrics = await page.evaluate(({ route, theme }) => {
