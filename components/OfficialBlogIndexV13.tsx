@@ -42,7 +42,7 @@ export function OfficialBlogIndexV13({ cards }: { cards: Card[] }) {
       </section>
 
       <section className="scmc-section scmc-section--soft">
-        <div className="scmc-shell scmc-blog-grid">
+        <div className={`scmc-shell scmc-blog-grid ${visibleCards.length === 1 ? "is-single" : ""}`}>
           {visibleCards.map((article, index) => {
             const hasArabicTitle = ar && Boolean(article.titleAr);
             const title = hasArabicTitle ? article.titleAr! : article.titleEn;
