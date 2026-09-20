@@ -2,22 +2,14 @@ import { SCMCPerformancePolicy } from "@/components/SCMCPerformancePolicy";
 import { SCMCProximityReveal } from "@/components/SCMCProximityReveal";
 import { SCMCLocaleRuntime } from "@/components/SCMCLocaleRuntime";
 import { SCMCHeaderV10 } from "@/components/SCMCHeaderV10";
-import { CinematicExperience } from "@/components/CinematicExperience";
-import { CinematicShell } from "@/components/CinematicShell";
 import type { Metadata, Viewport } from "next";
-import { Almarai, Inter } from "next/font/google";
+import { Almarai } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-latin",
-  display: "swap",
-});
-
-const arabic = Almarai({
+const almarai = Almarai({
   subsets: ["arabic"],
-  weight: ["300", "400", "700"],
-  variable: "--font-arabic",
+  weight: ["300", "400", "700", "800"],
+  variable: "--font-almarai",
   display: "swap",
 });
 
@@ -47,7 +39,6 @@ export const metadata: Metadata = {
     "Dentist RAK",
     "MOHAP 5080",
   ],
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_AE",
@@ -63,11 +54,6 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
-  other: {
-    "medical-license": "MOHAP License No. 5080",
-    "geo.region": "AE-RK",
-    "geo.placename": "Ras Al Khaimah",
-  },
 };
 
 export const viewport: Viewport = {
@@ -76,21 +62,20 @@ export const viewport: Viewport = {
   viewportFit: "cover",
   colorScheme: "light dark",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F4F6F3" },
-    { media: "(prefers-color-scheme: dark)", color: "#0B110D" },
+    { media: "(prefers-color-scheme: light)", color: "#F6F4EF" },
+    { media: "(prefers-color-scheme: dark)", color: "#0A1115" },
   ],
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
-      <body className={`${inter.variable} ${arabic.variable}`}>
+      <body className={almarai.variable}>
         <SCMCLocaleRuntime />
         <SCMCPerformancePolicy />
         <SCMCProximityReveal />
         <SCMCHeaderV10 />
-        <CinematicExperience />
-        <CinematicShell>{children}</CinematicShell>
+        {children}
       </body>
     </html>
   );
