@@ -68,7 +68,7 @@ export function OfficialDoctorPage({ slug }: { slug: string }) {
               <Link className="scmc-button scmc-button--primary" href={href("/contact#appointment")}>
                 {ar ? "احجز موعداً" : "Book appointment"} <ArrowUpRight size={13} />
               </Link>
-              <a className="scmc-button scmc-button--ghost" href="https://wa.me/971543217712" target="_blank" rel="noreferrer">WhatsApp</a>
+              <a className="scmc-button scmc-button--ghost" href="https://wa.me/971543217712" target="_blank" rel="noreferrer">{ar ? "واتساب" : "WhatsApp"}</a>
             </div>
             <div className="scmc-meta-row">
               <span>MOHAP 5080</span>
