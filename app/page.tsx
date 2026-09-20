@@ -1,25 +1,12 @@
 import Link from "next/link";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { ScmcFrame } from "@/components/ScmcFrame";
 import { InsuranceGrid } from "@/components/InsuranceGrid";
 import { MediaImage } from "@/components/MediaImage";
-import { clinic, doctors, services } from "@/lib/scmcFullData";
+import { services } from "@/lib/scmcFullData";
+import { officialDoctors } from "@/lib/officialDoctors";
 import { scmcResolvedMedia } from "@/lib/scmcResolvedMedia";
 
-import { SCMCInsuranceV13 } from "@/components/SCMCInsuranceV13";
-
-const doctorMedia = [
-  scmcResolvedMedia.doctors.nael,
-  scmcResolvedMedia.doctors.hijazi,
-  scmcResolvedMedia.doctors.walaa,
-  scmcResolvedMedia.doctors.javier,
-  scmcResolvedMedia.doctors.asmaa,
-  scmcResolvedMedia.doctors.taha,
-  scmcResolvedMedia.doctors.salma,
-  scmcResolvedMedia.doctors.maher,
-  scmcResolvedMedia.doctors.sara,
-  scmcResolvedMedia.doctors.mahra,
-];
 
 function serviceMedia(key: (typeof services)[number]["key"]) {
   switch (key) {
@@ -62,15 +49,15 @@ export default function HomePage() {
         Smile Care Medical Center brings dentistry, dermatology, aesthetics, laser and laboratory services together in a refined multidisciplinary environment.
       </p>
       <div className="scmc-v10-hero__actions">
-        <a className="is-primary" href="/en/contact#appointment">Book appointment</a>
-        <a href="/en/doctors">Meet our doctors</a>
+        <Link className="is-primary" href="/contact#appointment">Book appointment</Link>
+        <Link href="/doctors">Meet our doctors</Link>
       </div>
     </div>
 
     <nav className="scmc-v10-hero__quick" aria-label="Featured services">
-      <a href="/en/services/dental"><span>01</span><strong>Dental Care</strong><i>↗</i></a>
-      <a href="/en/services/dermatology"><span>02</span><strong>Dermatology</strong><i>↗</i></a>
-      <a href="/en/services/botox-fillers"><span>03</span><strong>Aesthetics</strong><i>↗</i></a>
+      <Link href="/services/dental"><span>01</span><strong>Dental Care</strong><i>↗</i></Link>
+      <Link href="/services/dermatology"><span>02</span><strong>Dermatology</strong><i>↗</i></Link>
+      <Link href="/services/botox-fillers"><span>03</span><strong>Aesthetics</strong><i>↗</i></a>
     </nav>
   </div>
 
@@ -166,18 +153,24 @@ export default function HomePage() {
           </div>
 
           <div className="scmc-doctor-strip">
-            {doctors.slice(0, 5).map((doctor, index) => (
-              <article className="scmc-doctor-mini" key={doctor.name} data-soft-reveal>
-                <div className="scmc-doctor-mini-image scmc-media-shell">
-                  <MediaImage
-                    src={doctorMedia[index] ?? null}
-                    alt={doctor.name}
-                    className="scmc-media-cover"
+            {officialDoctors.slice(0, 5).map((doctor, index) => (
+              <Link
+                href={`/doctors/${doctor.slug}`}
+                className="scmc-doctor-mini"
+                key={doctor.slug}
+                data-soft-reveal
+              >
+                <div className="scmc-doctor-mini-image scmc-person-image-frame">
+                  <img
+                    src={doctor.image}
+                    alt={doctor.nameEn}
+                    className="scmc-person-image"
+                    loading={index < 3 ? "eager" : "lazy"}
                   />
                 </div>
-                <h3>{doctor.name}</h3>
-                <p>{doctor.specialty}</p>
-              </article>
+                <h3>{doctor.nameEn}</h3>
+                <p>{doctor.specialtyEn}</p>
+              </Link>
             ))}
           </div>
         </div>
@@ -195,7 +188,6 @@ export default function HomePage() {
           <InsuranceGrid />
         </div>
       </section>
-      <SCMCInsuranceV13 />
     </ScmcFrame>
   );
 }
