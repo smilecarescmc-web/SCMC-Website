@@ -1,15 +1,12 @@
 import { SCMCPerformancePolicy } from "@/components/SCMCPerformancePolicy";
 import { SCMCProximityReveal } from "@/components/SCMCProximityReveal";
-import { DoctorCardLinker } from "@/components/DoctorCardLinker";
 import { SCMCLocaleRuntime } from "@/components/SCMCLocaleRuntime";
 import { SCMCHeaderV10 } from "@/components/SCMCHeaderV10";
 import { CinematicExperience } from "@/components/CinematicExperience";
 import { CinematicShell } from "@/components/CinematicShell";
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Sans_Arabic, Inter } from "next/font/google";
+import { Almarai, Inter } from "next/font/google";
 import "./globals.css";
-
-import { SCMCV13Runtime } from "@/components/SCMCV13Runtime";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,15 +14,14 @@ const inter = Inter({
   display: "swap",
 });
 
-const arabic = IBM_Plex_Sans_Arabic({
+const arabic = Almarai({
   subsets: ["arabic"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "700"],
   variable: "--font-arabic",
   display: "swap",
 });
 
 const title = "Smile Care Medical Center | Premier Dental & Aesthetic Clinic RAK";
-
 const description =
   "Smile Care Medical Center in Ras Al Khaimah, UAE. MOHAP License No. 5080. Established 2007. Premier dental, dermatology, aesthetic, laser hair removal and clinical laboratory care.";
 
@@ -51,9 +47,7 @@ export const metadata: Metadata = {
     "Dentist RAK",
     "MOHAP 5080",
   ],
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_AE",
@@ -61,31 +55,13 @@ export const metadata: Metadata = {
     siteName: "Smile Care Medical Center",
     title,
     description,
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "Smile Care Medical Center — Ras Al Khaimah",
-      },
-    ],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Smile Care Medical Center — Ras Al Khaimah" }],
   },
-  twitter: {
-    card: "summary_large_image",
-    title,
-    description,
-    images: ["/opengraph-image"],
-  },
+  twitter: { card: "summary_large_image", title, description, images: ["/opengraph-image"] },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
   other: {
     "medical-license": "MOHAP License No. 5080",
@@ -98,24 +74,21 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0B4A3A",
-  colorScheme: "light",
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F4F6F3" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B110D" },
+  ],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <body className={`${inter.variable} ${arabic.variable}`}>
-        <SCMCV13Runtime />
+        <SCMCLocaleRuntime />
         <SCMCPerformancePolicy />
         <SCMCProximityReveal />
-<SCMCLocaleRuntime />
-<DoctorCardLinker />
-<SCMCHeaderV10 />
+        <SCMCHeaderV10 />
         <CinematicExperience />
         <CinematicShell>{children}</CinematicShell>
       </body>
