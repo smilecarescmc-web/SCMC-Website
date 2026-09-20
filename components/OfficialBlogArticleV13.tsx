@@ -16,6 +16,14 @@ type Article = {
   contentAr: string | null;
 };
 
+function localizeArticleLinks(html: string, locale: "en" | "ar") {
+  const contact = `/${locale}/contact#appointment`;
+
+  return html
+    .replace(/https:\/\/smilecare\.ae\/book-an-appointment\/?/gi, contact)
+    .replace(/https:\/\/smilecare\.ae\/ar\/%d8%a7%d8%ad%d8%ac%d8%b2-%d9%85%d9%88%d8%b9%d8%af%d8%a7%d9%8b\/?/gi, contact);
+}
+
 export function OfficialBlogArticleV13({ article }: { article: Article }) {
   const pathname = usePathname();
   const locale: "en" | "ar" = pathname.startsWith("/ar") ? "ar" : "en";
@@ -23,7 +31,8 @@ export function OfficialBlogArticleV13({ article }: { article: Article }) {
 
   const hasArabic = Boolean(article.contentAr);
   const title = ar && article.titleAr ? article.titleAr : article.titleEn;
-  const content = ar && article.contentAr ? article.contentAr : article.contentEn;
+  const rawContent = ar && article.contentAr ? article.contentAr : article.contentEn;
+  const content = localizeArticleLinks(rawContent, locale);
   const source = ar && article.sourceArUrl ? article.sourceArUrl : article.sourceUrl;
 
   const date = article.date
