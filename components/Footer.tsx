@@ -28,6 +28,7 @@ export function Footer() {
           <Link href="/about">About</Link>
           <Link href="/doctors">Doctors</Link>
           <Link href="/services">Services</Link>
+          <Link href="/blog">Blog</Link>
           <Link href="/contact">Contact</Link>
         </div>
 
@@ -56,15 +57,23 @@ export function Footer() {
         <span>{clinic.address}</span>
         <span>© {new Date().getFullYear()} SMILE CARE MEDICAL CENTER</span>
       </div>
-          <div className="scmc-v12-footer-trust">
-        <div className="scmc-v12-footer-logos">
+
+      <div className="scmc-shell scmc-footer-trust">
+        <div className="scmc-footer-trust-logos">
+          <Image
+            src="/assets/smilecare-official/brand/logo.png"
+            alt="Smile Care Medical Center"
+            width={150}
+            height={64}
+          />
           <img src="/v2/mohap.webp" alt="UAE Ministry of Health and Prevention" />
         </div>
-        <p className="scmc-v12-footer-credit">
-          Designed &amp; Developed by <a href="https://7z-magic.com" target="_blank" rel="noopener noreferrer">7Z Magic</a>
-          &nbsp;&middot;&nbsp; <a href="/blog">Blog</a>
+        <p>
+          Designed &amp; Developed by{" "}
+          <a href="https://7z-magic.com" target="_blank" rel="noopener noreferrer">7Z Magic</a>
         </p>
-      </div>    </footer>
+      </div>
+    </footer>
   );
 }
 
