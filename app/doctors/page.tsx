@@ -1,22 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ScmcFrame } from "@/components/ScmcFrame";
-import { MediaImage } from "@/components/MediaImage";
-import { doctors } from "@/lib/scmcFullData";
-import { scmcResolvedMedia } from "@/lib/scmcResolvedMedia";
-
-const portraits = [
-  scmcResolvedMedia.doctors.nael,
-  scmcResolvedMedia.doctors.hijazi,
-  scmcResolvedMedia.doctors.walaa,
-  scmcResolvedMedia.doctors.javier,
-  scmcResolvedMedia.doctors.asmaa,
-  scmcResolvedMedia.doctors.taha,
-  scmcResolvedMedia.doctors.salma,
-  scmcResolvedMedia.doctors.maher,
-  scmcResolvedMedia.doctors.sara,
-  scmcResolvedMedia.doctors.mahra,
-];
+import { officialDoctors } from "@/lib/officialDoctors";
 
 export default function DoctorsPage() {
   return (
@@ -37,22 +22,28 @@ export default function DoctorsPage() {
 
       <section className="scmc-soft-section scmc-doctors-page">
         <div className="scmc-shell scmc-doctors-grid">
-          {doctors.map((doctor, index) => (
-            <article className="scmc-doctor-card scmc-glass-card" key={doctor.name} data-soft-reveal>
-              <div className="scmc-doctor-card-image scmc-media-shell">
-                <MediaImage
-                  src={portraits[index] ?? null}
-                  alt={doctor.name}
-                  className="scmc-media-cover"
+          {officialDoctors.map((doctor, index) => (
+            <Link
+              href={`/doctors/${doctor.slug}`}
+              className="scmc-doctor-card scmc-glass-card"
+              key={doctor.slug}
+              data-soft-reveal
+            >
+              <div className="scmc-doctor-card-image scmc-person-image-frame">
+                <img
+                  src={doctor.image}
+                  alt={doctor.nameEn}
+                  className="scmc-person-image"
+                  loading={index < 4 ? "eager" : "lazy"}
                 />
                 <span>{String(index + 1).padStart(2, "0")}</span>
               </div>
               <div className="scmc-doctor-card-copy">
-                <h2>{doctor.name}</h2>
-                <p className="scmc-doctor-specialty">{doctor.specialty}</p>
-                <p>{doctor.note}</p>
+                <h2>{doctor.nameEn}</h2>
+                <p className="scmc-doctor-specialty">{doctor.specialtyEn}</p>
+                <p>{doctor.noteEn}</p>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
 
