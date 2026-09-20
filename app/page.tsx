@@ -142,7 +142,7 @@ export default function HomePage() {
             {officialDoctors.slice(0, 5).map((doctor) => (
               <Link href={href(`/doctors/${doctor.slug}`)} className="scmc-doctor-mini" key={doctor.slug}>
                 <div className="scmc-doctor-mini__media">
-                  <img src={doctor.image} alt={ar ? doctor.nameAr : doctor.nameEn} />
+                  <img src={doctor.image} alt={ar ? doctor.nameAr : doctor.nameEn} loading="eager" decoding="async" />
                 </div>
                 <h3>{ar ? doctor.nameAr : doctor.nameEn}</h3>
                 <p>{ar ? doctor.specialtyAr : doctor.specialtyEn}</p>
