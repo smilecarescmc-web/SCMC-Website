@@ -31,7 +31,7 @@ export function OfficialBlogArticleV13({ article }: { article: Article }) {
     : null;
 
   return (
-    <main className="scmc-blog-article" data-scmc-no-translate>
+    <main className="scmc-blog-article" data-scmc-no-translate="true">
       <article className="scmc-blog-article-shell">
         <Link href={`/${locale}/blog`} className="scmc-blog-back">
           {ar ? "← العودة إلى المدونة" : "← Back to Blog"}
