@@ -481,7 +481,7 @@ h3 {
   margin: 0;
   max-width: 12ch;
   color: #fff;
-  font-size: clamp(44px, 6.4vw, 90px);
+  font-size: clamp(42px, 5.2vw, 68px);
   line-height: .98;
   letter-spacing: -.05em;
   font-weight: 300;
@@ -615,7 +615,7 @@ h3 {
 .scmc-article__head h1 {
   margin: 0;
   color: var(--scmc-text);
-  font-size: clamp(40px, 6vw, 78px);
+  font-size: clamp(38px, 5vw, 60px);
   line-height: 1.03;
   letter-spacing: -.05em;
   font-weight: 300;
@@ -1212,6 +1212,12 @@ h3 {
   gap: 12px;
 }
 
+.scmc-insurance-grid > .scmc-insurance-card:last-child:nth-child(4n + 1) {
+  grid-column: 2 / 4;
+  width: min(100%, 300px);
+  justify-self: center;
+}
+
 .scmc-insurance-card {
   min-height: 122px;
   padding: 15px;
@@ -1239,7 +1245,7 @@ h3 {
   border-radius: 13px;
   display: grid;
   place-items: center;
-  background: #fff;
+  background: #f7f8f6;
 }
 
 .scmc-insurance-logo img,
@@ -1507,6 +1513,27 @@ a.scmc-contact-row:hover {
 
 .scmc-blog-card.is-featured {
   grid-column: span 2;
+}
+
+.scmc-blog-grid.is-single {
+  grid-template-columns: minmax(0, 840px);
+  justify-content: center;
+}
+
+.scmc-blog-grid.is-single .scmc-blog-card {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(280px, .95fr) minmax(0, 1.05fr);
+}
+
+.scmc-blog-grid.is-single .scmc-blog-card__media {
+  height: 100%;
+  min-height: 360px;
+}
+
+.scmc-blog-grid.is-single .scmc-blog-card__body {
+  padding: clamp(26px, 4vw, 46px);
+  justify-content: center;
 }
 
 .scmc-blog-card:hover {
@@ -1802,8 +1829,8 @@ html[data-theme="dark"] .scmc-footer {
 }
 
 .scmc-footer__col a {
-  color: rgba(238,245,240,.88);
-  font-size: 11px;
+  color: rgba(238,245,240,.9);
+  font-size: 12px;
   transition: color var(--scmc-fast);
 }
 
@@ -1832,30 +1859,36 @@ html[data-theme="dark"] .scmc-footer {
 }
 
 .scmc-footer__meta span {
-  color: rgba(238,245,240,.48);
-  font-size: 8px;
+  color: rgba(238,245,240,.58);
+  font-size: 10px;
 }
 
 .scmc-footer__trust {
   margin-top: 18px;
 }
 
-.scmc-footer__logos {
+.scmc-footer__mohap {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 14px;
 }
 
-.scmc-footer__logos img {
-  max-width: 120px;
-  max-height: 40px;
+.scmc-footer__mohap img {
+  width: auto;
+  max-width: 132px;
+  max-height: 44px;
   object-fit: contain;
+}
+
+.scmc-footer__mohap span {
+  color: rgba(238,245,240,.64);
+  font-size: 10px;
 }
 
 .scmc-footer__trust p {
   margin: 0;
-  color: rgba(238,245,240,.6);
-  font-size: 9px;
+  color: rgba(238,245,240,.68);
+  font-size: 10px;
 }
 
 .scmc-footer__trust a {
@@ -2170,7 +2203,12 @@ html[data-theme="dark"] .scmc-footer {
   .scmc-form-grid,
   .scmc-related-grid,
   .scmc-footer__top {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .scmc-footer__brand,
+  .scmc-footer__contact {
+    grid-column: 1 / -1;
   }
 
   .scmc-service-card {
@@ -2249,6 +2287,19 @@ html[data-theme="dark"] .scmc-footer {
 
   .scmc-blog-card.is-featured {
     grid-column: auto;
+  }
+
+  .scmc-blog-grid.is-single .scmc-blog-card {
+    grid-template-columns: 1fr;
+  }
+
+  .scmc-blog-grid.is-single .scmc-blog-card__media {
+    min-height: 240px;
+  }
+
+  .scmc-insurance-grid > .scmc-insurance-card:last-child:nth-child(4n + 1) {
+    grid-column: auto;
+    width: 100%;
   }
 
   .scmc-blog-card.is-featured .scmc-blog-card__media,
