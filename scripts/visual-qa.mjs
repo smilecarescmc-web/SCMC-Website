@@ -20,6 +20,8 @@ const routes = [
   "/ar/about",
   "/ar/contact",
   "/ar/blog",
+  "/en/blog/when-dental-implants-become-a-necessity-to-preserve-the-jaw",
+  "/ar/blog/precise-skin-analysis-5-essential-steps",
 ];
 
 const viewports = [
@@ -66,7 +68,7 @@ for (const viewport of viewports) {
           const step = Math.max(320, Math.floor(window.innerHeight * 0.72));
           for (let y = 0; y < document.body.scrollHeight; y += step) {
             window.scrollTo(0, y);
-            await new Promise((resolve) => setTimeout(resolve, 70));
+            await new Promise((resolve) => setTimeout(resolve, 110));
           }
           window.scrollTo(0, document.body.scrollHeight);
           await new Promise((resolve) => setTimeout(resolve, 350));
@@ -81,7 +83,7 @@ for (const viewport of viewports) {
                     })
               )
             ),
-            new Promise((resolve) => setTimeout(resolve, 5000)),
+            new Promise((resolve) => setTimeout(resolve, 12000)),
           ]);
           window.scrollTo(0, 0);
         });
