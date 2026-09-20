@@ -1,82 +1,69 @@
-import { MapPin, Phone, MessageCircle, Mail, Clock3 } from "lucide-react";
+"use client";
+
+import { Clock3, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { AppointmentForm } from "@/components/AppointmentForm";
 import { ScmcFrame } from "@/components/ScmcFrame";
 import { MediaImage } from "@/components/MediaImage";
 import { clinic } from "@/lib/scmcFullData";
 import { scmcResolvedMedia } from "@/lib/scmcResolvedMedia";
+import { useScmcLocale } from "@/lib/locale-client";
 
 export default function ContactPage() {
+  const { ar } = useScmcLocale();
+
   const details = [
-    { icon: Phone, label: "Phone", value: clinic.phoneDisplay, href: `tel:${clinic.phone}` },
-    { icon: MessageCircle, label: "WhatsApp", value: clinic.whatsappDisplay, href: `https://wa.me/${clinic.whatsapp.replace(/\D/g, "")}` },
-    { icon: Mail, label: "Email", value: clinic.email, href: `mailto:${clinic.email}` },
-    { icon: Clock3, label: "Hours", value: clinic.hours, href: null },
+    { icon: Phone, label: ar ? "الهاتف" : "Phone", value: clinic.phoneDisplay, href: `tel:${clinic.phone}` },
+    { icon: MessageCircle, label: ar ? "واتساب" : "WhatsApp", value: clinic.whatsappDisplay, href: `https://wa.me/${clinic.whatsapp.replace(/\D/g, "")}` },
+    { icon: Mail, label: ar ? "البريد الإلكتروني" : "Email", value: clinic.email, href: `mailto:${clinic.email}` },
+    { icon: Clock3, label: ar ? "ساعات العمل" : "Hours", value: ar ? "السبت – الخميس · 09:00 صباحاً – 09:00 مساءً" : clinic.hours, href: null },
   ] as const;
 
   return (
     <ScmcFrame>
-      <section className="scmc-page-intro scmc-ambient-section">
-        <div className="scmc-shell scmc-page-intro-inner">
+      <section className="scmc-inner-hero">
+        <div className="scmc-shell scmc-inner-hero__grid">
           <div>
-            <span className="scmc-section-label">CONTACT</span>
-            <h1 data-soft-reveal>Start with a conversation.</h1>
+            <p className="scmc-eyebrow">{ar ? "تواصل معنا" : "CONTACT"}</p>
+            <h1>{ar ? "ابدأ بمحادثة." : "Start with a conversation."}</h1>
           </div>
-          <p data-soft-reveal>
-            Call, message the team on WhatsApp, or send an appointment request below.
-          </p>
+          <p>{ar ? "اتصل بنا أو راسل الفريق عبر واتساب أو أرسل طلب موعد من النموذج أدناه." : "Call, message the team on WhatsApp, or send an appointment request below."}</p>
         </div>
       </section>
 
-      <section className="scmc-soft-section">
-        <div className="scmc-shell scmc-contact-grid">
-          <div className="scmc-contact-info">
-            <figure className="scmc-contact-media scmc-media-shell">
-              <MediaImage
-                src={scmcResolvedMedia.clinic.contact}
-                alt="Smile Care Medical Center"
-                className="scmc-media-cover"
-              />
+      <section className="scmc-section">
+        <div className="scmc-shell scmc-contact-layout">
+          <div className="scmc-contact-stack">
+            <figure className="scmc-contact-photo">
+              <MediaImage src={scmcResolvedMedia.clinic.contact} alt="Smile Care Medical Center" className="scmc-media-cover" />
             </figure>
 
-            <div className="scmc-location-card scmc-glass-card" data-soft-reveal>
-              <span className="scmc-contact-icon"><MapPin size={15} /></span>
+            <div className="scmc-location-card">
+              <span className="scmc-icon-box"><MapPin size={17} /></span>
               <div>
-                <span>LOCATION</span>
-                <h2>Al Nakheel · Ras Al Khaimah</h2>
-                <p>{clinic.address}</p>
+                <span>{ar ? "الموقع" : "LOCATION"}</span>
+                <h2>{ar ? "النخيل · رأس الخيمة" : "Al Nakheel · Ras Al Khaimah"}</h2>
+                <p>{ar ? "برج حمد، شارع 14B، الطابق الميزانين، النخيل، رأس الخيمة، الإمارات العربية المتحدة" : clinic.address}</p>
               </div>
             </div>
 
             <div className="scmc-contact-list">
               {details.map((item) => {
                 const Icon = item.icon;
-                const content = (
-                  <>
-                    <span className="scmc-contact-icon"><Icon size={14} /></span>
-                    <div>
-                      <span>{item.label}</span>
-                      <strong>{item.value}</strong>
-                    </div>
-                  </>
-                );
-
-                return item.href ? (
-                  <a href={item.href} key={item.label} className="scmc-contact-row scmc-glass-card" data-soft-reveal>
-                    {content}
-                  </a>
-                ) : (
-                  <div key={item.label} className="scmc-contact-row scmc-glass-card" data-soft-reveal>
-                    {content}
-                  </div>
-                );
+                const content = <>
+                  <span className="scmc-icon-box"><Icon size={16} /></span>
+                  <div><span>{item.label}</span><strong>{item.value}</strong></div>
+                </>;
+                return item.href
+                  ? <a href={item.href} key={item.label} className="scmc-contact-row">{content}</a>
+                  : <div key={item.label} className="scmc-contact-row">{content}</div>;
               })}
             </div>
           </div>
 
-          <div id="appointment" className="scmc-booking-panel scmc-glass-panel" data-soft-reveal>
-            <span className="scmc-section-label">APPOINTMENT REQUEST</span>
-            <h2>Tell us what you need.</h2>
-            <p>The center will confirm your preferred specialist and available time.</p>
+          <div id="appointment" className="scmc-booking-panel">
+            <p className="scmc-eyebrow">{ar ? "طلب موعد" : "APPOINTMENT REQUEST"}</p>
+            <h2>{ar ? "أخبرنا بما تحتاجه." : "Tell us what you need."}</h2>
+            <p>{ar ? "سيتواصل معك الفريق لتأكيد الاختصاصي والوقت المناسب." : "The center will confirm the preferred specialist and available time."}</p>
             <AppointmentForm />
           </div>
         </div>
