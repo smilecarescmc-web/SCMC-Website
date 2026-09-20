@@ -77,7 +77,7 @@ export function ServicePage({ service }: { service: Service }) {
               <Link href={href("/contact#appointment")} className="scmc-button scmc-button--primary">
                 {ar ? "احجز موعداً" : "Book appointment"} <ArrowUpRight size={13} />
               </Link>
-              <a href={clinic.bookingWhatsApp} target="_blank" rel="noreferrer" className="scmc-button scmc-button--ghost">WhatsApp</a>
+              <a href={clinic.bookingWhatsApp} target="_blank" rel="noreferrer" className="scmc-button scmc-button--ghost">{ar ? "واتساب" : "WhatsApp"}</a>
             </div>
           </div>
           <figure className="scmc-service-hero__media">
