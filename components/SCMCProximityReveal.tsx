@@ -9,7 +9,7 @@ export function SCMCProximityReveal() {
 
     const nodes = Array.from(
       document.querySelectorAll<HTMLElement>(
-        "main > section:not(.scmc-v10-hero), main > article, footer"
+        "main > section:not(.scmc-v10-hero), footer"
       )
     );
 
