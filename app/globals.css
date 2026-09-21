@@ -332,6 +332,11 @@ h3 {
   height: 100%;
   object-fit: contain;
   object-position: left center;
+  transition: filter var(--scmc-fast), opacity var(--scmc-fast);
+}
+
+html[data-theme="dark"] .scmc-header__brand img {
+  filter: brightness(0) invert(1);
 }
 
 .scmc-is-ar .scmc-header__brand img {
