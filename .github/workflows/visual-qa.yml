@@ -1,0 +1,39 @@
+name: Visual QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - delivery-structural-fix
+
+concurrency:
+  group: scmc-visual-qa
+  cancel-in-progress: true
+
+jobs:
+  visual-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm install --no-save --package-lock=false playwright@1.55.0 wait-on@8.0.3
+      - run: npx playwright install --with-deps chromium
+      - name: Start app
+        run: |
+          nohup npm run start -- -p 3100 > /tmp/scmc-next.log 2>&1 &
+          npx wait-on http://127.0.0.1:3100/en --timeout 60000
+      - name: Capture desktop and mobile visual QA
+        run: node scripts/visual-qa.mjs
+      - name: Upload visual QA artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scmc-visual-qa
+          path: qa-artifacts
+          retention-days: 7

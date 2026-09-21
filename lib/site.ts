@@ -1,83 +1,337 @@
-import type { Locale } from "./i18n";
+export type Language = "en" | "ar";
 
-export const site = {
+export const clinic = {
   name: "Smile Care Medical Center",
-  shortName: "Smile Care",
-  domain: "https://smilecare.ae",
+  founded: "2007",
+  license: "MOHAP License No. 5080",
+  phone: "+971 7 228 2080",
+  mobile: "+971 54 321 7712",
   email: "info@smilecare.ae",
-  phone: "+97172282080",
-  whatsapp: "+971543217712",
-  mohap: "5080",
-  hours: {
-    en: "Every day · 8:00 AM–10:00 PM",
-    ar: "يومياً · 8:00 صباحاً–10:00 مساءً",
-  },
-  location: {
-    en: "Ras Al Khaimah, UAE",
-    ar: "رأس الخيمة، الإمارات العربية المتحدة",
-  },
+  appointmentUrl: "https://smilecare.ae/book-an-appointment/",
+  whatsappUrl: "https://wa.me/971543217712",
 };
 
-export const nav = {
-  en: [
-    ["Services", "/services"],
-    ["Doctors", "/doctors"],
-    ["About", "/about"],
-    ["Journal", "/journal"],
-    ["Contact", "/contact"],
-  ],
-  ar: [
-    ["الخدمات", "/services"],
-    ["الأطباء", "/doctors"],
-    ["من نحن", "/about"],
-    ["المجلة", "/journal"],
-    ["تواصل معنا", "/contact"],
-  ],
-} satisfies Record<Locale, readonly [string, string][]>;
-
-export const copy = {
+export const content = {
   en: {
-    eyebrow: "Smile Care · Ras Al Khaimah · Since 2007",
-    heroTitle: "Care that feels considered before treatment even begins.",
-    heroBody:
-      "Smile Care Medical Center brings dentistry, dermatology, aesthetics, laser and laboratory services into one calm, carefully considered patient experience.",
-    primaryCta: "Book an appointment",
-    secondaryCta: "WhatsApp the team",
-    storyTitle: "One dental chair became a medical center built around trust.",
-    storyBody:
-      "Founded in Ras Al Khaimah in 2007, Smile Care grew from a family dental clinic into a multidisciplinary medical center while keeping the personal character that built its reputation.",
-    serviceEyebrow: "Explore care",
-    serviceTitle: "Different specialties. One standard of experience.",
-    teamEyebrow: "Medical team",
-    teamTitle: "Meet the people behind the care.",
-    environmentEyebrow: "The environment",
-    environmentTitle: "A medical center designed to feel calmer than a clinic.",
-    environmentBody:
-      "The founders' stated vision was a medical center that feels closer to a healing spa: safe, comfortable and cared for from the first moment inside.",
-    closingTitle: "Start with a conversation, not a waiting room.",
-    closingBody:
-      "Choose a service or message the Smile Care team directly. Appointment requests are confirmed by the center.",
+    nav: {
+      services: "Services",
+      doctors: "Doctors",
+      clinic: "Clinic",
+      contact: "Contact",
+      appointment: "Book appointment",
+      language: "العربية",
+    },
+
+    hero: {
+      eyebrow: "Smile Care Medical Center · Ras Al Khaimah",
+      title: "Medical, dental and aesthetic care with a personal approach.",
+      text:
+        "Founded in Ras Al Khaimah in 2007, Smile Care brings dentistry, dermatology, aesthetic treatments, laser care and laboratory services together in one welcoming medical center.",
+      appointment: "Book a consultation",
+      explore: "Explore our services",
+    },
+
+    intro: {
+      label: "Smile Care Medical Center",
+      title: "Care designed around people.",
+      text:
+        "Smile Care began as a family dental clinic and evolved into a multidisciplinary medical center serving patients of all ages while retaining a personal, welcoming approach.",
+      note:
+        "Founded by Dr. Nael Adel and Mrs. Hanan Al Wawi in Ras Al Khaimah.",
+    },
+
+    servicesTitle: "Our services",
+    servicesIntro:
+      "A considered range of medical, dental, dermatological and aesthetic treatments delivered by an experienced clinical team.",
+
+    doctorsLabel: "Medical team",
+    doctorsTitle: "Meet our doctors",
+    doctorsIntro:
+      "Specialist knowledge, careful consultation and an individual approach to treatment.",
+
+    galleryLabel: "The clinic",
+    galleryTitle: "A calm environment for modern care.",
+    galleryText:
+      "The center was created to feel welcoming and comfortable while supporting advanced medical and dental care.",
+
+    appointmentLabel: "Appointments",
+    appointmentTitle: "Arrange your visit.",
+    appointmentText:
+      "Book online or speak directly with the Smile Care team in Ras Al Khaimah.",
+    appointmentButton: "Book appointment",
+
+    contactLabel: "Smile Care Medical Center",
+    location: "Ras Al Khaimah · United Arab Emirates",
   },
+
   ar: {
-    eyebrow: "سمايل كير · رأس الخيمة · منذ 2007",
-    heroTitle: "رعاية تشعر بتفاصيلها قبل أن يبدأ العلاج.",
-    heroBody:
-      "يجمع مركز سمايل كير الطبي خدمات الأسنان والجلدية والتجميل والليزر والمختبر ضمن تجربة هادئة ومدروسة للمريض.",
-    primaryCta: "احجز موعداً",
-    secondaryCta: "تواصل عبر واتساب",
-    storyTitle: "كرسي أسنان واحد أصبح مركزاً طبياً بُني على الثقة.",
-    storyBody:
-      "تأسس سمايل كير في رأس الخيمة عام 2007، ونما من عيادة أسنان عائلية إلى مركز طبي متعدد التخصصات مع الحفاظ على الطابع الشخصي الذي بنى سمعته.",
-    serviceEyebrow: "اكتشف الرعاية",
-    serviceTitle: "تخصصات مختلفة. معيار واحد للتجربة.",
-    teamEyebrow: "الفريق الطبي",
-    teamTitle: "تعرّف على الأشخاص خلف الرعاية.",
-    environmentEyebrow: "المكان",
-    environmentTitle: "مركز طبي صُمّم ليمنحك هدوءاً أكبر من أجواء العيادة التقليدية.",
-    environmentBody:
-      "رؤية المؤسسين المعلنة هي مركز طبي أقرب إلى منتجع علاجي: شعور بالأمان والراحة والاهتمام منذ لحظة الدخول.",
-    closingTitle: "ابدأ بمحادثة، لا بغرفة انتظار.",
-    closingBody:
-      "اختر الخدمة أو تواصل مباشرة مع فريق سمايل كير. يتم تأكيد طلبات المواعيد من المركز.",
+    nav: {
+      services: "الخدمات",
+      doctors: "الأطباء",
+      clinic: "المركز",
+      contact: "تواصل معنا",
+      appointment: "احجز موعدك",
+      language: "English",
+    },
+
+    hero: {
+      eyebrow: "مركز سمايل كير الطبي · رأس الخيمة",
+      title: "رعاية طبية وأسنان وتجميل بأسلوب شخصي ومدروس.",
+      text:
+        "منذ تأسيسه في رأس الخيمة عام 2007، يجمع سمايل كير بين طب الأسنان والجلدية والعلاجات التجميلية والليزر وخدمات المختبر ضمن مركز طبي واحد.",
+      appointment: "احجز استشارة",
+      explore: "اكتشف خدماتنا",
+    },
+
+    intro: {
+      label: "مركز سمايل كير الطبي",
+      title: "رعاية تتمحور حول الإنسان.",
+      text:
+        "بدأ سمايل كير كعيادة أسنان عائلية ثم تطور إلى مركز طبي متعدد التخصصات يخدم مختلف الأعمار مع الحفاظ على الرعاية الشخصية والبيئة المريحة.",
+      note:
+        "تأسس في رأس الخيمة على يد الدكتور نايل عادل والسيدة حنان الواوي.",
+    },
+
+    servicesTitle: "خدماتنا",
+    servicesIntro:
+      "مجموعة متكاملة من خدمات طب الأسنان والجلدية والتجميل والليزر والرعاية الطبية يقدمها فريق سريري متخصص.",
+
+    doctorsLabel: "الفريق الطبي",
+    doctorsTitle: "تعرف على أطبائنا",
+    doctorsIntro:
+      "خبرة تخصصية واستشارة دقيقة وخطة علاج تناسب احتياجات كل مريض.",
+
+    galleryLabel: "المركز",
+    galleryTitle: "بيئة هادئة لرعاية طبية حديثة.",
+    galleryText:
+      "صُمم المركز ليمنح المرضى شعوراً بالراحة والترحيب مع توفير التجهيزات اللازمة للرعاية الطبية وطب الأسنان المتقدم.",
+
+    appointmentLabel: "المواعيد",
+    appointmentTitle: "رتب زيارتك.",
+    appointmentText:
+      "احجز موعدك إلكترونياً أو تواصل مباشرة مع فريق سمايل كير في رأس الخيمة.",
+    appointmentButton: "احجز موعدك",
+
+    contactLabel: "مركز سمايل كير الطبي",
+    location: "رأس الخيمة · الإمارات العربية المتحدة",
   },
-} satisfies Record<Locale, Record<string, string>>;
+} as const;
+
+export const services = [
+  {
+    number: "01",
+    titleEn: "Dental Care",
+    titleAr: "طب الأسنان",
+    summaryEn:
+      "Preventive, restorative, specialist and aesthetic dentistry for children and adults.",
+    summaryAr:
+      "رعاية وقائية وترميمية وتخصصية وتجميلية للأسنان للأطفال والبالغين.",
+    itemsEn: [
+      "General Dentistry",
+      "Specialist in Prosthetics",
+      "Dental Implant Specialist",
+      "Oral and Maxillofacial Surgery",
+      "Orthodontics",
+      "Endodontics",
+      "Specialist Pedodontics",
+      "Hollywood Smile",
+    ],
+    itemsAr: [
+      "طب الأسنان العام",
+      "تركيبات الأسنان التخصصية",
+      "زراعة الأسنان",
+      "جراحة الفم والوجه والفكين",
+      "تقويم الأسنان",
+      "علاج جذور الأسنان",
+      "طب أسنان الأطفال",
+      "ابتسامة هوليوود",
+    ],
+    mediaKey: "dental",
+  },
+
+  {
+    number: "02",
+    titleEn: "Dermatology & Skin Treatments",
+    titleAr: "الجلدية وعلاجات البشرة",
+    summaryEn:
+      "Personalised medical dermatology for skin, hair and scalp concerns.",
+    summaryAr:
+      "رعاية جلدية طبية مخصصة لمشكلات البشرة والشعر وفروة الرأس.",
+    itemsEn: [
+      "Acne Care",
+      "Eczema",
+      "Psoriasis",
+      "Rosacea",
+      "Hair & Scalp Concerns",
+      "Alopecia",
+      "Skin Lesion Diagnosis",
+      "Personalised Treatment Plans",
+    ],
+    itemsAr: [
+      "علاج حب الشباب",
+      "الإكزيما",
+      "الصدفية",
+      "الوردية",
+      "مشكلات الشعر وفروة الرأس",
+      "تساقط الشعر",
+      "تشخيص الآفات الجلدية",
+      "خطط علاج مخصصة",
+    ],
+    mediaKey: "dermatology",
+  },
+
+  {
+    number: "03",
+    titleEn: "Hair Removal",
+    titleAr: "إزالة الشعر بالليزر",
+    summaryEn:
+      "Advanced laser hair removal using precision technologies designed around comfort and effective treatment.",
+    summaryAr:
+      "إزالة الشعر بتقنيات ليزر متقدمة تركز على الدقة والراحة وفعالية العلاج.",
+    itemsEn: [
+      "GentleMax Pro",
+      "Full-Body Hair Removal",
+      "Dual-Wavelength Laser",
+      "Cooling-Assisted Treatment",
+      "Spectra Q-Switched Nd:YAG",
+      "Pigmentation Treatments",
+    ],
+    itemsAr: [
+      "GentleMax Pro",
+      "إزالة شعر الجسم",
+      "تقنية الليزر مزدوجة الطول الموجي",
+      "جلسات مدعومة بالتبريد",
+      "Spectra Q-Switched Nd:YAG",
+      "علاجات التصبغات",
+    ],
+    mediaKey: "laser",
+  },
+
+  {
+    number: "04",
+    titleEn: "Aesthetics Treatments",
+    titleAr: "العلاجات التجميلية",
+    summaryEn:
+      "Non-surgical aesthetic care focused on skin quality, facial balance and natural-looking results.",
+    summaryAr:
+      "علاجات تجميلية غير جراحية تركز على جودة البشرة وتوازن ملامح الوجه والنتائج الطبيعية.",
+    itemsEn: [
+      "Botox",
+      "Dermal Fillers",
+      "HydraFacial",
+      "Skin Rejuvenation",
+      "PRP",
+      "Pigmentation Treatments",
+      "Acne Scar Treatments",
+      "Facial Contouring",
+    ],
+    itemsAr: [
+      "البوتوكس",
+      "الفيلر",
+      "HydraFacial",
+      "تجديد البشرة",
+      "PRP",
+      "علاج التصبغات",
+      "علاج آثار حب الشباب",
+      "تحديد ملامح الوجه",
+    ],
+    mediaKey: "aesthetics",
+  },
+
+  {
+    number: "05",
+    titleEn: "Non Surgical",
+    titleAr: "التجميل غير الجراحي",
+    summaryEn:
+      "Consultation-led non-surgical treatments selected around individual aesthetic goals.",
+    summaryAr:
+      "علاجات تجميلية غير جراحية يتم اختيارها بعد الاستشارة وفق احتياجات كل حالة.",
+    itemsEn: [
+      "Botox & Fillers",
+      "Facial Rejuvenation",
+      "Skin Quality Treatments",
+      "Facial Contouring",
+    ],
+    itemsAr: [
+      "البوتوكس والفيلر",
+      "تجديد الوجه",
+      "علاجات جودة البشرة",
+      "تحديد ملامح الوجه",
+    ],
+    mediaKey: "aesthetics",
+  },
+
+  {
+    number: "06",
+    titleEn: "Laboratory",
+    titleAr: "المختبر",
+    summaryEn:
+      "Laboratory services supporting routine and specialised diagnostic care.",
+    summaryAr:
+      "خدمات مختبرية تدعم الفحوصات الروتينية والتشخيصية المتخصصة.",
+    itemsEn: [
+      "Diagnostic Testing",
+      "Routine Health Screening",
+      "Laboratory Profiles",
+    ],
+    itemsAr: [
+      "الفحوصات التشخيصية",
+      "الفحوصات الصحية الدورية",
+      "الملفات المخبرية",
+    ],
+    mediaKey: "gallery",
+  },
+] as const;
+
+export const doctors = [
+  {
+    name: "Dr. Nael Adel Ishnineh",
+    role: "Dentist",
+    roleAr: "طبيب أسنان",
+  },
+  {
+    name: "Dr. Mohammed Hijazi",
+    role: "Dentist",
+    roleAr: "طبيب أسنان",
+  },
+  {
+    name: "Dr. Wallaa Abo Elyazeed",
+    role: "Aesthetic & Dermatologist",
+    roleAr: "الجلدية والتجميل",
+  },
+  {
+    name: "Dr. Javier Hernandez Hernandez",
+    role: "Endodontist",
+    roleAr: "أخصائي علاج جذور الأسنان",
+  },
+  {
+    name: "Dr. Asmaa Shehadeh",
+    role: "Dentist",
+    roleAr: "طبيبة أسنان",
+  },
+  {
+    name: "Dr. Mohammed Taha",
+    role: "Dentist",
+    roleAr: "طبيب أسنان",
+  },
+  {
+    name: "Dr. Salma Eltahir",
+    role: "Specialist Pedodontist",
+    roleAr: "أخصائية طب أسنان الأطفال",
+  },
+  {
+    name: "Dr. Maher Ahmed Khamis",
+    role: "Oral and Maxillofacial Surgeon",
+    roleAr: "جراحة الفم والوجه والفكين",
+  },
+  {
+    name: "Dr. Sara Odeh",
+    role: "Dentist",
+    roleAr: "طبيبة أسنان",
+  },
+  {
+    name: "Dr. Mahra Abdullatif Al Shehhi",
+    role: "Dentist",
+    roleAr: "طبيبة أسنان",
+  },
+] as const;

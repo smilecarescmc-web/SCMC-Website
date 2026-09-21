@@ -1,0 +1,47 @@
+export const scmcResolvedMedia = {
+  clinic: {
+    hero: "/assets/smilecare-official/clinic/why-we-stand-out.jpg",
+    about: "/assets/smilecare-official/clinic/founders.png",
+    dental: "/assets/smilecare-official/services/dental.webp",
+    botoxFillers: "/assets/smilecare-official/services/botox-fillers.jpg",
+    dermatology: "/assets/smilecare-official/services/dermatology.jpg",
+    facials: "/assets/smilecare-official/services/facial.jpg",
+    laser: "/assets/smilecare-official/services/laser.jpg",
+    laboratory: "/assets/smilecare-official/services/laboratory.jpg",
+    contact: "/assets/smilecare-official/clinic/why-we-stand-out.jpg",
+  },
+  doctors: {
+    nael: "/assets/smilecare-official/doctors/dr-nael-adel.jpg",
+    hijazi: "/assets/smilecare-official/doctors/dr-mohammed-hijazi.jpg",
+    walaa: "/scmc-luxe/doctors/walaa.jpg",
+    javier: "/scmc-luxe/doctors/javier.jpeg",
+    asmaa: "/assets/smilecare-official/doctors/dr-asmaa-shehadeh.jpg",
+    taha: "/assets/smilecare-official/doctors/dr-mohammed-taha.jpg",
+    salma: "/scmc-luxe/doctors/salma.png",
+    maher: "/scmc-luxe/doctors/maher.png",
+    sara: "/scmc-luxe/doctors/sara.png",
+    mahra: "/scmc-luxe/doctors/mahra.jpg",
+  },
+  insurance: {
+    nas: "/assets/smilecare-official/insurance/nas.svg",
+    albuhaira: "/assets/smilecare-official/insurance/albuhaira.jpg",
+    almadallah: "/assets/smilecare-official/insurance/almadallah.jpg",
+    inayah: "/assets/smilecare-official/insurance/inayah.webp",
+    metlife: "/assets/smilecare-official/insurance/metlife.jpg",
+    neuron: "/assets/smilecare-official/insurance/neuron.svg",
+    lifeline: "/assets/smilecare-official/insurance/lifeline.webp",
+    globemed: "/assets/smilecare-official/insurance/globemed.webp",
+    aspire: "/assets/smilecare-official/insurance/aspire.jpeg",
+    nextcare: "/assets/smilecare-official/insurance/nextcare.jpg",
+    mednet: "/assets/smilecare-official/insurance/mednet.jpg",
+    daman: "/assets/smilecare-official/insurance/daman.jpg",
+    sukoon: "/assets/smilecare-official/insurance/sukoon.jpg",
+    adnic: "/assets/smilecare-official/insurance/adnic.jpg",
+    fmc: "/assets/smilecare-official/insurance/fmc.jpg",
+    damana: "/assets/smilecare-official/insurance/damana.jpg",
+    aafiya: "/assets/smilecare-official/insurance/aafiya.jpeg",
+  },
+} as const;
+
+export type ResolvedDoctorKey = keyof typeof scmcResolvedMedia.doctors;
+export type ResolvedInsuranceKey = keyof typeof scmcResolvedMedia.insurance;
