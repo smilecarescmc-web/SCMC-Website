@@ -2220,14 +2220,12 @@ html[data-theme="dark"] .scmc-cinematic-transition {
   opacity: .28;
   filter: blur(9px);
   transform: translateY(18px) scale(.992);
-  will-change: opacity, filter, transform;
 }
 
 .scmc-proximity-node.is-warm {
   opacity: .72;
   filter: blur(3px);
   transform: translateY(7px) scale(.997);
-  will-change: opacity, filter, transform;
 }
 
 .scmc-proximity-node.is-near {
