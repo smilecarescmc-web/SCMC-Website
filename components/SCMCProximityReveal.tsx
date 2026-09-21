@@ -12,6 +12,7 @@ const SELECTOR = [
   ".scmc-service-card",
   ".scmc-service-row",
   ".scmc-doctor-mini",
+  ".scmc-doctor-card",
   ".scmc-directory-cta",
   ".scmc-standout__item",
   ".scmc-home-faq__item",
@@ -32,6 +33,28 @@ const SELECTOR = [
   ".scmc-article__layout",
 ].join(",");
 
+const TRUE_BLUR_SELECTOR = [
+  ".scmc-section-head",
+  ".scmc-section-copy",
+  ".scmc-reading-panel",
+  ".scmc-directory-cta",
+  ".scmc-standout__item",
+  ".scmc-home-faq__item",
+  ".scmc-review-card",
+  ".scmc-care-pillar",
+  ".scmc-discount-logo",
+  ".scmc-insurance-card",
+  ".scmc-contact-row",
+  ".scmc-booking-panel",
+  ".scmc-cta-panel",
+  ".scmc-benefit",
+  ".scmc-blog-card",
+  ".scmc-related-card",
+  ".scmc-profile-body > *",
+].join(",");
+
+const DOCTOR_MOTION_SELECTOR = ".scmc-doctor-card";
+
 type IdleWindow = Window & {
   requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
   cancelIdleCallback?: (handle: number) => void;
@@ -51,14 +74,20 @@ export function SCMCProximityReveal() {
 
     const setup = () => {
       const nodes = Array.from(document.querySelectorAll<HTMLElement>(SELECTOR))
-        .filter(
-          (node) =>
-            !node.closest(".scmc-doctor-discovery") &&
-            !node.closest(".scmc-doctor-directory")
-        );
+        .filter((node) => !node.closest(".scmc-doctor-discovery"));
 
       for (const node of nodes) {
-        node.classList.add("scmc-proximity-node", "is-away");
+        const mode = node.matches(DOCTOR_MOTION_SELECTOR)
+          ? "doctor"
+          : node.matches(TRUE_BLUR_SELECTOR)
+            ? "blur"
+            : "focus";
+
+        node.classList.add(
+          "scmc-proximity-node",
+          `scmc-proximity-node--${mode}`,
+          "is-away"
+        );
       }
 
       observer = new IntersectionObserver(
@@ -79,7 +108,7 @@ export function SCMCProximityReveal() {
           }
         },
         {
-          rootMargin: "5% 0px 5% 0px",
+          rootMargin: "6% 0px 4% 0px",
           threshold: [0, 0.08, 0.24],
         }
       );
@@ -88,9 +117,9 @@ export function SCMCProximityReveal() {
     };
 
     if (idleWindow.requestIdleCallback) {
-      idleHandle = idleWindow.requestIdleCallback(setup, { timeout: 360 });
+      idleHandle = idleWindow.requestIdleCallback(setup, { timeout: 320 });
     } else {
-      fallbackTimer = window.setTimeout(setup, 120);
+      fallbackTimer = window.setTimeout(setup, 100);
     }
 
     return () => {

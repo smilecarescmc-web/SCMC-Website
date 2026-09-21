@@ -5246,3 +5246,152 @@ html[lang="ar"] .scmc-skip-ar { display: inline; }
     animation-delay: 0ms !important;
   }
 }
+
+
+/* ==========================================================================
+   SCMC V22.1 — HYBRID CINEMATIC REVEAL + DOCTOR MOTION
+   Blur on lightweight editorial surfaces.
+   Focus motion on heavy media.
+   Doctor cards get blur-free cinematic motion.
+   ========================================================================== */
+
+.scmc-proximity-node {
+  transition:
+    opacity 440ms cubic-bezier(.22,1,.36,1),
+    transform 520ms cubic-bezier(.22,1,.36,1),
+    filter 460ms cubic-bezier(.22,1,.36,1) !important;
+}
+
+/* True blur: lightweight editorial surfaces only */
+.scmc-proximity-node.scmc-proximity-node--blur.is-away {
+  opacity: .54 !important;
+  filter: blur(4px) !important;
+  transform: translate3d(0,10px,0) scale(.994) !important;
+}
+
+.scmc-proximity-node.scmc-proximity-node--blur.is-warm {
+  opacity: .84 !important;
+  filter: blur(1.15px) !important;
+  transform: translate3d(0,3px,0) scale(.999) !important;
+}
+
+.scmc-proximity-node.scmc-proximity-node--blur.is-near {
+  opacity: 1 !important;
+  filter: blur(0) !important;
+  transform: translate3d(0,0,0) scale(1) !important;
+}
+
+/* Heavy media: focus pull without raster blur */
+.scmc-proximity-node.scmc-proximity-node--focus.is-away {
+  opacity: .64 !important;
+  filter: none !important;
+  transform: translate3d(0,11px,0) scale(.991) !important;
+}
+
+.scmc-proximity-node.scmc-proximity-node--focus.is-warm {
+  opacity: .88 !important;
+  filter: none !important;
+  transform: translate3d(0,4px,0) scale(.997) !important;
+}
+
+.scmc-proximity-node.scmc-proximity-node--focus.is-near {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: translate3d(0,0,0) scale(1) !important;
+}
+
+/* Doctors page: cinematic motion with zero blur */
+.scmc-doctor-directory--v21
+  .scmc-doctor-card.scmc-proximity-node--doctor {
+  filter: none !important;
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  transition:
+    opacity 360ms cubic-bezier(.22,1,.36,1),
+    transform 420ms cubic-bezier(.22,1,.36,1) !important;
+}
+
+.scmc-doctor-directory--v21
+  .scmc-doctor-card.scmc-proximity-node--doctor.is-away {
+  opacity: .72 !important;
+  filter: none !important;
+  transform: translate3d(0,8px,0) scale(.992) !important;
+}
+
+.scmc-doctor-directory--v21
+  .scmc-doctor-card.scmc-proximity-node--doctor.is-warm {
+  opacity: .91 !important;
+  filter: none !important;
+  transform: translate3d(0,3px,0) scale(.997) !important;
+}
+
+.scmc-doctor-directory--v21
+  .scmc-doctor-card.scmc-proximity-node--doctor.is-near {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: translate3d(0,0,0) scale(1) !important;
+}
+
+/* Never interfere with the horizontal doctor discovery engine */
+.scmc-doctor-discovery .scmc-proximity-node,
+.scmc-doctor-discovery__card.scmc-proximity-node {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Keep image decoding/compositing cheap inside doctor cards */
+.scmc-doctor-directory--v21
+  .scmc-doctor-card.scmc-proximity-node--doctor
+  .scmc-doctor-card__media,
+.scmc-doctor-directory--v21
+  .scmc-doctor-card.scmc-proximity-node--doctor
+  img {
+  filter: none !important;
+  transform: none !important;
+}
+
+/* Mobile: even lighter reveal */
+@media (max-width: 620px) {
+  .scmc-proximity-node.scmc-proximity-node--blur.is-away {
+    filter: blur(2.75px) !important;
+    transform: translate3d(0,8px,0) scale(.996) !important;
+  }
+
+  .scmc-proximity-node.scmc-proximity-node--blur.is-warm {
+    filter: blur(.8px) !important;
+  }
+
+  .scmc-proximity-node {
+    transition:
+      opacity 360ms cubic-bezier(.22,1,.36,1),
+      transform 420ms cubic-bezier(.22,1,.36,1),
+      filter 380ms cubic-bezier(.22,1,.36,1) !important;
+  }
+
+  .scmc-doctor-directory--v21
+    .scmc-doctor-card.scmc-proximity-node--doctor {
+    transition:
+      opacity 300ms cubic-bezier(.22,1,.36,1),
+      transform 340ms cubic-bezier(.22,1,.36,1) !important;
+  }
+
+  .scmc-doctor-directory--v21
+    .scmc-doctor-card.scmc-proximity-node--doctor.is-away {
+    opacity: .78 !important;
+    transform: translate3d(0,6px,0) scale(.995) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scmc-proximity-node,
+  .scmc-proximity-node--blur,
+  .scmc-proximity-node--focus,
+  .scmc-proximity-node--doctor {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    transition-duration: .001ms !important;
+  }
+}

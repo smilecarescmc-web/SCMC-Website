@@ -37,7 +37,7 @@ export function OfficialBlogIndexV13({ cards }: { cards: Card[] }) {
             <p className="scmc-eyebrow">{ar ? "المدونة" : "SMILE CARE JOURNAL"}</p>
             <h1>{ar ? "قراءة طبية من خبرة سمايل كير." : "Medical reading from Smile Care."}</h1>
           </div>
-          <p>{ar ? "مقالات منشورة من المصدر الرسمي لسمايل كير، مع الحفاظ على النسخة العربية الرسمية عندما تكون متاحة." : "Published articles from Smile Care’s official source, presented in a calm editorial format with original source media."}</p>
+          <p>{ar ? "مقالات ونصائح طبية من سمايل كير تساعدك على فهم خيارات العناية والعلاج بشكل أوضح." : "Medical insights from Smile Care to help you better understand your care and treatment options."}</p>
         </div>
       </section>
 
