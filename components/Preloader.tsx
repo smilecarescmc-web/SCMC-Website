@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const LOGO = "/assets/smilecare-official/brand/logo.png";
@@ -8,6 +9,8 @@ const STORAGE_KEY = "scmc-final-preloader";
 
 export function Preloader() {
   const reduced = useReducedMotion();
+  const pathname = usePathname() || "/";
+  const ar = pathname === "/ar" || pathname.startsWith("/ar/");
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -96,8 +99,8 @@ export function Preloader() {
             </div>
 
             <div className="scmc-preloader-meta">
-              <span>Smile Care Medical Center</span>
-              <span>MOHAP 5080</span>
+              <span>{ar ? "مركز سمايل كير الطبي" : "Smile Care Medical Center"}</span>
+              <span>{ar ? "ترخيص وزارة الصحة 5080" : "MOHAP 5080"}</span>
             </div>
           </motion.div>
         </motion.div>
