@@ -11,6 +11,12 @@ import { officialDoctors } from "@/lib/officialDoctors";
 import { scmcResolvedMedia } from "@/lib/scmcResolvedMedia";
 import { useScmcLocale } from "@/lib/locale-client";
 
+const homeDoctorImage: Record<string, string> = {
+  "dr-nael-adel": "/assets/smilecare-official/doctors/dr-nael-adel.jpg",
+  "dr-mohamed-taha": "/assets/smilecare-official/doctors/dr-mohammed-taha.jpg",
+  "dr-asmaa-shehadeh": "/assets/smilecare-official/doctors/dr-asmaa-shehadeh.jpg",
+};
+
 const arServices: Record<string, { title: string; description: string }> = {
   dental: { title: "طب الأسنان", description: "رعاية أسنان عامة وترميمية وتجميلية وتخصصية ضمن فريق سريري واحد." },
   "botox-fillers": { title: "البوتوكس والفيلر", description: "علاجات تجميلية طبية مدروسة تحافظ على التوازن والتعبير الطبيعي." },
@@ -140,15 +146,15 @@ export default function HomePage() {
           </div>
 
           <div className="scmc-doctor-strip">
-            {officialDoctors.slice(0, 5).map((doctor, index) => (
+            {officialDoctors.slice(0, 3).map((doctor) => (
               <Link href={href(`/doctors/${doctor.slug}`)} className="scmc-doctor-mini" key={doctor.slug}>
                 <div className="scmc-doctor-mini__media">
                   <Image
-                    src={doctor.image}
+                    src={homeDoctorImage[doctor.slug] ?? doctor.image}
                     alt={ar ? doctor.nameAr : doctor.nameEn}
                     fill
-                    sizes="(max-width: 620px) 46vw, (max-width: 1120px) 30vw, 18vw"
-                    priority={index < 3}
+                    sizes="(max-width: 620px) 80vw, (max-width: 1120px) 31vw, 31vw"
+                    priority
                     className="scmc-doctor-portrait"
                   />
                 </div>
