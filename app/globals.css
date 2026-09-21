@@ -987,8 +987,8 @@ h3 {
 /* doctors */
 .scmc-doctor-strip {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.2vw, 28px);
 }
 
 .scmc-doctor-mini,
@@ -1205,35 +1205,54 @@ h3 {
 }
 
 /* insurance */
-.scmc-insurance-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+.scmc-insurance-wall {
+  overflow: hidden;
+  border: 1px solid var(--scmc-line);
+  border-radius: var(--scmc-radius-lg);
+  background:
+    radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--scmc-accent) 7%, transparent), transparent 32%),
+    var(--scmc-surface);
+  box-shadow: var(--scmc-shadow-sm);
 }
 
-.scmc-insurance-grid > .scmc-insurance-card:last-child:nth-child(4n + 1) {
-  grid-column: 2 / 4;
-  width: min(100%, 300px);
-  justify-self: center;
+.scmc-insurance-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .scmc-insurance-card {
-  min-height: 122px;
-  padding: 15px;
-  border: 1px solid var(--scmc-line);
-  border-radius: 17px;
+  min-height: 132px;
+  padding: 18px;
+  border: 0;
+  border-inline-end: 1px solid var(--scmc-line);
+  border-bottom: 1px solid var(--scmc-line);
+  border-radius: 0;
+  grid-column: span 2;
   display: grid;
-  grid-template-columns: 62px 1fr;
+  grid-template-columns: 66px 1fr;
   align-items: center;
-  gap: 14px;
-  background: var(--scmc-surface);
-  box-shadow: var(--scmc-shadow-sm);
-  transition: transform var(--scmc-fast), border-color var(--scmc-fast);
+  gap: 15px;
+  background: transparent;
+  box-shadow: none;
+  transition: background-color var(--scmc-fast), transform var(--scmc-fast);
+}
+
+.scmc-insurance-card:nth-child(3n) {
+  border-inline-end: 0;
+}
+
+.scmc-insurance-card:nth-last-child(-n + 2) {
+  grid-column: span 3;
+  border-bottom: 0;
+}
+
+.scmc-insurance-card:last-child {
+  border-inline-end: 0;
 }
 
 .scmc-insurance-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--scmc-line-strong);
+  transform: none;
+  background: color-mix(in srgb, var(--scmc-accent) 5%, transparent);
 }
 
 .scmc-insurance-logo {
@@ -2067,7 +2086,28 @@ html[data-theme="dark"] .scmc-footer {
   }
 
   .scmc-insurance-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .scmc-insurance-card {
+    grid-column: span 2;
+  }
+
+  .scmc-insurance-card:nth-child(3n) {
+    border-inline-end: 1px solid var(--scmc-line);
+  }
+
+  .scmc-insurance-card:nth-child(2n) {
+    border-inline-end: 0;
+  }
+
+  .scmc-insurance-card:nth-last-child(-n + 2) {
+    grid-column: span 2;
+  }
+
+  .scmc-insurance-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    border-inline-end: 0;
   }
 
   .scmc-booking-panel,
@@ -2201,9 +2241,77 @@ html[data-theme="dark"] .scmc-footer {
     grid-template-columns: 1fr;
   }
 
-  .scmc-doctor-directory,
-  .scmc-doctor-strip,
-  .scmc-insurance-grid,
+  .scmc-doctor-directory {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .scmc-doctor-card {
+    overflow: hidden;
+    border: 1px solid var(--scmc-line);
+    border-radius: var(--scmc-radius-md);
+    display: grid;
+    grid-template-columns: minmax(132px, .82fr) minmax(0, 1.18fr);
+    align-items: stretch;
+    background: var(--scmc-surface);
+  }
+
+  .scmc-doctor-card__media {
+    min-height: 220px;
+    aspect-ratio: auto;
+    border: 0;
+    border-inline-end: 1px solid var(--scmc-line);
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .scmc-doctor-card__body {
+    align-self: center;
+    padding: 18px;
+  }
+
+  .scmc-doctor-strip {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(250px, 80vw);
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--scmc-gutter));
+    padding-inline: var(--scmc-gutter);
+    padding-bottom: 8px;
+  }
+
+  .scmc-doctor-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scmc-doctor-mini {
+    scroll-snap-align: start;
+  }
+
+  .scmc-insurance-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scmc-insurance-card,
+  .scmc-insurance-card:nth-last-child(-n + 2),
+  .scmc-insurance-card:last-child:nth-child(odd) {
+    min-height: 104px;
+    grid-column: 1;
+    grid-template-columns: 66px 1fr;
+    justify-items: stretch;
+    text-align: start;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--scmc-line);
+  }
+
+  .scmc-insurance-card:last-child {
+    border-bottom: 0;
+  }
+
   .scmc-footer__top {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2257,27 +2365,18 @@ html[data-theme="dark"] .scmc-footer {
     min-height: 0;
   }
 
-  .scmc-insurance-card {
-    min-height: 128px;
-    padding: 14px 12px;
-    grid-template-columns: 1fr;
-    justify-items: center;
-    text-align: center;
-    gap: 9px;
-  }
-
   .scmc-insurance-logo {
-    width: 64px;
+    width: 62px;
     height: 56px;
   }
 
   .scmc-insurance-card h3 {
-    margin-bottom: 4px;
-    font-size: 10.5px;
+    margin-bottom: 5px;
+    font-size: 12px;
   }
 
   .scmc-insurance-card p {
-    font-size: 9px;
+    font-size: 10.5px;
   }
 
   .scmc-booking-panel {
@@ -2316,11 +2415,6 @@ html[data-theme="dark"] .scmc-footer {
 
   .scmc-blog-grid.is-single .scmc-blog-card__media {
     min-height: 240px;
-  }
-
-  .scmc-insurance-grid > .scmc-insurance-card:last-child:nth-child(4n + 1) {
-    grid-column: auto;
-    width: 100%;
   }
 
   .scmc-blog-card.is-featured .scmc-blog-card__media,
