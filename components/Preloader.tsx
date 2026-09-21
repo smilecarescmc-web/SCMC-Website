@@ -28,7 +28,7 @@ export function Preloader() {
     const previousOverflow = html.style.overflow;
     html.style.overflow = "hidden";
 
-    const duration = reduced ? 220 : 720;
+    const duration = reduced ? 260 : 1250;
     const startedAt = performance.now();
     let raf = 0;
     let releaseTimer = 0;
@@ -54,7 +54,7 @@ export function Preloader() {
       releaseTimer = window.setTimeout(() => {
         setVisible(false);
         html.style.overflow = previousOverflow;
-      }, reduced ? 10 : 70);
+      }, reduced ? 20 : 140);
     };
 
     raf = requestAnimationFrame(update);
@@ -76,7 +76,7 @@ export function Preloader() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{
-            duration: reduced ? 0.05 : 0.24,
+            duration: reduced ? 0.06 : 0.42,
             ease: [0.22, 1, 0.36, 1],
           }}
           aria-hidden="true"
@@ -85,7 +85,7 @@ export function Preloader() {
             className="scmc-preloader-aura"
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: reduced ? 0 : 0.42, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduced ? 0 : 0.58, ease: [0.22, 1, 0.36, 1] }}
           />
 
           <div className="scmc-preloader-frame" />
@@ -95,7 +95,7 @@ export function Preloader() {
             initial={{ opacity: 0, y: 8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{
-              duration: reduced ? 0 : 0.32,
+              duration: reduced ? 0 : 0.46,
               ease: [0.22, 1, 0.36, 1],
             }}
           >
