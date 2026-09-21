@@ -12,10 +12,10 @@ export default function ContactPage() {
   const { ar } = useScmcLocale();
 
   const details = [
-    { icon: Phone, label: ar ? "الهاتف" : "Phone", value: clinic.phoneDisplay, href: `tel:${clinic.phone}` },
-    { icon: MessageCircle, label: ar ? "واتساب" : "WhatsApp", value: clinic.whatsappDisplay, href: `https://wa.me/${clinic.whatsapp.replace(/\D/g, "")}` },
-    { icon: Mail, label: ar ? "البريد الإلكتروني" : "Email", value: clinic.email, href: `mailto:${clinic.email}` },
-    { icon: Clock3, label: ar ? "ساعات العمل" : "Hours", value: ar ? "السبت – الخميس · 09:00 صباحاً – 09:00 مساءً" : clinic.hours, href: null },
+    { icon: Phone, label: ar ? "الهاتف" : "Phone", value: clinic.phoneDisplay, href: `tel:${clinic.phone}`, ltr: true },
+    { icon: MessageCircle, label: ar ? "واتساب" : "WhatsApp", value: clinic.whatsappDisplay, href: `https://wa.me/${clinic.whatsapp.replace(/\D/g, "")}`, ltr: true },
+    { icon: Mail, label: ar ? "البريد الإلكتروني" : "Email", value: clinic.email, href: `mailto:${clinic.email}`, ltr: true },
+    { icon: Clock3, label: ar ? "ساعات العمل" : "Hours", value: ar ? "السبت – الخميس · 09:00 صباحاً – 09:00 مساءً" : clinic.hours, href: null, ltr: false },
   ] as const;
 
   return (
@@ -51,7 +51,7 @@ export default function ContactPage() {
                 const Icon = item.icon;
                 const content = <>
                   <span className="scmc-icon-box"><Icon size={16} /></span>
-                  <div><span>{item.label}</span><strong>{item.value}</strong></div>
+                  <div><span>{item.label}</span><strong className={item.ltr ? "scmc-ltr-value" : undefined} dir={item.ltr ? "ltr" : undefined}>{item.ltr ? <bdi>{item.value}</bdi> : item.value}</strong></div>
                 </>;
                 return item.href
                   ? <a href={item.href} key={item.label} className="scmc-contact-row">{content}</a>
