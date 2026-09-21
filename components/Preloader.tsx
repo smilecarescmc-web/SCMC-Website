@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { useScmcLocale } from "@/lib/locale-client";
 import { useEffect, useRef, useState } from "react";
 
 const LOGO = "/assets/smilecare-official/brand/logo.png";
@@ -9,8 +9,7 @@ const STORAGE_KEY = "scmc-preloader-seen-v2";
 
 export function Preloader() {
   const reduced = useReducedMotion();
-  const pathname = usePathname() || "/";
-  const ar = pathname === "/ar" || pathname.startsWith("/ar/");
+  const { ar } = useScmcLocale();
   const [visible, setVisible] = useState(true);
   const progressLabelRef = useRef<HTMLSpanElement | null>(null);
   const progressBarRef = useRef<HTMLSpanElement | null>(null);
@@ -18,8 +17,8 @@ export function Preloader() {
   useEffect(() => {
     const alreadySeen = sessionStorage.getItem(STORAGE_KEY) === "1";
     if (alreadySeen) {
-      setVisible(false);
-      return;
+      const hideTimer = window.setTimeout(() => setVisible(false), 0);
+      return () => window.clearTimeout(hideTimer);
     }
 
     sessionStorage.setItem(STORAGE_KEY, "1");

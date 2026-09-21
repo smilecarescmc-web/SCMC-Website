@@ -179,16 +179,16 @@ const carePillarsAr = [
 ];
 
 const discountPartners = [
-  { name: "Fazaa", src: "https://smilecare.ae/wp-content/uploads/2023/06/fazaa.jpg" },
-  { name: "Absher", src: "https://smilecare.ae/wp-content/uploads/2023/06/absher.jpg" },
-  { name: "Esaad", src: "https://smilecare.ae/wp-content/uploads/2023/06/esaad.jpg" },
-  { name: "Al Saada", src: "https://smilecare.ae/wp-content/uploads/2023/06/alsaada.jpg" },
-  { name: "Sharjah Islamic Bank", src: "https://smilecare.ae/wp-content/uploads/2023/06/sib.jpg" },
-  { name: "Ministry of Education", src: "https://smilecare.ae/wp-content/uploads/2023/06/moe.jpg" },
-  { name: "Ras Al Khaimah", src: "https://smilecare.ae/wp-content/uploads/2023/06/rak.jpg" },
-  { name: "RAK Transport Authority", src: "https://smilecare.ae/wp-content/uploads/2023/06/rak-ta.jpg" },
-  { name: "RAK Police", src: "https://smilecare.ae/wp-content/uploads/2023/06/rp.jpg" },
-  { name: "Hilton", src: "https://smilecare.ae/wp-content/uploads/2023/06/hilton.jpg" },
+  { name: "Fazaa", src: "/assets/smilecare-official/discounts/fazaa.jpg" },
+  { name: "Absher", src: "/assets/smilecare-official/discounts/absher.jpg" },
+  { name: "Esaad", src: "/assets/smilecare-official/discounts/esaad.jpg" },
+  { name: "Al Saada", src: "/assets/smilecare-official/discounts/alsaada.jpg" },
+  { name: "Sharjah Islamic Bank", src: "/assets/smilecare-official/discounts/sib.jpg" },
+  { name: "Ministry of Education", src: "/assets/smilecare-official/discounts/moe.jpg" },
+  { name: "Ras Al Khaimah", src: "/assets/smilecare-official/discounts/rak.jpg" },
+  { name: "RAK Transport Authority", src: "/assets/smilecare-official/discounts/rak-ta.jpg" },
+  { name: "RAK Police", src: "/assets/smilecare-official/discounts/rp.jpg" },
+  { name: "Hilton", src: "/assets/smilecare-official/discounts/hilton.jpg" },
 ];
 
 export function HomeWhyStandOut() {

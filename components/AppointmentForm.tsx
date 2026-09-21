@@ -40,7 +40,7 @@ export function AppointmentForm() {
           `Name: ${name.trim()}`,
           `Phone: ${phone.trim()}`,
           `Service: ${service}`,
-          `Preferred communication: ${preference}`,
+          `Preferred follow-up method: ${preference}`,
         ].join("\n");
 
     const number = clinic.whatsapp.replace(/\D/g, "");
@@ -65,7 +65,7 @@ export function AppointmentForm() {
           </select>
         </label>
         <label>
-          <span>{ar ? "وسيلة التواصل المفضلة" : "Preferred communication"}</span>
+          <span>{ar ? "وسيلة المتابعة المفضلة" : "Preferred follow-up method"}</span>
           <select value={preference} onChange={(e) => setPreference(e.target.value)}>
             <option value="WhatsApp">{ar ? "رسالة واتساب" : "WhatsApp text"}</option>
             <option value="Phone call">{ar ? "مكالمة هاتفية" : "Phone call"}</option>

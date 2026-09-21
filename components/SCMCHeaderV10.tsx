@@ -19,11 +19,15 @@ export function SCMCHeaderV10() {
         : window.matchMedia("(prefers-color-scheme: dark)").matches
           ? "dark"
           : "light";
-    setTheme(initial);
     document.documentElement.dataset.theme = initial;
+    const themeTimer = window.setTimeout(() => setTheme(initial), 0);
+    return () => window.clearTimeout(themeTimer);
   }, []);
 
-  useEffect(() => setMenuOpen(false), [pathname]);
+  useEffect(() => {
+    const closeTimer = window.setTimeout(() => setMenuOpen(false), 0);
+    return () => window.clearTimeout(closeTimer);
+  }, [pathname]);
 
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
@@ -100,7 +104,7 @@ export function SCMCHeaderV10() {
           className="scmc-header__icon scmc-header__menu"
           type="button"
           aria-expanded={menuOpen}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-label={menuOpen ? (ar ? "إغلاق القائمة" : "Close menu") : (ar ? "فتح القائمة" : "Open menu")}
           onClick={() => setMenuOpen((value) => !value)}
         >
           {menuOpen ? <X size={18} /> : <Menu size={18} />}

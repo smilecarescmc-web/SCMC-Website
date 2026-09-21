@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
+import { useScmcLocale } from "@/lib/locale-client";
 import { useEffect, useRef, useState } from "react";
 
 const LOGO = "/assets/smilecare-official/brand/logo.png";
@@ -32,7 +33,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "/";
   const router = useRouter();
   const reduced = useReducedMotion();
-  const ar = pathname === "/ar" || pathname.startsWith("/ar/");
+  const { ar } = useScmcLocale();
   const [covering, setCovering] = useState(false);
   const previousPath = useRef(pathname);
   const navigating = useRef(false);
@@ -105,7 +106,17 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
     if (releaseTimer.current) window.clearTimeout(releaseTimer.current);
     releaseTimer.current = window.setTimeout(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      const hash = window.location.hash;
+      if (hash) {
+        window.requestAnimationFrame(() => {
+          const id = decodeURIComponent(hash.slice(1));
+          const target = document.getElementById(id);
+          if (target) target.scrollIntoView({ block: "start", behavior: "auto" });
+          else window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        });
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }
       setCovering(false);
       navigating.current = false;
     }, reduced ? 0 : 260);

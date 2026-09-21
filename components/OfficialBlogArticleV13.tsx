@@ -29,7 +29,8 @@ function localizeArticleLinks(html: string, locale: "en" | "ar") {
   const contact = `/${locale}/contact#appointment`;
   return html
     .replace(/https:\/\/smilecare\.ae\/book-an-appointment\/?/gi, contact)
-    .replace(/https:\/\/smilecare\.ae\/ar\/%d8%a7%d8%ad%d8%ac%d8%b2-%d9%85%d9%88%d8%b9%d8%af%d8%a7%d9%8b\/?/gi, contact);
+    .replace(/https:\/\/smilecare\.ae\/ar\/%d8%a7%d8%ad%d8%ac%d8%b2-%d9%85%d9%88%d8%b9%d8%af%d8%a7%d9%8b\/?/gi, contact)
+    .replace(/https:\/\/wa\.me\/\+?97172282080/gi, "https://wa.me/971543217712");
 }
 
 export function OfficialBlogArticleV13({ article, related = [] }: { article: Article; related?: Related[] }) {

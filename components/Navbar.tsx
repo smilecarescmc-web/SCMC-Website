@@ -165,11 +165,16 @@ export function Navbar() {
           ? "dark"
           : "light";
 
-    setLang(initialLang);
-    setThemeState(initialTheme);
     applyLanguage(initialLang);
     setTheme(initialTheme);
-}, []);
+
+    const initTimer = window.setTimeout(() => {
+      setLang(initialLang);
+      setThemeState(initialTheme);
+    }, 0);
+
+    return () => window.clearTimeout(initTimer);
+  }, []);
 
   useEffect(() => {
     const scroll = () => setScrolled(window.scrollY > 12);
@@ -178,7 +183,10 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", scroll);
   }, []);
 
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    const closeTimer = window.setTimeout(() => setOpen(false), 0);
+    return () => window.clearTimeout(closeTimer);
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";

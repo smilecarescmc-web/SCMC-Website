@@ -109,9 +109,9 @@ export default function OpenGraphImage() {
             }}
           >
             <span>+971 7 228 2080</span>
-            <span>â€¢</span>
+            <span>•</span>
             <span>+971 54 321 7712</span>
-            <span>â€¢</span>
+            <span>•</span>
             <span>Al Nakheel, Ras Al Khaimah</span>
           </div>
         </div>

@@ -3647,3 +3647,41 @@ html[data-theme="dark"] .scmc-transition-panel {
     overflow-x: auto;
   }
 }
+
+/* FINAL QA — accessibility/system surfaces */
+.scmc-skip-link {
+  position: fixed;
+  z-index: 100000;
+  inset-inline-start: 16px;
+  top: 12px;
+  transform: translateY(-150%);
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--scmc-text);
+  color: var(--scmc-surface);
+  font-size: 12px;
+  text-decoration: none;
+}
+.scmc-skip-link:focus-visible { transform: translateY(0); }
+
+:where(a, button, input, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.scmc-system-page {
+  min-height: 100svh;
+  display: grid;
+  place-content: center;
+  gap: 16px;
+  padding: 110px max(24px, 8vw);
+  background: var(--scmc-bg);
+  color: var(--scmc-text);
+}
+.scmc-system-page h1 {
+  margin: 0;
+  max-width: 760px;
+  font-size: clamp(34px, 6vw, 72px);
+  line-height: .98;
+}
+.scmc-system-page p { max-width: 620px; }

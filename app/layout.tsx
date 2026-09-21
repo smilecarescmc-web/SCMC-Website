@@ -23,6 +23,8 @@ const resolvedSiteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://smilecare.ae");
 
+const isPreviewHost = /vercel\.app$/i.test(new URL(resolvedSiteUrl).hostname);
+
 export const metadata: Metadata = {
   metadataBase: new URL(resolvedSiteUrl),
   title,
@@ -52,9 +54,11 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image", title, description, images: ["/opengraph-image"] },
   robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+    index: !isPreviewHost,
+    follow: !isPreviewHost,
+    googleBot: isPreviewHost
+      ? { index: false, follow: false }
+      : { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
 };
 
@@ -73,6 +77,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" dir="ltr" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={almarai.variable}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){var p=location.pathname;var ar=p==='/ar'||p.indexOf('/ar/')===0;document.documentElement.lang=ar?'ar':'en';document.documentElement.dir=ar?'rtl':'ltr';})();",
+          }}
+        />
+        <a className="scmc-skip-link" href="#scmc-main">Skip to content</a>
         <SCMCLocaleRuntime />
         <SCMCPerformancePolicy />
         <SCMCProximityReveal />
