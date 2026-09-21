@@ -84,7 +84,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       if (navigateTimer.current) window.clearTimeout(navigateTimer.current);
       navigateTimer.current = window.setTimeout(() => {
         router.push(href);
-      }, 40);
+      }, 180);
     };
 
     document.addEventListener("pointerover", onPointerOver, { passive: true });
@@ -108,7 +108,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       setCovering(false);
       navigating.current = false;
-    }, reduced ? 0 : 60);
+    }, reduced ? 0 : 260);
   }, [pathname, reduced]);
 
   return (
@@ -119,7 +119,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
         initial={reduced ? false : { opacity: 0, y: 4 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
-          duration: reduced ? 0 : 0.24,
+          duration: reduced ? 0 : 0.32,
           ease: [0.22, 1, 0.36, 1],
         }}
       >
@@ -143,7 +143,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
                 animate: { x: "0%" },
                 exit: { x: "-101%" },
               }}
-              transition={{ duration: reduced ? 0.04 : 0.28, ease: [0.76, 0, 0.24, 1] }}
+              transition={{ duration: reduced ? 0.05 : 0.42, ease: [0.76, 0, 0.24, 1] }}
             />
 
             <motion.div
@@ -153,7 +153,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
                 animate: { x: "0%" },
                 exit: { x: "101%" },
               }}
-              transition={{ duration: reduced ? 0.04 : 0.28, ease: [0.76, 0, 0.24, 1] }}
+              transition={{ duration: reduced ? 0.05 : 0.42, ease: [0.76, 0, 0.24, 1] }}
             />
 
             <div className="scmc-transition-center">
@@ -162,7 +162,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
                 initial={{ opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.025 }}
-                transition={{ duration: reduced ? 0 : 0.2, delay: reduced ? 0 : 0.06 }}
+                transition={{ duration: reduced ? 0 : 0.3, delay: reduced ? 0 : 0.11 }}
               >
                 <img
                   src={LOGO}
@@ -178,7 +178,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   exit={{ scaleX: 0 }}
-                  transition={{ duration: reduced ? 0 : 0.18, delay: reduced ? 0 : 0.07 }}
+                  transition={{ duration: reduced ? 0 : 0.26, delay: reduced ? 0 : 0.12 }}
                 />
               </motion.div>
             </div>
