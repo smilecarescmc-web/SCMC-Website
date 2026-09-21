@@ -2,6 +2,8 @@ import { SCMCPerformancePolicy } from "@/components/SCMCPerformancePolicy";
 import { SCMCProximityReveal } from "@/components/SCMCProximityReveal";
 import { SCMCLocaleRuntime } from "@/components/SCMCLocaleRuntime";
 import { SCMCHeaderV10 } from "@/components/SCMCHeaderV10";
+import { Preloader } from "@/components/Preloader";
+import { PageTransition } from "@/components/PageTransition";
 import type { Metadata, Viewport } from "next";
 import { Almarai } from "next/font/google";
 import "./globals.css";
@@ -74,8 +76,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SCMCLocaleRuntime />
         <SCMCPerformancePolicy />
         <SCMCProximityReveal />
+        <Preloader />
         <SCMCHeaderV10 />
-        {children}
+        <PageTransition>{children}</PageTransition>
       </body>
     </html>
   );
