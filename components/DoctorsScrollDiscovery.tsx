@@ -18,6 +18,47 @@ function doctorImage(slug: string, fallback: string) {
   return lightweightDoctorImage[slug] ?? fallback;
 }
 
+function isRemoteImage(src: string) {
+  return /^https?:\/\//i.test(src);
+}
+
+function DoctorPortrait({
+  src,
+  alt,
+  sizes,
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  sizes: string;
+  priority?: boolean;
+}) {
+  if (isRemoteImage(src)) {
+    return (
+      <img
+        src={src}
+        alt={alt}
+        className="scmc-doctor-portrait"
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        fetchPriority={priority ? "high" : "auto"}
+      />
+    );
+  }
+
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      sizes={sizes}
+      quality={62}
+      className="scmc-doctor-portrait"
+      priority={priority}
+    />
+  );
+}
+
 export function DoctorsScrollDiscovery() {
   const { ar, href } = useScmcLocale();
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -43,9 +84,7 @@ export function DoctorsScrollDiscovery() {
         const rect = section.getBoundingClientRect();
         const range = Math.max(1, section.offsetHeight - window.innerHeight);
         const progress = Math.min(1, Math.max(0, -rect.top / range));
-        const direction = ar ? 1 : -1;
-        const startOffset = ar ? -maxShift : 0;
-        const x = startOffset + direction * maxShift * progress;
+        const x = -maxShift * progress;
 
         track.style.transform = `translate3d(${x}px,0,0)`;
 
@@ -121,23 +160,20 @@ export function DoctorsScrollDiscovery() {
         <div className="scmc-shell scmc-doctor-discovery__viewport scmc-doctor-discovery__viewport--desktop">
           <div
             ref={trackRef}
-            className={`scmc-doctor-discovery__track ${ar ? "is-rtl" : ""}`}
+            className="scmc-doctor-discovery__track"
           >
             {officialDoctors.map((doctor, index) => (
               <Link
-                href={href(`/doctors/${doctor.slug}`)}
+                href={doctor.profileUrl ?? href(`/doctors/${doctor.slug}`)}
                 className={`scmc-doctor-discovery__card ${index === activeIndex ? "is-active" : ""}`}
                 key={doctor.slug}
                 dir={ar ? "rtl" : "ltr"}
               >
                 <div className="scmc-doctor-discovery__media">
-                  <Image
+                  <DoctorPortrait
                     src={doctorImage(doctor.slug, doctor.image)}
                     alt={ar ? doctor.nameAr : doctor.nameEn}
-                    fill
                     sizes="300px"
-                    quality={62}
-                    className="scmc-doctor-portrait"
                     priority={index === 0}
                   />
                   <span>{String(index + 1).padStart(2, "0")}</span>
@@ -155,7 +191,7 @@ export function DoctorsScrollDiscovery() {
 
         <div className="scmc-doctor-loop-shell">
           <div
-            className={`scmc-doctor-loop ${ar ? "is-rtl" : ""} ${mobilePaused ? "is-paused" : ""}`}
+            className={`scmc-doctor-loop ${mobilePaused ? "is-paused" : ""}`}
           >
             {mobileDoctors.map((doctor, index) => {
               const originalIndex = index % officialDoctors.length;
@@ -172,14 +208,10 @@ export function DoctorsScrollDiscovery() {
                         : (ar ? "إيقاف حركة الأطباء" : "Pause doctor loop")
                     }
                   >
-                    <Image
+                    <DoctorPortrait
                       src={doctorImage(doctor.slug, doctor.image)}
                       alt={ar ? doctor.nameAr : doctor.nameEn}
-                      fill
                       sizes="44vw"
-                      quality={58}
-                      className="scmc-doctor-portrait"
-                      loading="lazy"
                     />
                     <span>{String(originalIndex + 1).padStart(2, "0")}</span>
                   </button>
@@ -187,7 +219,7 @@ export function DoctorsScrollDiscovery() {
                   <div className="scmc-doctor-loop__body">
                     <p>{ar ? doctor.specialtyAr : doctor.specialtyEn}</p>
                     <h3>{ar ? doctor.nameAr : doctor.nameEn}</h3>
-                    <Link href={href(`/doctors/${doctor.slug}`)} className="scmc-doctor-loop__link">
+                    <Link href={doctor.profileUrl ?? href(`/doctors/${doctor.slug}`)} className="scmc-doctor-loop__link">
                       {ar ? "الملف" : "Profile"} <ArrowUpRight size={10} />
                     </Link>
                   </div>
