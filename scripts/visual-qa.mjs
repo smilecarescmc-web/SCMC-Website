@@ -63,6 +63,7 @@ for (const viewport of viewports) {
         const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
         status = response?.status() ?? null;
         await page.waitForSelector(".scmc-header", { timeout: 10000 });
+        await page.waitForSelector(".scmc-cinematic-preloader", { state: "detached", timeout: 6000 }).catch(() => {});
         await page.evaluate(async () => {
           if (document.fonts?.ready) await document.fonts.ready;
           const step = Math.max(320, Math.floor(window.innerHeight * 0.72));
