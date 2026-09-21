@@ -17,6 +17,17 @@ function isModifiedClick(event: MouseEvent) {
   );
 }
 
+function internalHref(anchor: HTMLAnchorElement) {
+  const raw = anchor.getAttribute("href");
+  if (!raw) return null;
+  if (raw.startsWith("#") || raw.startsWith("mailto:") || raw.startsWith("tel:")) return null;
+
+  const url = new URL(anchor.href, window.location.href);
+  if (url.origin !== window.location.origin) return null;
+
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "/";
   const router = useRouter();
@@ -29,7 +40,19 @@ export function PageTransition({ children }: { children: ReactNode }) {
   const releaseTimer = useRef<number | null>(null);
 
   useEffect(() => {
-    if (reduced) return;
+    const warmLogo = new Image();
+    warmLogo.src = LOGO;
+
+    const onPointerOver = (event: PointerEvent) => {
+      const node = event.target as HTMLElement | null;
+      const anchor = node?.closest("a[href]") as HTMLAnchorElement | null;
+      if (!anchor) return;
+
+      const href = internalHref(anchor);
+      if (!href) return;
+
+      router.prefetch(href.split("#")[0]);
+    };
 
     const onClick = (event: MouseEvent) => {
       if (event.defaultPrevented || isModifiedClick(event) || navigating.current) return;
@@ -39,20 +62,12 @@ export function PageTransition({ children }: { children: ReactNode }) {
       if (!anchor || anchor.hasAttribute("download")) return;
       if (anchor.target && anchor.target !== "_self") return;
 
-      const rawHref = anchor.getAttribute("href");
-      if (!rawHref) return;
-      if (
-        rawHref.startsWith("#") ||
-        rawHref.startsWith("mailto:") ||
-        rawHref.startsWith("tel:")
-      ) {
-        return;
-      }
+      const href = internalHref(anchor);
+      if (!href) return;
 
       const destination = new URL(anchor.href, window.location.href);
-      if (destination.origin !== window.location.origin) return;
-
       const current = new URL(window.location.href);
+
       if (
         destination.pathname === current.pathname &&
         destination.search === current.search
@@ -60,21 +75,23 @@ export function PageTransition({ children }: { children: ReactNode }) {
         return;
       }
 
+      if (reduced) return;
+
       event.preventDefault();
       navigating.current = true;
       setCovering(true);
 
-      const href = `${destination.pathname}${destination.search}${destination.hash}`;
-
       if (navigateTimer.current) window.clearTimeout(navigateTimer.current);
       navigateTimer.current = window.setTimeout(() => {
         router.push(href);
-      }, 500);
+      }, 170);
     };
 
+    document.addEventListener("pointerover", onPointerOver, { passive: true });
     document.addEventListener("click", onClick, true);
 
     return () => {
+      document.removeEventListener("pointerover", onPointerOver);
       document.removeEventListener("click", onClick, true);
       if (navigateTimer.current) window.clearTimeout(navigateTimer.current);
       if (releaseTimer.current) window.clearTimeout(releaseTimer.current);
@@ -88,10 +105,10 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
     if (releaseTimer.current) window.clearTimeout(releaseTimer.current);
     releaseTimer.current = window.setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       setCovering(false);
       navigating.current = false;
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    }, reduced ? 10 : 170);
+    }, reduced ? 0 : 60);
   }, [pathname, reduced]);
 
   return (
@@ -99,10 +116,10 @@ export function PageTransition({ children }: { children: ReactNode }) {
       <motion.div
         key={pathname}
         className="scmc-page-stage"
-        initial={reduced ? false : { opacity: 0, y: 10, filter: "blur(5px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        initial={reduced ? false : { opacity: 0, y: 4 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{
-          duration: reduced ? 0 : 0.5,
+          duration: reduced ? 0 : 0.24,
           ease: [0.22, 1, 0.36, 1],
         }}
       >
@@ -124,9 +141,9 @@ export function PageTransition({ children }: { children: ReactNode }) {
               variants={{
                 initial: { x: "-101%" },
                 animate: { x: "0%" },
-                exit: { y: "-101%" },
+                exit: { x: "-101%" },
               }}
-              transition={{ duration: reduced ? 0.05 : 0.52, ease: [0.76, 0, 0.24, 1] }}
+              transition={{ duration: reduced ? 0.04 : 0.28, ease: [0.76, 0, 0.24, 1] }}
             />
 
             <motion.div
@@ -134,43 +151,37 @@ export function PageTransition({ children }: { children: ReactNode }) {
               variants={{
                 initial: { x: "101%" },
                 animate: { x: "0%" },
-                exit: { y: "101%" },
+                exit: { x: "101%" },
               }}
-              transition={{ duration: reduced ? 0.05 : 0.52, ease: [0.76, 0, 0.24, 1] }}
+              transition={{ duration: reduced ? 0.04 : 0.28, ease: [0.76, 0, 0.24, 1] }}
             />
 
-            <motion.div
-              className="scmc-transition-aura"
-              initial={{ opacity: 0, scale: 0.78 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.14 }}
-              transition={{ duration: reduced ? 0 : 0.62, delay: reduced ? 0 : 0.14 }}
-            />
-
-            <motion.div
-              className="scmc-transition-content"
-              initial={{ opacity: 0, scale: 0.9, y: 10, filter: "blur(12px)" }}
-              animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, scale: 1.08, filter: "blur(8px)" }}
-              transition={{ duration: reduced ? 0 : 0.38, delay: reduced ? 0 : 0.18 }}
-            >
-              <img
-                src={LOGO}
-                alt=""
-                className="scmc-adaptive-logo scmc-transition-logo"
-                width={170}
-                height={68}
-                decoding="async"
-              />
-              <span>{ar ? "سمايل كير · رأس الخيمة" : "Smile Care · Ras Al Khaimah"}</span>
-              <motion.i
-                className="scmc-transition-line"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                exit={{ scaleX: 0 }}
-                transition={{ duration: reduced ? 0 : 0.44, delay: reduced ? 0 : 0.2 }}
-              />
-            </motion.div>
+            <div className="scmc-transition-center">
+              <motion.div
+                className="scmc-transition-content"
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.025 }}
+                transition={{ duration: reduced ? 0 : 0.2, delay: reduced ? 0 : 0.06 }}
+              >
+                <img
+                  src={LOGO}
+                  alt=""
+                  className="scmc-adaptive-logo scmc-transition-logo"
+                  width={170}
+                  height={68}
+                  decoding="async"
+                />
+                <span>{ar ? "سمايل كير · رأس الخيمة" : "Smile Care · Ras Al Khaimah"}</span>
+                <motion.i
+                  className="scmc-transition-line"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  exit={{ scaleX: 0 }}
+                  transition={{ duration: reduced ? 0 : 0.18, delay: reduced ? 0 : 0.07 }}
+                />
+              </motion.div>
+            </div>
 
             <div className="scmc-transition-frame" />
           </motion.div>
