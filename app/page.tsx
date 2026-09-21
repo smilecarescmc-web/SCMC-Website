@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { ScmcFrame } from "@/components/ScmcFrame";
 import { InsuranceGrid } from "@/components/InsuranceGrid";
 import { DoctorsScrollDiscovery } from "@/components/DoctorsScrollDiscovery";
+import { HeroVideo } from "@/components/HeroVideo";
 import { MediaImage } from "@/components/MediaImage";
 import { services } from "@/lib/scmcFullData";
 import { scmcResolvedMedia } from "@/lib/scmcResolvedMedia";
@@ -36,7 +37,7 @@ export default function HomePage() {
   return (
     <ScmcFrame>
       <section className="scmc-hero" aria-label="Smile Care Medical Center">
-        <video className="scmc-hero__video" src="/assets/HERO-Final.mp4" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+        <HeroVideo />
         <div className="scmc-hero__overlay" aria-hidden="true" />
         <div className="scmc-shell scmc-hero__content">
           <div className="scmc-hero__copy">
