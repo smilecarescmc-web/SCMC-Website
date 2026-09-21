@@ -24,7 +24,6 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
   const [covering, setCovering] = useState(false);
   const previousPath = useRef(pathname);
-  const pending = useRef<string | null>(null);
   const navigateTimer = useRef<number | null>(null);
   const releaseTimer = useRef<number | null>(null);
 
@@ -59,8 +58,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
       if (
         destination.pathname === current.pathname &&
-        destination.search === current.search &&
-        destination.hash
+        destination.search === current.search
       ) {
         return;
       }
@@ -70,7 +68,6 @@ export function PageTransition({ children }: { children: ReactNode }) {
       const href =
         `${destination.pathname}${destination.search}${destination.hash}`;
 
-      pending.current = href;
       setCovering(true);
 
       if (navigateTimer.current) {
@@ -79,7 +76,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
       navigateTimer.current = window.setTimeout(() => {
         router.push(href);
-      }, 235);
+      }, 330);
     };
 
     document.addEventListener("click", onClick, true);
@@ -101,8 +98,6 @@ export function PageTransition({ children }: { children: ReactNode }) {
     if (previousPath.current === pathname) return;
 
     previousPath.current = pathname;
-    pending.current = null;
-
     if (releaseTimer.current) {
       window.clearTimeout(releaseTimer.current);
     }
@@ -112,6 +107,8 @@ export function PageTransition({ children }: { children: ReactNode }) {
       reduced ? 10 : 250
     );
   }, [pathname, reduced]);
+
+  const ar = pathname === "/ar" || pathname.startsWith("/ar/");
 
   return (
     <>
@@ -160,7 +157,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
                 height={64}
                 decoding="async"
               />
-              <span>Smile Care - Ras Al Khaimah</span>
+              <span>{ar ? "سمايل كير · رأس الخيمة" : "Smile Care · Ras Al Khaimah"}</span>
             </motion.div>
           </motion.div>
         ) : null}
