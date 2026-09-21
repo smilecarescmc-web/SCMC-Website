@@ -6,6 +6,7 @@ import { ScmcFrame } from "@/components/ScmcFrame";
 import { InsuranceGrid } from "@/components/InsuranceGrid";
 import { DoctorsScrollDiscovery } from "@/components/DoctorsScrollDiscovery";
 import { HeroVideo } from "@/components/HeroVideo";
+import { HomeWhyStandOut, HomeFaq, HomeReviews, HomeCarePillars, HomeSpecialDiscounts } from "@/components/HomeLegacySections";
 import { MediaImage } from "@/components/MediaImage";
 import { services } from "@/lib/scmcFullData";
 import { scmcResolvedMedia } from "@/lib/scmcResolvedMedia";
@@ -127,7 +128,15 @@ export default function HomePage() {
         </div>
       </section>
 
+      <HomeWhyStandOut />
+
+      <HomeFaq />
+
+      <HomeReviews />
+
       <DoctorsScrollDiscovery />
+
+      <HomeCarePillars />
 
       <section className="scmc-section scmc-section--soft">
         <div className="scmc-shell">
@@ -141,6 +150,8 @@ export default function HomePage() {
           <InsuranceGrid />
         </div>
       </section>
+
+      <HomeSpecialDiscounts />
 
       <section className="scmc-section scmc-section--cta">
         <div className="scmc-shell scmc-cta-panel">
