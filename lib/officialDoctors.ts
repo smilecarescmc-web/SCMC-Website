@@ -7,7 +7,6 @@ export type OfficialDoctorSummary = {
   image: string;
   noteEn: string;
   noteAr: string;
-  profileUrl?: string;
 };
 
 export const officialDoctors: readonly OfficialDoctorSummary[] = [
@@ -30,7 +29,6 @@ export const officialDoctors: readonly OfficialDoctorSummary[] = [
     image: "https://smilecare.ae/wp-content/uploads/2023/06/Dr.-Mohammed-Hijazi-1024x1024.jpg",
     noteEn: "Dental care with a focus on periodontal health, oral hygiene and restorative treatment.",
     noteAr: "رعاية أسنان مع تركيز على صحة اللثة ونظافة الفم والعلاجات الترميمية.",
-    profileUrl: "https://smilecare.ae/portfolio/dr-mohammed-hijazi/",
   },
   {
     slug: "dr-wallaa-abo-elyazeed",
@@ -41,7 +39,6 @@ export const officialDoctors: readonly OfficialDoctorSummary[] = [
     image: "https://smilecare.ae/wp-content/uploads/2025/04/IMG_4968-1024x1024.jpg",
     noteEn: "Aesthetic and dermatology care at Smile Care Medical Center.",
     noteAr: "رعاية تجميلية وجلدية في مركز سمايل كير الطبي.",
-    profileUrl: "https://smilecare.ae/portfolio/dr-wallaa-abo-elyazeed/",
   },
   {
     slug: "dr-javier-hernandez-hernandez",
@@ -82,7 +79,6 @@ export const officialDoctors: readonly OfficialDoctorSummary[] = [
     image: "https://smilecare.ae/wp-content/uploads/2026/01/IMG_4432.JPG-1024x1024.jpeg",
     noteEn: "Specialist pediatric dental care.",
     noteAr: "رعاية تخصصية لأسنان الأطفال.",
-    profileUrl: "https://smilecare.ae/portfolio/salma-eltahir/",
   },
   {
     slug: "dr-maher-ahmed-khamis",
@@ -103,7 +99,6 @@ export const officialDoctors: readonly OfficialDoctorSummary[] = [
     image: "https://smilecare.ae/wp-content/uploads/2024/10/IMG_3477-1024x1024.jpg",
     noteEn: "General dentistry with endodontic, whitening, cosmetic filling and fixed-prosthesis care.",
     noteAr: "طب أسنان عام مع علاج الجذور والتبييض والحشوات التجميلية والتركيبات الثابتة.",
-    profileUrl: "https://smilecare.ae/portfolio/dr-sara-odeh/",
   },
   {
     slug: "dr-mahra-abdullatif-al-shehhi",
@@ -144,7 +139,6 @@ export const officialDoctors: readonly OfficialDoctorSummary[] = [
     image: "https://smilecare.ae/wp-content/uploads/2023/06/Rectangle-74-4.png",
     noteEn: "Specialist orthodontic care including braces, clear aligners and functional appliances.",
     noteAr: "رعاية تخصصية في تقويم الأسنان تشمل التقويم الثابت والشفاف والأجهزة الوظيفية.",
-    profileUrl: "https://smilecare.ae/portfolio/dr-mohammed-mwafi/",
   },
   {
     slug: "dr-mohammed-ayman-alqasem",
@@ -155,6 +149,5 @@ export const officialDoctors: readonly OfficialDoctorSummary[] = [
     image: "https://smilecare.ae/wp-content/uploads/2023/02/Rectangle-73-5-1.png",
     noteEn: "General-practice dentistry with endodontic, whitening, cosmetic filling and fixed-prosthesis care.",
     noteAr: "طب أسنان عام مع علاج الجذور والتبييض والحشوات التجميلية والتركيبات الثابتة.",
-    profileUrl: "https://smilecare.ae/portfolio/dr-mohammed-am-alqasem/",
   },
 ] as const;
