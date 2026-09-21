@@ -20,6 +20,10 @@ const routes = [
   "/ar/about",
   "/ar/contact",
   "/ar/blog",
+  "/en/faqs",
+  "/ar/clinic-gallery",
+  "/en/events",
+  "/ar/privacy-policy",
   "/en/blog/when-dental-implants-become-a-necessity-to-preserve-the-jaw",
   "/ar/blog/precise-skin-analysis-5-essential-steps",
 ];

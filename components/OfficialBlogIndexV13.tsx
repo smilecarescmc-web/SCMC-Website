@@ -27,7 +27,7 @@ function categoryLabel(category: string, ar: boolean) {
 export function OfficialBlogIndexV13({ cards }: { cards: Card[] }) {
   const { ar, locale } = useScmcLocale();
 
-  const visibleCards = ar ? cards.filter((article) => article.hasArabic && article.titleAr) : cards;
+  const visibleCards = cards;
 
   return (
     <ScmcFrame>

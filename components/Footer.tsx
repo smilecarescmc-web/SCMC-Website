@@ -26,6 +26,10 @@ export function Footer() {
           <Link href={href("/doctors")}>{ar ? "الأطباء" : "Doctors"}</Link>
           <Link href={href("/services")}>{ar ? "الخدمات" : "Services"}</Link>
           <Link href={href("/blog")}>{ar ? "المدونة" : "Journal"}</Link>
+          <Link href={href("/faqs")}>{ar ? "الأسئلة الشائعة" : "FAQs"}</Link>
+          <Link href={href("/clinic-gallery")}>{ar ? "معرض العيادة" : "Clinic gallery"}</Link>
+          <Link href={href("/events")}>{ar ? "الفعاليات" : "Events"}</Link>
+          <Link href={href("/privacy-policy")}>{ar ? "سياسة الخصوصية" : "Privacy policy"}</Link>
           <Link href={href("/contact")}>{ar ? "تواصل معنا" : "Contact"}</Link>
         </div>
 

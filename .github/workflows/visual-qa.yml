@@ -39,6 +39,8 @@ jobs:
         run: node scripts/visual-qa.mjs
       - name: Functional route / media / console / hash QA
         run: node scripts/qa-functional.mjs
+      - name: Navigation performance smoke QA
+        run: node scripts/qa-navigation-performance.mjs
       - name: Upload QA artifact
         if: always()
         uses: actions/upload-artifact@v4

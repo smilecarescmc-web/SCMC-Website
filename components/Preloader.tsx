@@ -23,11 +23,9 @@ export function Preloader() {
 
     sessionStorage.setItem(STORAGE_KEY, "1");
 
-    const html = document.documentElement;
-    const previousOverflow = html.style.overflow;
-    html.style.overflow = "hidden";
-
-    const duration = reduced ? 260 : 1250;
+    // Keep the branded first-visit moment noticeable but short. Do not lock
+    // document scrolling; the overlay itself already covers the viewport.
+    const duration = reduced ? 90 : 360;
     const startedAt = performance.now();
     let raf = 0;
     let releaseTimer = 0;
@@ -40,7 +38,6 @@ export function Preloader() {
       if (progressLabelRef.current) {
         progressLabelRef.current.textContent = `${String(value).padStart(3, "0")}%`;
       }
-
       if (progressBarRef.current) {
         progressBarRef.current.style.transform = `scaleX(${eased})`;
       }
@@ -50,10 +47,7 @@ export function Preloader() {
         return;
       }
 
-      releaseTimer = window.setTimeout(() => {
-        setVisible(false);
-        html.style.overflow = previousOverflow;
-      }, reduced ? 20 : 140);
+      releaseTimer = window.setTimeout(() => setVisible(false), reduced ? 5 : 20);
     };
 
     raf = requestAnimationFrame(update);
@@ -61,7 +55,6 @@ export function Preloader() {
     return () => {
       cancelAnimationFrame(raf);
       window.clearTimeout(releaseTimer);
-      html.style.overflow = previousOverflow;
     };
   }, [reduced]);
 
@@ -75,29 +68,15 @@ export function Preloader() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{
-            duration: reduced ? 0.06 : 0.42,
+            duration: reduced ? 0.03 : 0.1,
             ease: [0.22, 1, 0.36, 1],
           }}
           aria-hidden="true"
         >
-          <motion.div
-            className="scmc-preloader-aura"
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: reduced ? 0 : 0.58, ease: [0.22, 1, 0.36, 1] }}
-          />
-
+          <div className="scmc-preloader-aura" />
           <div className="scmc-preloader-frame" />
 
-          <motion.div
-            className="scmc-preloader-content"
-            initial={{ opacity: 0, y: 8, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{
-              duration: reduced ? 0 : 0.46,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
+          <div className="scmc-preloader-content">
             <div className="scmc-preloader-logo-wrap">
               <img
                 src={LOGO}
@@ -120,7 +99,7 @@ export function Preloader() {
               <span>{ar ? "مركز سمايل كير الطبي" : "Smile Care Medical Center"}</span>
               <span>{ar ? "رأس الخيمة · 5080" : "Ras Al Khaimah · 5080"}</span>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       ) : null}
     </AnimatePresence>

@@ -17,7 +17,7 @@ const serviceSlugs = [
   "laboratory",
 ];
 
-const core = ["", "/services", "/doctors", "/about", "/contact", "/blog"];
+const core = ["", "/services", "/doctors", "/about", "/contact", "/blog", "/faqs", "/clinic-gallery", "/events", "/privacy-policy"];
 const detail = [
   ...serviceSlugs.map((s) => `/services/${s}`),
   ...doctorSlugs.map((s) => `/doctors/${s}`),
@@ -184,4 +184,4 @@ if (failures.length) {
   console.error(`Functional QA failed: ${failures.length} issue(s).`);
   process.exit(1);
 }
-console.log(`Functional QA PASS Ã¢â‚¬â€ ${routes.length} EN/AR routes + responsive/hash smoke tests.`);
+console.log(`Functional QA PASS — ${routes.length} EN/AR routes + responsive/hash smoke tests.`);

@@ -83,7 +83,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               "(function(){var p=location.pathname;var ar=p==='/ar'||p.indexOf('/ar/')===0;document.documentElement.lang=ar?'ar':'en';document.documentElement.dir=ar?'rtl':'ltr';})();",
           }}
         />
-        <a className="scmc-skip-link" href="#scmc-main">Skip to content</a>
+        <a className="scmc-skip-link" href="#scmc-main"><span className="scmc-skip-en">Skip to content</span><span className="scmc-skip-ar">تخطي إلى المحتوى</span></a>
         <SCMCLocaleRuntime />
         <SCMCPerformancePolicy />
         <SCMCProximityReveal />

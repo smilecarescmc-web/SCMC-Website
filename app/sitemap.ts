@@ -3,7 +3,7 @@ import { officialDoctors } from "@/lib/officialDoctors";
 import { officialBlogData } from "@/lib/official-blog.generated";
 import { services } from "@/lib/scmcFullData";
 
-const baseRoutes = ["/", "/services", "/doctors", "/about", "/contact", "/blog"];
+const baseRoutes = ["/", "/services", "/doctors", "/about", "/contact", "/blog", "/faqs", "/clinic-gallery", "/events", "/privacy-policy"];
 
 function siteUrl() {
   const configured = process.env.NEXT_PUBLIC_SITE_URL;
