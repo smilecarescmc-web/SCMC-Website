@@ -3730,3 +3730,103 @@ html[lang="ar"] .scmc-skip-ar { display: inline; }
     animation-duration: 160ms;
   }
 }
+
+
+/* SCMC PERFORMANCE 10/10 PASS — CSS cinematic runtime */
+.scmc-page-stage--css-enter {
+  animation: scmc-page-stage-enter .24s cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-cinematic-transition--css {
+  opacity: 0;
+  transition: opacity .24s cubic-bezier(.22,1,.36,1);
+}
+
+.scmc-cinematic-transition--css .scmc-transition-panel {
+  transition: transform .34s cubic-bezier(.76,0,.24,1);
+  will-change: transform;
+}
+
+.scmc-cinematic-transition--css .scmc-transition-panel--left {
+  transform: translate3d(-101%,0,0);
+}
+
+.scmc-cinematic-transition--css .scmc-transition-panel--right {
+  transform: translate3d(101%,0,0);
+}
+
+.scmc-cinematic-transition--css .scmc-transition-content {
+  opacity: 0;
+  transform: scale(.985);
+  transition:
+    opacity .22s cubic-bezier(.22,1,.36,1),
+    transform .22s cubic-bezier(.22,1,.36,1);
+}
+
+.scmc-cinematic-transition--css.is-covering {
+  opacity: 1;
+}
+
+.scmc-cinematic-transition--css.is-covering .scmc-transition-panel--left,
+.scmc-cinematic-transition--css.is-covering .scmc-transition-panel--right {
+  transform: translate3d(0,0,0);
+}
+
+.scmc-cinematic-transition--css.is-covering .scmc-transition-content {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.scmc-cinematic-transition--css.is-leaving {
+  opacity: 0;
+}
+
+.scmc-cinematic-transition--css.is-leaving .scmc-transition-panel--left {
+  transform: translate3d(-101%,0,0);
+}
+
+.scmc-cinematic-transition--css.is-leaving .scmc-transition-panel--right {
+  transform: translate3d(101%,0,0);
+}
+
+.scmc-cinematic-transition--css.is-leaving .scmc-transition-content {
+  opacity: 0;
+  transform: scale(1.01);
+}
+
+.scmc-cinematic-preloader--css .scmc-preloader-aura {
+  animation: scmc-preloader-aura-in .38s cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-cinematic-preloader--css .scmc-preloader-content {
+  animation: scmc-preloader-content-in .32s cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes scmc-page-stage-enter {
+  from { opacity: .975; transform: translate3d(0,2px,0); }
+  to { opacity: 1; transform: translate3d(0,0,0); }
+}
+
+@keyframes scmc-preloader-aura-in {
+  from { opacity: 0; transform: scale(.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes scmc-preloader-content-in {
+  from { opacity: 0; transform: translate3d(0,6px,0) scale(.99); }
+  to { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scmc-page-stage--css-enter,
+  .scmc-cinematic-preloader--css .scmc-preloader-aura,
+  .scmc-cinematic-preloader--css .scmc-preloader-content {
+    animation-duration: .001ms !important;
+  }
+
+  .scmc-cinematic-transition--css,
+  .scmc-cinematic-transition--css .scmc-transition-panel,
+  .scmc-cinematic-transition--css .scmc-transition-content {
+    transition-duration: .001ms !important;
+  }
+}

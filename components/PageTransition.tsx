@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { localePath, useScmcLocale } from "@/lib/locale-client";
@@ -9,6 +8,9 @@ import { useEffect, useRef, useState } from "react";
 const LOGO = "/assets/smilecare-official/brand/logo.png";
 const CORE_ROUTES = ["/", "/services", "/doctors", "/about", "/blog", "/contact"] as const;
 const MIN_COVER_MS = 620;
+const EXIT_MS = 280;
+
+type Phase = "idle" | "covering" | "leaving";
 
 function isModifiedClick(event: MouseEvent) {
   return (
@@ -33,13 +35,13 @@ function internalHref(anchor: HTMLAnchorElement) {
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "/";
   const router = useRouter();
-  const reduced = useReducedMotion();
   const { ar, locale } = useScmcLocale();
-  const [covering, setCovering] = useState(false);
+  const [phase, setPhase] = useState<Phase>("idle");
   const previousPath = useRef(pathname);
-  const releaseTimer = useRef<number | null>(null);
-  const safetyTimer = useRef<number | null>(null);
   const coverStartedAt = useRef<number | null>(null);
+  const releaseTimer = useRef<number | null>(null);
+  const exitTimer = useRef<number | null>(null);
+  const safetyTimer = useRef<number | null>(null);
 
   useEffect(() => {
     const warmLogo = new Image();
@@ -81,14 +83,14 @@ export function PageTransition({ children }: { children: ReactNode }) {
         return;
       }
 
-      if (reduced) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
       coverStartedAt.current = performance.now();
-      setCovering(true);
+      setPhase("covering");
 
       if (safetyTimer.current) window.clearTimeout(safetyTimer.current);
       safetyTimer.current = window.setTimeout(() => {
-        setCovering(false);
+        setPhase("idle");
         coverStartedAt.current = null;
       }, 1800);
     };
@@ -103,17 +105,20 @@ export function PageTransition({ children }: { children: ReactNode }) {
       document.removeEventListener("pointerdown", prefetchAnchor);
       document.removeEventListener("click", onClick, true);
       if (releaseTimer.current) window.clearTimeout(releaseTimer.current);
+      if (exitTimer.current) window.clearTimeout(exitTimer.current);
       if (safetyTimer.current) window.clearTimeout(safetyTimer.current);
     };
-  }, [locale, reduced, router]);
+  }, [locale, router]);
 
   useEffect(() => {
     if (previousPath.current === pathname) return;
     previousPath.current = pathname;
 
     if (releaseTimer.current) window.clearTimeout(releaseTimer.current);
+    if (exitTimer.current) window.clearTimeout(exitTimer.current);
     if (safetyTimer.current) window.clearTimeout(safetyTimer.current);
 
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const elapsed =
       coverStartedAt.current === null
         ? MIN_COVER_MS
@@ -138,77 +143,50 @@ export function PageTransition({ children }: { children: ReactNode }) {
         window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
       }
 
-      setCovering(false);
-      coverStartedAt.current = null;
+      setPhase(reduced ? "idle" : "leaving");
+
+      if (!reduced) {
+        exitTimer.current = window.setTimeout(() => {
+          setPhase("idle");
+          coverStartedAt.current = null;
+        }, EXIT_MS);
+      } else {
+        coverStartedAt.current = null;
+      }
     }, holdMs);
-  }, [pathname, reduced]);
+  }, [pathname]);
 
   return (
     <>
-      <motion.div
-        key={pathname}
-        className="scmc-page-stage"
-        initial={reduced ? false : { opacity: 0.975, y: 2 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: reduced ? 0 : 0.24,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-      >
+      <div key={pathname} className="scmc-page-stage scmc-page-stage--css-enter">
         {children}
-      </motion.div>
+      </div>
 
-      <AnimatePresence>
-        {covering ? (
-          <motion.div
-            key="scmc-page-curtain"
-            className="scmc-cinematic-transition"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: reduced ? 0.02 : 0.24 }}
-            aria-hidden="true"
-          >
-            <motion.div
-              className="scmc-transition-panel scmc-transition-panel--left"
-              initial={{ x: "-101%" }}
-              animate={{ x: "0%" }}
-              exit={{ x: "-101%" }}
-              transition={{ duration: reduced ? 0.03 : 0.34, ease: [0.76, 0, 0.24, 1] }}
-            />
+      {phase !== "idle" ? (
+        <div
+          className={`scmc-cinematic-transition scmc-cinematic-transition--css is-${phase}`}
+          aria-hidden="true"
+        >
+          <div className="scmc-transition-panel scmc-transition-panel--left" />
+          <div className="scmc-transition-panel scmc-transition-panel--right" />
 
-            <motion.div
-              className="scmc-transition-panel scmc-transition-panel--right"
-              initial={{ x: "101%" }}
-              animate={{ x: "0%" }}
-              exit={{ x: "101%" }}
-              transition={{ duration: reduced ? 0.03 : 0.34, ease: [0.76, 0, 0.24, 1] }}
-            />
-
-            <div className="scmc-transition-center">
-              <motion.div
-                className="scmc-transition-content"
-                initial={{ opacity: 0, scale: 0.985 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.01 }}
-                transition={{ duration: reduced ? 0 : 0.22 }}
-              >
-                <img
-                  src={LOGO}
-                  alt=""
-                  className="scmc-adaptive-logo scmc-transition-logo"
-                  width={170}
-                  height={68}
-                  decoding="async"
-                />
-                <span>{ar ? "سمايل كير · رأس الخيمة" : "Smile Care · Ras Al Khaimah"}</span>
-              </motion.div>
+          <div className="scmc-transition-center">
+            <div className="scmc-transition-content">
+              <img
+                src={LOGO}
+                alt=""
+                className="scmc-adaptive-logo scmc-transition-logo"
+                width={170}
+                height={68}
+                decoding="async"
+              />
+              <span>{ar ? "سمايل كير · رأس الخيمة" : "Smile Care · Ras Al Khaimah"}</span>
             </div>
+          </div>
 
-            <div className="scmc-transition-frame" />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+          <div className="scmc-transition-frame" />
+        </div>
+      ) : null}
     </>
   );
 }

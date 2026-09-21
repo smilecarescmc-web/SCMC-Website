@@ -93,7 +93,7 @@ export default function HomePage() {
             </Link>
           </div>
           <figure className="scmc-story__media scmc-media-frame scmc-media-frame--contain">
-            <MediaImage src={scmcResolvedMedia.clinic.about} alt={ar ? "مؤسسا مركز سمايل كير الطبي" : "Smile Care Medical Center founders"} className="scmc-media-contain" loading="eager" />
+            <MediaImage src={scmcResolvedMedia.clinic.about} alt={ar ? "مؤسسا مركز سمايل كير الطبي" : "Smile Care Medical Center founders"} className="scmc-media-contain" loading="lazy" />
           </figure>
         </div>
       </section>
