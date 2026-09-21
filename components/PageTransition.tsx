@@ -84,7 +84,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       if (navigateTimer.current) window.clearTimeout(navigateTimer.current);
       navigateTimer.current = window.setTimeout(() => {
         router.push(href);
-      }, 170);
+      }, 40);
     };
 
     document.addEventListener("pointerover", onPointerOver, { passive: true });
