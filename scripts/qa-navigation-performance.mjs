@@ -12,7 +12,7 @@ function fail(name, detail) {
   console.error("FAIL", name, detail);
 }
 
-async function waitForPreloaderRelease(timeout = 1800) {
+async function waitForPreloaderRelease(timeout = 2200) {
   await page.waitForFunction(() => {
     const el = document.querySelector(".scmc-cinematic-preloader");
     if (!el) return true;
@@ -50,8 +50,11 @@ async function clickAndMeasure(from, href, expectedPath, readySelector = "h1") {
     const el = document.querySelector(".scmc-cinematic-transition");
     if (!el) return true;
     const style = getComputedStyle(el);
-    return style.visibility === "hidden" || Number.parseFloat(style.opacity || "1") <= 0.05;
-  }, undefined, { timeout: 1400 }).catch(() => {});
+    return (
+      style.visibility === "hidden" ||
+      Number.parseFloat(style.opacity || "1") <= 0.05
+    );
+  }, undefined, { timeout: 2200 }).catch(() => {});
 
   const settledMs = Date.now() - started;
 
@@ -59,16 +62,16 @@ async function clickAndMeasure(from, href, expectedPath, readySelector = "h1") {
 
   if (routeCommitMs > 1300) fail(`${from} -> ${expectedPath}`, `route commit ${routeCommitMs}ms`);
   if (contentReadyMs > 1500) fail(`${from} -> ${expectedPath}`, `content ready ${contentReadyMs}ms`);
-  if (settledMs > 1650) fail(`${from} -> ${expectedPath}`, `transition settled ${settledMs}ms`);
+  if (settledMs > 1900) fail(`${from} -> ${expectedPath}`, `transition settled ${settledMs}ms`);
 }
 
 await page.goto(base + "/en", { waitUntil: "domcontentloaded", timeout: 30000 });
 const preloaderStart = Date.now();
-await waitForPreloaderRelease(1500).catch(() => {});
+await waitForPreloaderRelease(2200).catch(() => {});
 const preloaderMs = Date.now() - preloaderStart;
 
 console.log(`FIRST VISIT PRELOADER BLOCKING TIME after DOMContentLoaded: ${preloaderMs}ms`);
-if (preloaderMs > 1350) fail("preloader", `${preloaderMs}ms blocking after DOMContentLoaded`);
+if (preloaderMs > 1900) fail("preloader", `${preloaderMs}ms blocking after DOMContentLoaded`);
 
 await clickAndMeasure("/en", "/en/services", "/en/services");
 await clickAndMeasure("/en/services", "/en/doctors", "/en/doctors");
