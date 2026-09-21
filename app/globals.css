@@ -3830,3 +3830,305 @@ html[lang="ar"] .scmc-skip-ar { display: inline; }
     transition-duration: .001ms !important;
   }
 }
+
+
+/* SCMC V19 — TRUE CINEMATIC KEYFRAME TRANSITION */
+.scmc-page-stage--v19-enter {
+  animation: scmcV19PageIn 640ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-cinematic-transition--v19 {
+  opacity: 1;
+  background: rgba(3, 17, 13, .12);
+  isolation: isolate;
+  contain: paint;
+}
+
+.scmc-cinematic-transition--v19 .scmc-transition-panel {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.scmc-cinematic-transition--v19 .scmc-transition-aura {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.92);
+  will-change: opacity, transform;
+}
+
+.scmc-cinematic-transition--v19 .scmc-transition-content {
+  opacity: 0;
+  transform: translate3d(0,10px,0) scale(.975);
+  will-change: opacity, transform;
+}
+
+.scmc-cinematic-transition--v19 .scmc-transition-line {
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+.scmc-cinematic-transition--v19 .scmc-transition-frame {
+  opacity: 0;
+}
+
+/* ENTER — guaranteed keyframes on mount */
+.scmc-cinematic-transition--v19.is-entering .scmc-transition-panel--left {
+  animation: scmcV19LeftIn 520ms cubic-bezier(.76,0,.20,1) both;
+}
+
+.scmc-cinematic-transition--v19.is-entering .scmc-transition-panel--right {
+  animation: scmcV19RightIn 540ms 36ms cubic-bezier(.76,0,.20,1) both;
+}
+
+.scmc-cinematic-transition--v19.is-entering .scmc-transition-aura {
+  animation: scmcV19AuraIn 500ms 120ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-cinematic-transition--v19.is-entering .scmc-transition-content {
+  animation: scmcV19ContentIn 460ms 180ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-cinematic-transition--v19.is-entering .scmc-transition-line {
+  animation: scmcV19LineIn 420ms 280ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-cinematic-transition--v19.is-entering .scmc-transition-frame {
+  animation: scmcV19FrameIn 380ms 170ms ease-out both;
+}
+
+/* EXIT — a separate film-like release instead of reversing abruptly */
+.scmc-cinematic-transition--v19.is-leaving .scmc-transition-panel--left {
+  animation: scmcV19LeftOut 540ms 30ms cubic-bezier(.80,0,.24,1) both;
+}
+
+.scmc-cinematic-transition--v19.is-leaving .scmc-transition-panel--right {
+  animation: scmcV19RightOut 560ms cubic-bezier(.80,0,.24,1) both;
+}
+
+.scmc-cinematic-transition--v19.is-leaving .scmc-transition-aura {
+  animation: scmcV19AuraOut 300ms ease-in both;
+}
+
+.scmc-cinematic-transition--v19.is-leaving .scmc-transition-content {
+  animation: scmcV19ContentOut 240ms cubic-bezier(.4,0,1,1) both;
+}
+
+.scmc-cinematic-transition--v19.is-leaving .scmc-transition-line {
+  animation: scmcV19LineOut 200ms ease-in both;
+}
+
+.scmc-cinematic-transition--v19.is-leaving .scmc-transition-frame {
+  animation: scmcV19FrameOut 260ms ease-in both;
+}
+
+@keyframes scmcV19LeftIn {
+  from { transform: translate3d(-102%,0,0) scaleX(1.015); }
+  to   { transform: translate3d(0,0,0) scaleX(1); }
+}
+
+@keyframes scmcV19RightIn {
+  from { transform: translate3d(102%,0,0) scaleX(1.015); }
+  to   { transform: translate3d(0,0,0) scaleX(1); }
+}
+
+@keyframes scmcV19LeftOut {
+  from { transform: translate3d(0,0,0) scaleX(1); }
+  to   { transform: translate3d(-102%,0,0) scaleX(1.012); }
+}
+
+@keyframes scmcV19RightOut {
+  from { transform: translate3d(0,0,0) scaleX(1); }
+  to   { transform: translate3d(102%,0,0) scaleX(1.012); }
+}
+
+@keyframes scmcV19AuraIn {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(.92); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes scmcV19AuraOut {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  to   { opacity: 0; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+@keyframes scmcV19ContentIn {
+  from { opacity: 0; transform: translate3d(0,10px,0) scale(.975); }
+  to   { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+}
+
+@keyframes scmcV19ContentOut {
+  from { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+  to   { opacity: 0; transform: translate3d(0,-6px,0) scale(1.012); }
+}
+
+@keyframes scmcV19LineIn {
+  from { opacity: 0; transform: scaleX(0); }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes scmcV19LineOut {
+  from { opacity: 1; transform: scaleX(1); }
+  to   { opacity: 0; transform: scaleX(.2); }
+}
+
+@keyframes scmcV19FrameIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scmcV19FrameOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes scmcV19PageIn {
+  from {
+    opacity: .93;
+    transform: translate3d(0,7px,0) scale(.998);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+@media (max-width: 620px) {
+  .scmc-cinematic-transition--v19.is-entering .scmc-transition-panel--left {
+    animation-duration: 480ms;
+  }
+
+  .scmc-cinematic-transition--v19.is-entering .scmc-transition-panel--right {
+    animation-duration: 500ms;
+  }
+
+  .scmc-transition-frame {
+    inset: 12px;
+    border-radius: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scmc-page-stage--v19-enter,
+  .scmc-cinematic-transition--v19 *,
+  .scmc-cinematic-transition--v19 {
+    animation-duration: .001ms !important;
+    animation-delay: 0ms !important;
+  }
+}
+
+
+/* SCMC V19R — compositor-locked cinematic sequence */
+.scmc-page-stage--v19r-enter {
+  animation: scmcV19RPageIn 720ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-cinematic-transition--v19r {
+  --scmc-sequence-ms: 1480ms;
+  opacity: 1;
+  isolation: isolate;
+  contain: paint;
+  animation: scmcV19ROverlay var(--scmc-sequence-ms) linear both;
+}
+
+.scmc-cinematic-transition--v19r .scmc-transition-panel {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.scmc-cinematic-transition--v19r .scmc-transition-panel--left {
+  animation: scmcV19RLeft var(--scmc-sequence-ms) linear both;
+}
+
+.scmc-cinematic-transition--v19r .scmc-transition-panel--right {
+  animation: scmcV19RRight var(--scmc-sequence-ms) linear both;
+}
+
+.scmc-cinematic-transition--v19r .scmc-transition-aura {
+  animation: scmcV19RAura var(--scmc-sequence-ms) cubic-bezier(.22,1,.36,1) both;
+  will-change: opacity, transform;
+}
+
+.scmc-cinematic-transition--v19r .scmc-transition-content {
+  animation: scmcV19RContent var(--scmc-sequence-ms) cubic-bezier(.22,1,.36,1) both;
+  will-change: opacity, transform;
+}
+
+.scmc-cinematic-transition--v19r .scmc-transition-line {
+  animation: scmcV19RLine var(--scmc-sequence-ms) cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-cinematic-transition--v19r .scmc-transition-frame {
+  animation: scmcV19RFrame var(--scmc-sequence-ms) ease both;
+}
+
+@keyframes scmcV19ROverlay {
+  0%, 92% { opacity: 1; visibility: visible; pointer-events: all; }
+  100% { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+@keyframes scmcV19RLeft {
+  0%   { transform: translate3d(-102%,0,0) scaleX(1.014); }
+  34%  { transform: translate3d(0,0,0) scaleX(1); }
+  61%  { transform: translate3d(0,0,0) scaleX(1); }
+  100% { transform: translate3d(-102%,0,0) scaleX(1.012); }
+}
+
+@keyframes scmcV19RRight {
+  0%, 3% { transform: translate3d(102%,0,0) scaleX(1.014); }
+  37%    { transform: translate3d(0,0,0) scaleX(1); }
+  59%    { transform: translate3d(0,0,0) scaleX(1); }
+  100%   { transform: translate3d(102%,0,0) scaleX(1.012); }
+}
+
+@keyframes scmcV19RAura {
+  0%, 16% { opacity: 0; transform: translate(-50%,-50%) scale(.92); }
+  38%     { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  60%     { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  82%,100% { opacity: 0; transform: translate(-50%,-50%) scale(1.06); }
+}
+
+@keyframes scmcV19RContent {
+  0%, 18% { opacity: 0; transform: translate3d(0,12px,0) scale(.974); }
+  39%     { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+  59%     { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+  76%,100% { opacity: 0; transform: translate3d(0,-7px,0) scale(1.012); }
+}
+
+@keyframes scmcV19RLine {
+  0%, 28% { opacity: 0; transform: scaleX(0); }
+  43%     { opacity: 1; transform: scaleX(1); }
+  60%     { opacity: 1; transform: scaleX(1); }
+  74%,100% { opacity: 0; transform: scaleX(.18); }
+}
+
+@keyframes scmcV19RFrame {
+  0%, 16% { opacity: 0; }
+  36%, 62% { opacity: 1; }
+  82%,100% { opacity: 0; }
+}
+
+@keyframes scmcV19RPageIn {
+  from { opacity: .94; transform: translate3d(0,8px,0) scale(.998); }
+  to   { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+}
+
+@media (max-width: 620px) {
+  .scmc-cinematic-transition--v19r {
+    --scmc-sequence-ms: 1380ms;
+  }
+
+  .scmc-transition-frame {
+    inset: 12px;
+    border-radius: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scmc-page-stage--v19r-enter,
+  .scmc-cinematic-transition--v19r,
+  .scmc-cinematic-transition--v19r * {
+    animation-duration: .001ms !important;
+    animation-delay: 0ms !important;
+  }
+}

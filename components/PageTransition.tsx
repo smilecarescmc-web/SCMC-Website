@@ -7,10 +7,8 @@ import { useEffect, useRef, useState } from "react";
 
 const LOGO = "/assets/smilecare-official/brand/logo.png";
 const CORE_ROUTES = ["/", "/services", "/doctors", "/about", "/blog", "/contact"] as const;
-const MIN_COVER_MS = 620;
-const EXIT_MS = 280;
-
-type Phase = "idle" | "covering" | "leaving";
+const VISUAL_SEQUENCE_MS = 1480;
+const SAFETY_MS = 2100;
 
 function isModifiedClick(event: MouseEvent) {
   return (
@@ -36,12 +34,19 @@ export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "/";
   const router = useRouter();
   const { ar, locale } = useScmcLocale();
-  const [phase, setPhase] = useState<Phase>("idle");
+  const [playing, setPlaying] = useState(false);
   const previousPath = useRef(pathname);
-  const coverStartedAt = useRef<number | null>(null);
-  const releaseTimer = useRef<number | null>(null);
-  const exitTimer = useRef<number | null>(null);
   const safetyTimer = useRef<number | null>(null);
+  const playingRef = useRef(false);
+
+  const finishTransition = () => {
+    playingRef.current = false;
+    setPlaying(false);
+    if (safetyTimer.current) {
+      window.clearTimeout(safetyTimer.current);
+      safetyTimer.current = null;
+    }
+  };
 
   useEffect(() => {
     const warmLogo = new Image();
@@ -60,12 +65,11 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
       const url = internalHref(anchor);
       if (!url) return;
-
       router.prefetch(`${url.pathname}${url.search}`);
     };
 
     const onClick = (event: MouseEvent) => {
-      if (event.defaultPrevented || isModifiedClick(event)) return;
+      if (event.defaultPrevented || isModifiedClick(event) || playingRef.current) return;
 
       const node = event.target as HTMLElement | null;
       const anchor = node?.closest("a[href]") as HTMLAnchorElement | null;
@@ -85,14 +89,11 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-      coverStartedAt.current = performance.now();
-      setPhase("covering");
+      playingRef.current = true;
+      setPlaying(true);
 
       if (safetyTimer.current) window.clearTimeout(safetyTimer.current);
-      safetyTimer.current = window.setTimeout(() => {
-        setPhase("idle");
-        coverStartedAt.current = null;
-      }, 1800);
+      safetyTimer.current = window.setTimeout(finishTransition, SAFETY_MS);
     };
 
     document.addEventListener("pointerover", prefetchAnchor, { passive: true });
@@ -104,8 +105,6 @@ export function PageTransition({ children }: { children: ReactNode }) {
       document.removeEventListener("pointerover", prefetchAnchor);
       document.removeEventListener("pointerdown", prefetchAnchor);
       document.removeEventListener("click", onClick, true);
-      if (releaseTimer.current) window.clearTimeout(releaseTimer.current);
-      if (exitTimer.current) window.clearTimeout(exitTimer.current);
       if (safetyTimer.current) window.clearTimeout(safetyTimer.current);
     };
   }, [locale, router]);
@@ -114,61 +113,42 @@ export function PageTransition({ children }: { children: ReactNode }) {
     if (previousPath.current === pathname) return;
     previousPath.current = pathname;
 
-    if (releaseTimer.current) window.clearTimeout(releaseTimer.current);
-    if (exitTimer.current) window.clearTimeout(exitTimer.current);
-    if (safetyTimer.current) window.clearTimeout(safetyTimer.current);
-
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const elapsed =
-      coverStartedAt.current === null
-        ? MIN_COVER_MS
-        : performance.now() - coverStartedAt.current;
-
-    const holdMs = reduced ? 0 : Math.max(0, MIN_COVER_MS - elapsed);
-
-    releaseTimer.current = window.setTimeout(() => {
-      const hash = window.location.hash;
-
-      if (hash) {
-        window.requestAnimationFrame(() => {
-          const id = decodeURIComponent(hash.slice(1));
-          const target = document.getElementById(id);
-          if (target) {
-            target.scrollIntoView({ block: "start", behavior: "instant" as ScrollBehavior });
-          } else {
-            window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-          }
-        });
-      } else {
-        window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-      }
-
-      setPhase(reduced ? "idle" : "leaving");
-
-      if (!reduced) {
-        exitTimer.current = window.setTimeout(() => {
-          setPhase("idle");
-          coverStartedAt.current = null;
-        }, EXIT_MS);
-      } else {
-        coverStartedAt.current = null;
-      }
-    }, holdMs);
+    const hash = window.location.hash;
+    if (hash) {
+      window.requestAnimationFrame(() => {
+        const id = decodeURIComponent(hash.slice(1));
+        const target = document.getElementById(id);
+        if (target) {
+          target.scrollIntoView({ block: "start", behavior: "instant" as ScrollBehavior });
+        } else {
+          window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+        }
+      });
+    } else {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+    }
   }, [pathname]);
 
   return (
     <>
-      <div key={pathname} className="scmc-page-stage scmc-page-stage--css-enter">
+      <div key={pathname} className="scmc-page-stage scmc-page-stage--v19r-enter">
         {children}
       </div>
 
-      {phase !== "idle" ? (
+      {playing ? (
         <div
-          className={`scmc-cinematic-transition scmc-cinematic-transition--css is-${phase}`}
+          className="scmc-cinematic-transition scmc-cinematic-transition--v19r"
           aria-hidden="true"
+          style={{ "--scmc-sequence-ms": `${VISUAL_SEQUENCE_MS}ms` } as React.CSSProperties}
+          onAnimationEnd={(event) => {
+            if (event.currentTarget === event.target && event.animationName === "scmcV19ROverlay") {
+              finishTransition();
+            }
+          }}
         >
           <div className="scmc-transition-panel scmc-transition-panel--left" />
           <div className="scmc-transition-panel scmc-transition-panel--right" />
+          <div className="scmc-transition-aura" />
 
           <div className="scmc-transition-center">
             <div className="scmc-transition-content">
@@ -181,6 +161,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
                 decoding="async"
               />
               <span>{ar ? "سمايل كير · رأس الخيمة" : "Smile Care · Ras Al Khaimah"}</span>
+              <i className="scmc-transition-line" />
             </div>
           </div>
 
