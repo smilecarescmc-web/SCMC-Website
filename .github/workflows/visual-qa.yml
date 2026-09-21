@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - delivery-structural-fix
+      - performance-mobile-doctors-hotfix
 
 concurrency:
   group: scmc-visual-qa
