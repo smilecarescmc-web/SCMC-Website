@@ -7,11 +7,22 @@ import { useEffect, useRef, useState } from "react";
 import { officialDoctors } from "@/lib/officialDoctors";
 import { useScmcLocale } from "@/lib/locale-client";
 
+const lightweightDoctorImage: Record<string, string> = {
+  "dr-nael-adel": "/assets/smilecare-official/doctors/dr-nael-adel.jpg",
+  "dr-mohamed-taha": "/assets/smilecare-official/doctors/dr-mohammed-taha.jpg",
+  "dr-asmaa-shehadeh": "/assets/smilecare-official/doctors/dr-asmaa-shehadeh.jpg",
+};
+
+function doctorImage(slug: string, fallback: string) {
+  return lightweightDoctorImage[slug] ?? fallback;
+}
+
 export function DoctorsScrollDiscovery() {
   const { ar, href } = useScmcLocale();
   const sectionRef = useRef<HTMLElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [mobilePaused, setMobilePaused] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -54,7 +65,7 @@ export function DoctorsScrollDiscovery() {
       }
 
       maxShift = Math.max(0, track.scrollWidth - viewport.clientWidth);
-      const travel = Math.max(window.innerHeight * 1.55, maxShift * 1.1);
+      const travel = Math.max(window.innerHeight * 1.45, maxShift);
       section.style.height = `${window.innerHeight + travel}px`;
       update();
     };
@@ -78,6 +89,8 @@ export function DoctorsScrollDiscovery() {
       track.style.removeProperty("transform");
     };
   }, [ar]);
+
+  const mobileDoctors = [...officialDoctors, ...officialDoctors];
 
   return (
     <section
@@ -104,7 +117,7 @@ export function DoctorsScrollDiscovery() {
           </div>
         </div>
 
-        <div className="scmc-shell scmc-doctor-discovery__viewport">
+        <div className="scmc-shell scmc-doctor-discovery__viewport scmc-doctor-discovery__viewport--desktop">
           <div
             ref={trackRef}
             className={`scmc-doctor-discovery__track ${ar ? "is-rtl" : ""}`}
@@ -118,12 +131,13 @@ export function DoctorsScrollDiscovery() {
               >
                 <div className="scmc-doctor-discovery__media">
                   <Image
-                    src={doctor.image}
+                    src={doctorImage(doctor.slug, doctor.image)}
                     alt={ar ? doctor.nameAr : doctor.nameEn}
                     fill
-                    sizes="(max-width: 620px) 100vw, (max-width: 860px) 48vw, 300px"
+                    sizes="300px"
+                    quality={62}
                     className="scmc-doctor-portrait"
-                    priority={index < 2}
+                    priority={index === 0}
                   />
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </div>
@@ -135,6 +149,50 @@ export function DoctorsScrollDiscovery() {
                 </div>
               </Link>
             ))}
+          </div>
+        </div>
+
+        <div className="scmc-doctor-loop-shell">
+          <div
+            className={`scmc-doctor-loop ${ar ? "is-rtl" : ""} ${mobilePaused ? "is-paused" : ""}`}
+          >
+            {mobileDoctors.map((doctor, index) => {
+              const originalIndex = index % officialDoctors.length;
+              return (
+                <article className="scmc-doctor-loop__card" key={`${doctor.slug}-${index}`} dir={ar ? "rtl" : "ltr"}>
+                  <button
+                    type="button"
+                    className="scmc-doctor-loop__media"
+                    onClick={() => setMobilePaused((paused) => !paused)}
+                    aria-pressed={mobilePaused}
+                    aria-label={
+                      mobilePaused
+                        ? (ar ? "استئناف حركة الأطباء" : "Resume doctor loop")
+                        : (ar ? "إيقاف حركة الأطباء" : "Pause doctor loop")
+                    }
+                  >
+                    <Image
+                      src={doctorImage(doctor.slug, doctor.image)}
+                      alt={ar ? doctor.nameAr : doctor.nameEn}
+                      fill
+                      sizes="44vw"
+                      quality={58}
+                      className="scmc-doctor-portrait"
+                      loading="lazy"
+                    />
+                    <span>{String(originalIndex + 1).padStart(2, "0")}</span>
+                  </button>
+
+                  <div className="scmc-doctor-loop__body">
+                    <p>{ar ? doctor.specialtyAr : doctor.specialtyEn}</p>
+                    <h3>{ar ? doctor.nameAr : doctor.nameEn}</h3>
+                    <Link href={href(`/doctors/${doctor.slug}`)} className="scmc-doctor-loop__link">
+                      {ar ? "الملف" : "Profile"} <ArrowUpRight size={10} />
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
 
