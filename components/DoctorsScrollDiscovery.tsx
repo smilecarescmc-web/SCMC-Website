@@ -164,7 +164,7 @@ export function DoctorsScrollDiscovery() {
           >
             {officialDoctors.map((doctor, index) => (
               <Link
-                href={doctor.profileUrl ?? href(`/doctors/${doctor.slug}`)}
+                href={href(`/doctors/${doctor.slug}`)}
                 className={`scmc-doctor-discovery__card ${index === activeIndex ? "is-active" : ""}`}
                 key={doctor.slug}
                 dir={ar ? "rtl" : "ltr"}
@@ -219,7 +219,7 @@ export function DoctorsScrollDiscovery() {
                   <div className="scmc-doctor-loop__body">
                     <p>{ar ? doctor.specialtyAr : doctor.specialtyEn}</p>
                     <h3>{ar ? doctor.nameAr : doctor.nameEn}</h3>
-                    <Link href={doctor.profileUrl ?? href(`/doctors/${doctor.slug}`)} className="scmc-doctor-loop__link">
+                    <Link href={href(`/doctors/${doctor.slug}`)} className="scmc-doctor-loop__link">
                       {ar ? "الملف" : "Profile"} <ArrowUpRight size={10} />
                     </Link>
                   </div>
