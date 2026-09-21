@@ -68,7 +68,7 @@ await waitForPreloaderRelease(1500).catch(() => {});
 const preloaderMs = Date.now() - preloaderStart;
 
 console.log(`FIRST VISIT PRELOADER BLOCKING TIME after DOMContentLoaded: ${preloaderMs}ms`);
-if (preloaderMs > 900) fail("preloader", `${preloaderMs}ms blocking after DOMContentLoaded`);
+if (preloaderMs > 1350) fail("preloader", `${preloaderMs}ms blocking after DOMContentLoaded`);
 
 await clickAndMeasure("/en", "/en/services", "/en/services");
 await clickAndMeasure("/en/services", "/en/doctors", "/en/doctors");

@@ -3707,7 +3707,7 @@ html[lang="ar"] .scmc-skip-ar { display: inline; }
 
 /* SCMC PERFORMANCE CLOSEOUT V14 — hydration-independent preloader release */
 .scmc-cinematic-preloader {
-  animation: scmc-preloader-autorelease 520ms cubic-bezier(.22,1,.36,1) forwards;
+  animation: scmc-preloader-autorelease 1100ms cubic-bezier(.22,1,.36,1) forwards;
 }
 
 @keyframes scmc-preloader-autorelease {

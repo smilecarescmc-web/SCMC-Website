@@ -90,7 +90,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       setCovering(true);
 
       if (safetyTimer.current) window.clearTimeout(safetyTimer.current);
-      safetyTimer.current = window.setTimeout(() => setCovering(false), 850);
+      safetyTimer.current = window.setTimeout(() => setCovering(false), 1500);
     };
 
     document.addEventListener("pointerover", prefetchAnchor, { passive: true });
@@ -129,7 +129,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       }
 
       setCovering(false);
-    }, reduced ? 0 : 55);
+    }, reduced ? 0 : 180);
   }, [pathname, reduced]);
 
   return (
@@ -140,7 +140,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
         initial={reduced ? false : { opacity: 0.985, y: 1 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
-          duration: reduced ? 0 : 0.11,
+          duration: reduced ? 0 : 0.18,
           ease: [0.22, 1, 0.36, 1],
         }}
       >
@@ -155,7 +155,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: reduced ? 0.02 : 0.09 }}
+            transition={{ duration: reduced ? 0.02 : 0.16 }}
             aria-hidden="true"
           >
             <motion.div
@@ -163,7 +163,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
               initial={{ x: "-101%" }}
               animate={{ x: "0%" }}
               exit={{ x: "-101%" }}
-              transition={{ duration: reduced ? 0.03 : 0.14, ease: [0.76, 0, 0.24, 1] }}
+              transition={{ duration: reduced ? 0.03 : 0.28, ease: [0.76, 0, 0.24, 1] }}
             />
 
             <motion.div
@@ -171,7 +171,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
               initial={{ x: "101%" }}
               animate={{ x: "0%" }}
               exit={{ x: "101%" }}
-              transition={{ duration: reduced ? 0.03 : 0.14, ease: [0.76, 0, 0.24, 1] }}
+              transition={{ duration: reduced ? 0.03 : 0.28, ease: [0.76, 0, 0.24, 1] }}
             />
 
             <div className="scmc-transition-center">

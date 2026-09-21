@@ -25,7 +25,7 @@ export function Preloader() {
 
     // Keep the branded first-visit moment noticeable but short. Do not lock
     // document scrolling; the overlay itself already covers the viewport.
-    const duration = reduced ? 90 : 360;
+    const duration = reduced ? 120 : 900;
     const startedAt = performance.now();
     let raf = 0;
     let releaseTimer = 0;
@@ -47,7 +47,7 @@ export function Preloader() {
         return;
       }
 
-      releaseTimer = window.setTimeout(() => setVisible(false), reduced ? 5 : 20);
+      releaseTimer = window.setTimeout(() => setVisible(false), reduced ? 10 : 80);
     };
 
     raf = requestAnimationFrame(update);
@@ -68,7 +68,7 @@ export function Preloader() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{
-            duration: reduced ? 0.03 : 0.1,
+            duration: reduced ? 0.04 : 0.22,
             ease: [0.22, 1, 0.36, 1],
           }}
           aria-hidden="true"
