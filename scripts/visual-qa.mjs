@@ -90,7 +90,32 @@ for (const viewport of viewports) {
         });
         await page.waitForTimeout(300);
 
-        metrics = await page.evaluate(({ route, theme }) => {
+        let doctorMotionX = null;
+        let doctorCount = null;
+
+        if (viewport.name === "desktop" && (route === "/en" || route === "/ar")) {
+          const doctorMetrics = await page.evaluate(async () => {
+            const section = document.querySelector(".scmc-doctor-discovery");
+            const track = document.querySelector(".scmc-doctor-discovery__viewport--desktop .scmc-doctor-discovery__track");
+            const cards = document.querySelectorAll(".scmc-doctor-discovery__viewport--desktop .scmc-doctor-discovery__card");
+            if (!section || !track) return { x: null, count: cards.length };
+
+            const range = Math.max(1, section.offsetHeight - window.innerHeight);
+            window.scrollTo(0, section.offsetTop + range * 0.5);
+            await new Promise((resolve) => setTimeout(resolve, 180));
+
+            const matrix = new DOMMatrixReadOnly(getComputedStyle(track).transform);
+            const x = matrix.m41;
+            window.scrollTo(0, 0);
+            await new Promise((resolve) => setTimeout(resolve, 80));
+            return { x, count: cards.length };
+          });
+
+          doctorMotionX = doctorMetrics.x;
+          doctorCount = doctorMetrics.count;
+        }
+
+        metrics = await page.evaluate(({ route, theme, doctorMotionX, doctorCount }) => {
           const root = document.documentElement;
           const body = document.body;
           const header = document.querySelector(".scmc-header");
@@ -118,8 +143,10 @@ for (const viewport of viewports) {
             h1: document.querySelector("h1")?.textContent?.trim() || "",
             heroVideoSrc: heroVideo?.getAttribute("src") || "",
             brokenImages,
+            doctorMotionX,
+            doctorCount,
           };
-        }, { route, theme });
+        }, { route, theme, doctorMotionX, doctorCount });
 
         await page.screenshot({ path: path.join(outDir, filename), fullPage: true, animations: "disabled" });
       } catch (err) {
@@ -138,7 +165,11 @@ for (const viewport of viewports) {
         metrics.h1 &&
         metrics.fontFamily.toLowerCase().includes("almarai") &&
         metrics.brokenImages.length === 0 &&
-        (!route.endsWith("/en") || true)
+        (
+          viewport.name !== "desktop" ||
+          (route !== "/en" && route !== "/ar") ||
+          (metrics.doctorCount === 14 && typeof metrics.doctorMotionX === "number" && metrics.doctorMotionX < -1)
+        )
       );
 
       results.push({ route, viewport: viewport.name, theme, status, passed, error, metrics });

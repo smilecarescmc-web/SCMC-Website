@@ -6,6 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useScmcLocale } from "@/lib/locale-client";
 import { ScmcFrame } from "@/components/ScmcFrame";
+import { officialDoctors } from "@/lib/officialDoctors";
 
 type Doctor = {
   slug: string;
@@ -23,16 +24,42 @@ type Doctor = {
 
 export function OfficialDoctorPage({ slug }: { slug: string }) {
   const { ar, href } = useScmcLocale();
-  const [doctor, setDoctor] = useState<Doctor | null>(null);
+
+  const summaryFallback = useMemo<Doctor | null>(() => {
+    const summary = officialDoctors.find((item) => item.slug === slug);
+    if (!summary) return null;
+
+    return {
+      slug: summary.slug,
+      nameEn: summary.nameEn,
+      nameAr: summary.nameAr,
+      specialtyEn: summary.specialtyEn,
+      specialtyAr: summary.specialtyAr,
+      sourceUrl: "",
+      fetchedUrl: "",
+      image: summary.image,
+      contentEn: summary.noteEn,
+      contentAr: summary.noteAr,
+      hasOfficialArabic: false,
+    };
+  }, [slug]);
+
+  const [doctor, setDoctor] = useState<Doctor | null>(summaryFallback);
 
   useEffect(() => {
     let alive = true;
     fetch("/data/official-doctors.json", { cache: "force-cache" })
       .then((r) => r.json())
-      .then((rows: Doctor[]) => { if (alive) setDoctor(rows.find((d) => d.slug === slug) || null); })
-      .catch(() => { if (alive) setDoctor(null); });
+      .then((rows: Doctor[]) => {
+        if (!alive) return;
+        setDoctor(rows.find((d) => d.slug === slug) || summaryFallback);
+      })
+      .catch(() => {
+        if (alive) setDoctor(summaryFallback);
+      });
+
     return () => { alive = false; };
-  }, [slug]);
+  }, [slug, summaryFallback]);
 
   const paragraphs = useMemo(() => {
     if (!doctor) return [];

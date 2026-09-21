@@ -4,8 +4,10 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   trailingSlash: false,
   images: {
-    formats: ["image/avif", "image/webp"],
-    deviceSizes: [390, 520, 768, 1024, 1280, 1536, 1920],
+    formats: ["image/webp"],
+    qualities: [58, 62, 75],
+    minimumCacheTTL: 604800,
+    deviceSizes: [390, 430, 620, 768, 1024, 1280, 1536],
   },
 };
 

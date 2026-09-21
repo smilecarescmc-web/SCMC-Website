@@ -84,7 +84,7 @@ export function SCMCHeaderV10() {
       </nav>
 
       <div className="scmc-header__actions">
-        <a className="scmc-header__phone" href="tel:+97172282080">+971 7 228 2080</a>
+        <a className="scmc-header__phone scmc-ltr-value" href="tel:+97172282080" dir="ltr"><bdi>+971 7 228 2080</bdi></a>
         <Link
           className="scmc-header__icon scmc-header__locale"
           href={localePath(base, locale === "ar" ? "en" : "ar")}
