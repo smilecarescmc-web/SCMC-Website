@@ -24,7 +24,7 @@ const logoByName: Record<string, string | null> = {
 
 export function InsuranceGrid() {
   return (
-    <div className="scmc-insurance-grid">
+    <div className="scmc-insurance-wall"><div className="scmc-insurance-grid">
       {insurance.map(([name, networks]) => {
         const logo = logoByName[name] ?? null;
 
@@ -49,6 +49,6 @@ export function InsuranceGrid() {
           </div>
         );
       })}
-    </div>
+    </div></div>
   );
 }
