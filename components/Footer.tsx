@@ -49,9 +49,9 @@ export function Footer() {
 
         <div className="scmc-footer__col scmc-footer__contact">
           <span>{ar ? "تواصل" : "Contact"}</span>
-          <a href={clinic.phoneHref}>{clinic.phoneDisplay}</a>
-          <a href={clinic.bookingWhatsApp} target="_blank" rel="noreferrer">{clinic.whatsappDisplay}</a>
-          <a href={`mailto:${clinic.email}`}>{clinic.email}</a>
+          <a className="scmc-ltr-value" href={clinic.phoneHref} dir="ltr"><bdi>{clinic.phoneDisplay}</bdi></a>
+          <a className="scmc-ltr-value" href={clinic.bookingWhatsApp} target="_blank" rel="noreferrer" dir="ltr"><bdi>{clinic.whatsappDisplay}</bdi></a>
+          <a className="scmc-ltr-value" href={`mailto:${clinic.email}`} dir="ltr"><bdi>{clinic.email}</bdi></a>
           <Link href={href("/contact#appointment")} className="scmc-footer__book">
             {ar ? "طلب موعد" : "Request appointment"} <ArrowUpRight size={12} />
           </Link>
