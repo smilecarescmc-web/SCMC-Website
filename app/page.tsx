@@ -1,21 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ScmcFrame } from "@/components/ScmcFrame";
 import { InsuranceGrid } from "@/components/InsuranceGrid";
+import { DoctorsScrollDiscovery } from "@/components/DoctorsScrollDiscovery";
 import { MediaImage } from "@/components/MediaImage";
 import { services } from "@/lib/scmcFullData";
-import { officialDoctors } from "@/lib/officialDoctors";
 import { scmcResolvedMedia } from "@/lib/scmcResolvedMedia";
 import { useScmcLocale } from "@/lib/locale-client";
-
-const homeDoctorImage: Record<string, string> = {
-  "dr-nael-adel": "/assets/smilecare-official/doctors/dr-nael-adel.jpg",
-  "dr-mohamed-taha": "/assets/smilecare-official/doctors/dr-mohammed-taha.jpg",
-  "dr-asmaa-shehadeh": "/assets/smilecare-official/doctors/dr-asmaa-shehadeh.jpg",
-};
 
 const arServices: Record<string, { title: string; description: string }> = {
   dental: { title: "طب الأسنان", description: "رعاية أسنان عامة وترميمية وتجميلية وتخصصية ضمن فريق سريري واحد." },
@@ -133,38 +126,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="scmc-section">
-        <div className="scmc-shell">
-          <div className="scmc-section-head">
-            <div>
-              <p className="scmc-eyebrow">{ar ? "الفريق الطبي" : "MEDICAL TEAM"}</p>
-              <h2>{ar ? "تعرّف على الفريق خلف الرعاية." : "Meet the team behind the care."}</h2>
-            </div>
-            <Link href={href("/doctors")} className="scmc-text-link">
-              {ar ? "جميع الأطباء" : "All doctors"} <ArrowUpRight size={12} />
-            </Link>
-          </div>
-
-          <div className="scmc-doctor-strip">
-            {officialDoctors.slice(0, 3).map((doctor) => (
-              <Link href={href(`/doctors/${doctor.slug}`)} className="scmc-doctor-mini" key={doctor.slug}>
-                <div className="scmc-doctor-mini__media">
-                  <Image
-                    src={homeDoctorImage[doctor.slug] ?? doctor.image}
-                    alt={ar ? doctor.nameAr : doctor.nameEn}
-                    fill
-                    sizes="(max-width: 620px) 80vw, (max-width: 1120px) 31vw, 31vw"
-                    priority
-                    className="scmc-doctor-portrait"
-                  />
-                </div>
-                <h3>{ar ? doctor.nameAr : doctor.nameEn}</h3>
-                <p>{ar ? doctor.specialtyAr : doctor.specialtyEn}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <DoctorsScrollDiscovery />
 
       <section className="scmc-section scmc-section--soft">
         <div className="scmc-shell">
