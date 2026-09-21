@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ScmcFrame } from "@/components/ScmcFrame";
@@ -139,10 +140,17 @@ export default function HomePage() {
           </div>
 
           <div className="scmc-doctor-strip">
-            {officialDoctors.slice(0, 5).map((doctor) => (
+            {officialDoctors.slice(0, 5).map((doctor, index) => (
               <Link href={href(`/doctors/${doctor.slug}`)} className="scmc-doctor-mini" key={doctor.slug}>
                 <div className="scmc-doctor-mini__media">
-                  <img src={doctor.image} alt={ar ? doctor.nameAr : doctor.nameEn} loading="eager" fetchPriority="high" decoding="async" />
+                  <Image
+                    src={doctor.image}
+                    alt={ar ? doctor.nameAr : doctor.nameEn}
+                    fill
+                    sizes="(max-width: 620px) 46vw, (max-width: 1120px) 30vw, 18vw"
+                    priority={index < 3}
+                    className="scmc-doctor-portrait"
+                  />
                 </div>
                 <h3>{ar ? doctor.nameAr : doctor.nameEn}</h3>
                 <p>{ar ? doctor.specialtyAr : doctor.specialtyEn}</p>
