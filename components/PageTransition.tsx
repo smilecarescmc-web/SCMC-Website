@@ -3,12 +3,11 @@
 import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { localePath, useScmcLocale } from "@/lib/locale-client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 
 const LOGO = "/assets/smilecare-official/brand/logo.png";
 const CORE_ROUTES = ["/", "/services", "/doctors", "/about", "/blog", "/contact"] as const;
-const VISUAL_SEQUENCE_MS = 1480;
-const SAFETY_MS = 2100;
+const TRANSITION_MS = 1220;
 
 function isModifiedClick(event: MouseEvent) {
   return (
@@ -30,23 +29,55 @@ function internalHref(anchor: HTMLAnchorElement) {
   return url;
 }
 
+function createCinematicOverlay(ar: boolean) {
+  if (document.querySelector(".scmc-v21-transition")) return;
+
+  const overlay = document.createElement("div");
+  overlay.className = "scmc-cinematic-transition scmc-v21-transition";
+  overlay.setAttribute("aria-hidden", "true");
+
+  const label = ar ? "سمايل كير · رأس الخيمة" : "Smile Care · Ras Al Khaimah";
+
+  overlay.innerHTML = `
+    <div class="scmc-v21-transition__veil"></div>
+    <div class="scmc-v21-transition__plane scmc-v21-transition__plane--a"></div>
+    <div class="scmc-v21-transition__plane scmc-v21-transition__plane--b"></div>
+    <div class="scmc-v21-transition__plane scmc-v21-transition__plane--c"></div>
+    <div class="scmc-v21-transition__sweep"></div>
+    <div class="scmc-v21-transition__halo"></div>
+    <div class="scmc-v21-transition__center">
+      <img src="${LOGO}" alt="" width="174" height="70" />
+      <span>${label}</span>
+      <i></i>
+    </div>
+    <div class="scmc-v21-transition__frame"></div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  let removed = false;
+  const remove = () => {
+    if (removed) return;
+    removed = true;
+    overlay.remove();
+  };
+
+  overlay.addEventListener("animationend", (event) => {
+    if (
+      event.target === overlay &&
+      (event as AnimationEvent).animationName === "scmcV21Overlay"
+    ) {
+      remove();
+    }
+  });
+
+  window.setTimeout(remove, TRANSITION_MS + 500);
+}
+
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "/";
   const router = useRouter();
   const { ar, locale } = useScmcLocale();
-  const [playing, setPlaying] = useState(false);
-  const previousPath = useRef(pathname);
-  const safetyTimer = useRef<number | null>(null);
-  const playingRef = useRef(false);
-
-  const finishTransition = () => {
-    playingRef.current = false;
-    setPlaying(false);
-    if (safetyTimer.current) {
-      window.clearTimeout(safetyTimer.current);
-      safetyTimer.current = null;
-    }
-  };
 
   useEffect(() => {
     const warmLogo = new Image();
@@ -56,20 +87,21 @@ export function PageTransition({ children }: { children: ReactNode }) {
       for (const route of CORE_ROUTES) {
         router.prefetch(localePath(route, locale));
       }
-    }, 120);
+    }, 90);
 
-    const prefetchAnchor = (event: Event) => {
+    const warmLink = (event: Event) => {
       const node = event.target as HTMLElement | null;
       const anchor = node?.closest("a[href]") as HTMLAnchorElement | null;
       if (!anchor) return;
 
       const url = internalHref(anchor);
       if (!url) return;
+
       router.prefetch(`${url.pathname}${url.search}`);
     };
 
     const onClick = (event: MouseEvent) => {
-      if (event.defaultPrevented || isModifiedClick(event) || playingRef.current) return;
+      if (event.defaultPrevented || isModifiedClick(event)) return;
 
       const node = event.target as HTMLElement | null;
       const anchor = node?.closest("a[href]") as HTMLAnchorElement | null;
@@ -89,86 +121,49 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-      playingRef.current = true;
-      setPlaying(true);
-
-      if (safetyTimer.current) window.clearTimeout(safetyTimer.current);
-      safetyTimer.current = window.setTimeout(finishTransition, SAFETY_MS);
+      createCinematicOverlay(ar);
     };
 
-    document.addEventListener("pointerover", prefetchAnchor, { passive: true });
-    document.addEventListener("pointerdown", prefetchAnchor, { passive: true });
+    document.addEventListener("pointerover", warmLink, { passive: true });
+    document.addEventListener("pointerdown", warmLink, { passive: true });
     document.addEventListener("click", onClick, true);
 
     return () => {
       window.clearTimeout(prefetchTimer);
-      document.removeEventListener("pointerover", prefetchAnchor);
-      document.removeEventListener("pointerdown", prefetchAnchor);
+      document.removeEventListener("pointerover", warmLink);
+      document.removeEventListener("pointerdown", warmLink);
       document.removeEventListener("click", onClick, true);
-      if (safetyTimer.current) window.clearTimeout(safetyTimer.current);
     };
-  }, [locale, router]);
+  }, [ar, locale, router]);
 
   useEffect(() => {
-    if (previousPath.current === pathname) return;
-    previousPath.current = pathname;
-
     const hash = window.location.hash;
+
     if (hash) {
       window.requestAnimationFrame(() => {
         const id = decodeURIComponent(hash.slice(1));
         const target = document.getElementById(id);
+
         if (target) {
-          target.scrollIntoView({ block: "start", behavior: "instant" as ScrollBehavior });
-        } else {
-          window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+          target.scrollIntoView({
+            block: "start",
+            behavior: "instant" as ScrollBehavior,
+          });
         }
       });
     } else {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "instant" as ScrollBehavior,
+      });
     }
   }, [pathname]);
 
   return (
-    <>
-      <div key={pathname} className="scmc-page-stage scmc-page-stage--v19r-enter">
-        {children}
-      </div>
-
-      {playing ? (
-        <div
-          className="scmc-cinematic-transition scmc-cinematic-transition--v19r"
-          aria-hidden="true"
-          style={{ "--scmc-sequence-ms": `${VISUAL_SEQUENCE_MS}ms` } as React.CSSProperties}
-          onAnimationEnd={(event) => {
-            if (event.currentTarget === event.target && event.animationName === "scmcV19ROverlay") {
-              finishTransition();
-            }
-          }}
-        >
-          <div className="scmc-transition-panel scmc-transition-panel--left" />
-          <div className="scmc-transition-panel scmc-transition-panel--right" />
-          <div className="scmc-transition-aura" />
-
-          <div className="scmc-transition-center">
-            <div className="scmc-transition-content">
-              <img
-                src={LOGO}
-                alt=""
-                className="scmc-adaptive-logo scmc-transition-logo"
-                width={170}
-                height={68}
-                decoding="async"
-              />
-              <span>{ar ? "سمايل كير · رأس الخيمة" : "Smile Care · Ras Al Khaimah"}</span>
-              <i className="scmc-transition-line" />
-            </div>
-          </div>
-
-          <div className="scmc-transition-frame" />
-        </div>
-      ) : null}
-    </>
+    <div key={pathname} className="scmc-page-stage scmc-page-stage--v21-enter">
+      {children}
+    </div>
   );
 }
 

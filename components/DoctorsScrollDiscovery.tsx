@@ -8,11 +8,13 @@ import { officialDoctors } from "@/lib/officialDoctors";
 import { useScmcLocale } from "@/lib/locale-client";
 
 const lightweightDoctorImage: Record<string, string> = {
-  "dr-nael-adel": "/assets/smilecare-official/doctors/dr-nael-adel.jpg",
-  "dr-mohamed-taha": "/assets/smilecare-official/doctors/dr-mohammed-taha.jpg",
-  "dr-asmaa-shehadeh": "/assets/smilecare-official/doctors/dr-asmaa-shehadeh.jpg",
-  "dr-javier-hernandez-hernandez": "/assets/smilecare-official/doctors/IMG_4967.jpg",
+  "dr-nael-adel": "/media/doctors-fast/dr-nael-adel.webp",
+  "dr-mohamed-taha": "/media/doctors-fast/dr-mohamed-taha.webp",
+  "dr-asmaa-shehadeh": "/media/doctors-fast/dr-asmaa-shehadeh.webp",
+  "dr-javier-hernandez-hernandez": "/media/doctors-fast/dr-javier-hernandez-hernandez.webp",
 };
+
+const SCROLL_GAIN = 1.82;
 
 function doctorImage(slug: string, fallback: string) {
   return lightweightDoctorImage[slug] ?? fallback;
@@ -63,66 +65,105 @@ export function DoctorsScrollDiscovery() {
   const { ar, href } = useScmcLocale();
   const sectionRef = useRef<HTMLElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const counterRef = useRef<HTMLSpanElement | null>(null);
+  const progressRef = useRef<HTMLSpanElement | null>(null);
+  const activeRef = useRef(0);
   const [mobilePaused, setMobilePaused] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
     const track = trackRef.current;
     const viewport = track?.parentElement;
+
     if (!section || !track || !viewport) return;
 
     const media = window.matchMedia("(min-width: 861px) and (prefers-reduced-motion: no-preference)");
+    const cards = Array.from(track.querySelectorAll<HTMLElement>(".scmc-doctor-discovery__card"));
+
     let raf = 0;
     let maxShift = 0;
+    let travel = 1;
+    let sectionTop = 0;
 
-    const update = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        if (!media.matches) return;
+    const setActive = (next: number) => {
+      if (next === activeRef.current) return;
 
-        const rect = section.getBoundingClientRect();
-        const range = Math.max(1, section.offsetHeight - window.innerHeight);
-        const progress = Math.min(1, Math.max(0, -rect.top / range));
-        const x = -maxShift * progress;
+      cards[activeRef.current]?.classList.remove("is-active");
+      cards[next]?.classList.add("is-active");
+      activeRef.current = next;
 
-        track.style.transform = `translate3d(${x}px,0,0)`;
+      if (counterRef.current) {
+        counterRef.current.textContent = String(next + 1).padStart(2, "0");
+      }
 
-        const next = Math.min(
-          officialDoctors.length - 1,
-          Math.round(progress * (officialDoctors.length - 1))
-        );
-        setActiveIndex((currentIndex) => (currentIndex === next ? currentIndex : next));
-      });
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${(next + 1) / officialDoctors.length})`;
+      }
+    };
+
+    cards[0]?.classList.add("is-active");
+
+    const paint = () => {
+      raf = 0;
+      if (!media.matches) return;
+
+      const raw = (window.scrollY - sectionTop) / travel;
+      const progress = Math.min(1, Math.max(0, raw));
+      const x = -maxShift * progress;
+
+      track.style.transform = `translate3d(${x}px,0,0)`;
+
+      const next = Math.min(
+        officialDoctors.length - 1,
+        Math.round(progress * (officialDoctors.length - 1))
+      );
+
+      setActive(next);
+    };
+
+    const requestPaint = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(paint);
     };
 
     const measure = () => {
       if (!media.matches) {
         section.style.removeProperty("height");
         track.style.removeProperty("transform");
-        setActiveIndex(0);
+        cards.forEach((card, index) => card.classList.toggle("is-active", index === 0));
+        activeRef.current = 0;
+        if (counterRef.current) counterRef.current.textContent = "01";
+        if (progressRef.current) {
+          progressRef.current.style.transform = `scaleX(${1 / officialDoctors.length})`;
+        }
         return;
       }
 
       maxShift = Math.max(0, track.scrollWidth - viewport.clientWidth);
-      const travel = Math.max(window.innerHeight * 1.45, maxShift);
+
+      // Faster horizontal discovery: approximately 1.82 px horizontal travel
+      // per 1 px vertical scroll, with a minimum readable section duration.
+      travel = Math.max(window.innerHeight * 0.72, maxShift / SCROLL_GAIN);
       section.style.height = `${window.innerHeight + travel}px`;
-      update();
+
+      sectionTop = section.getBoundingClientRect().top + window.scrollY;
+      requestPaint();
     };
 
     const onMediaChange = () => {
       measure();
-      update();
+      requestPaint();
     };
 
     measure();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", measure);
+
+    window.addEventListener("scroll", requestPaint, { passive: true });
+    window.addEventListener("resize", measure, { passive: true });
     media.addEventListener("change", onMediaChange);
 
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", update);
+      window.removeEventListener("scroll", requestPaint);
       window.removeEventListener("resize", measure);
       media.removeEventListener("change", onMediaChange);
       section.style.removeProperty("height");
@@ -147,7 +188,7 @@ export function DoctorsScrollDiscovery() {
 
           <div className="scmc-doctor-discovery__head-side">
             <div className="scmc-doctor-discovery__counter" aria-live="polite">
-              <span>{String(activeIndex + 1).padStart(2, "0")}</span>
+              <span ref={counterRef}>01</span>
               <i />
               <span>{String(officialDoctors.length).padStart(2, "0")}</span>
             </div>
@@ -158,14 +199,11 @@ export function DoctorsScrollDiscovery() {
         </div>
 
         <div className="scmc-shell scmc-doctor-discovery__viewport scmc-doctor-discovery__viewport--desktop">
-          <div
-            ref={trackRef}
-            className="scmc-doctor-discovery__track"
-          >
+          <div ref={trackRef} className="scmc-doctor-discovery__track">
             {officialDoctors.map((doctor, index) => (
               <Link
                 href={href(`/doctors/${doctor.slug}`)}
-                className={`scmc-doctor-discovery__card ${index === activeIndex ? "is-active" : ""}`}
+                className={`scmc-doctor-discovery__card ${index === 0 ? "is-active" : ""}`}
                 key={doctor.slug}
                 dir={ar ? "rtl" : "ltr"}
               >
@@ -190,13 +228,16 @@ export function DoctorsScrollDiscovery() {
         </div>
 
         <div className="scmc-doctor-loop-shell">
-          <div
-            className={`scmc-doctor-loop ${mobilePaused ? "is-paused" : ""}`}
-          >
+          <div className={`scmc-doctor-loop ${mobilePaused ? "is-paused" : ""}`}>
             {mobileDoctors.map((doctor, index) => {
               const originalIndex = index % officialDoctors.length;
+
               return (
-                <article className="scmc-doctor-loop__card" key={`${doctor.slug}-${index}`} dir={ar ? "rtl" : "ltr"}>
+                <article
+                  className="scmc-doctor-loop__card"
+                  key={`${doctor.slug}-${index}`}
+                  dir={ar ? "rtl" : "ltr"}
+                >
                   <button
                     type="button"
                     className="scmc-doctor-loop__media"
@@ -230,7 +271,10 @@ export function DoctorsScrollDiscovery() {
         </div>
 
         <div className="scmc-shell scmc-doctor-discovery__progress" aria-hidden="true">
-          <span style={{ transform: `scaleX(${(activeIndex + 1) / officialDoctors.length})` }} />
+          <span
+            ref={progressRef}
+            style={{ transform: `scaleX(${1 / officialDoctors.length})` }}
+          />
         </div>
       </div>
     </section>

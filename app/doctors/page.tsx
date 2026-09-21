@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ScmcFrame } from "@/components/ScmcFrame";
@@ -26,11 +27,20 @@ export default function DoctorsPage() {
       </section>
 
       <section className="scmc-section scmc-section--soft">
-        <div className="scmc-shell scmc-doctor-directory">
+        <div className="scmc-shell scmc-doctor-directory scmc-doctor-directory--v21">
           {officialDoctors.map((doctor, index) => (
             <Link href={href(`/doctors/${doctor.slug}`)} className="scmc-doctor-card" key={doctor.slug}>
               <div className="scmc-doctor-card__media">
-                <img src={doctor.image} alt={ar ? doctor.nameAr : doctor.nameEn} loading={index < 4 ? "eager" : "lazy"} />
+                <Image
+                  src={doctor.image}
+                  alt={ar ? doctor.nameAr : doctor.nameEn}
+                  fill
+                  sizes="(max-width: 680px) 50vw, (max-width: 1120px) 33vw, 25vw"
+                  quality={58}
+                  loading="eager"
+                  fetchPriority={index < 4 ? "high" : "auto"}
+                  className="scmc-doctor-portrait"
+                />
                 <span>{String(index + 1).padStart(2, "0")}</span>
               </div>
               <div className="scmc-doctor-card__body">

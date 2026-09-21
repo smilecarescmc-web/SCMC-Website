@@ -4132,3 +4132,1117 @@ html[lang="ar"] .scmc-skip-ar { display: inline; }
     animation-delay: 0ms !important;
   }
 }
+
+
+/* ==========================================================================
+   SCMC V20 — FINAL EXPERIENCE LOCK
+   True cinematic transition + aperture preloader + doctor-scroll performance
+   ========================================================================== */
+
+/* ---------- True creative page transition ---------- */
+.scmc-v20-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 8200;
+  overflow: hidden;
+  pointer-events: all;
+  isolation: isolate;
+  animation: scmcV20Overlay 1260ms linear both;
+}
+
+.scmc-v20-transition__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(113,176,147,.12), transparent 36%),
+    rgba(2,14,11,.54);
+  animation: scmcV20Veil 1260ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v20-transition__blade {
+  position: absolute;
+  top: -8%;
+  bottom: -8%;
+  width: 64%;
+  z-index: 1;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 48% 46%, rgba(156,211,183,.12), transparent 36%),
+    linear-gradient(150deg, #073c2d 0%, #062f24 47%, #031a15 100%);
+  box-shadow: 0 0 80px rgba(0,0,0,.22);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.scmc-v20-transition__blade::after {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  background: linear-gradient(
+    110deg,
+    transparent 28%,
+    rgba(255,255,255,.035) 44%,
+    rgba(255,255,255,.12) 50%,
+    rgba(255,255,255,.035) 56%,
+    transparent 72%
+  );
+  transform: translateX(-75%);
+  animation: scmcV20Sheen 1260ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v20-transition__blade--a {
+  left: -8%;
+  clip-path: polygon(0 0, 91% 0, 100% 100%, 0 100%);
+  animation: scmcV20BladeA 1260ms cubic-bezier(.72,0,.22,1) both;
+}
+
+.scmc-v20-transition__blade--b {
+  right: -8%;
+  clip-path: polygon(9% 0, 100% 0, 100% 100%, 0 100%);
+  animation: scmcV20BladeB 1260ms cubic-bezier(.72,0,.22,1) both;
+}
+
+.scmc-v20-transition__beam {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+  width: min(66vw, 820px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(224,241,232,.92), transparent);
+  box-shadow: 0 0 24px rgba(188,229,207,.42);
+  transform: translate(-50%,-50%) scaleX(0);
+  transform-origin: center;
+  animation: scmcV20Beam 1260ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v20-transition__ring {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  width: 84px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(223,240,231,.34);
+  border-radius: 50%;
+  transform: translate(-50%,-50%) scale(.42);
+  opacity: 0;
+  animation: scmcV20Ring 1260ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v20-transition__center {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 11px;
+  color: #f1f7f3;
+  text-align: center;
+  opacity: 0;
+  transform: translate3d(0,10px,0) scale(.97);
+  animation: scmcV20Center 1260ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v20-transition__logo {
+  width: min(174px, 44vw);
+  height: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.scmc-v20-transition__center > span {
+  color: rgba(241,247,243,.67);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.scmc-v20-transition__center > i {
+  width: 82px;
+  height: 1px;
+  display: block;
+  background: rgba(228,242,234,.58);
+  transform-origin: center;
+}
+
+.scmc-v20-transition__frame {
+  position: absolute;
+  inset: 16px;
+  z-index: 6;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 24px;
+  opacity: 0;
+  pointer-events: none;
+  animation: scmcV20Frame 1260ms ease both;
+}
+
+.scmc-page-stage--v20-enter {
+  animation: scmcV20PageIn 680ms cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes scmcV20Overlay {
+  0%, 92% { opacity: 1; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+@keyframes scmcV20Veil {
+  0% { opacity: 0; }
+  18%, 69% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes scmcV20BladeA {
+  0% { transform: translate3d(-118%,0,0) rotate(.001deg); }
+  31% { transform: translate3d(0,0,0) rotate(.001deg); }
+  55% { transform: translate3d(0,0,0) rotate(.001deg); }
+  100% { transform: translate3d(122%,0,0) rotate(.001deg); }
+}
+
+@keyframes scmcV20BladeB {
+  0%, 4% { transform: translate3d(118%,0,0) rotate(.001deg); }
+  35% { transform: translate3d(0,0,0) rotate(.001deg); }
+  53% { transform: translate3d(0,0,0) rotate(.001deg); }
+  100% { transform: translate3d(-122%,0,0) rotate(.001deg); }
+}
+
+@keyframes scmcV20Sheen {
+  0%, 18% { transform: translateX(-82%); opacity: 0; }
+  43% { opacity: 1; }
+  74%,100% { transform: translateX(82%); opacity: 0; }
+}
+
+@keyframes scmcV20Beam {
+  0%, 27% { transform: translate(-50%,-50%) scaleX(0); opacity: 0; }
+  43% { transform: translate(-50%,-50%) scaleX(1); opacity: 1; }
+  57% { transform: translate(-50%,-50%) scaleX(1); opacity: .75; }
+  74%,100% { transform: translate(-50%,-50%) scaleX(.08); opacity: 0; }
+}
+
+@keyframes scmcV20Ring {
+  0%, 28% { transform: translate(-50%,-50%) scale(.42); opacity: 0; }
+  46% { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+  64% { transform: translate(-50%,-50%) scale(1.55); opacity: .42; }
+  80%,100% { transform: translate(-50%,-50%) scale(2.3); opacity: 0; }
+}
+
+@keyframes scmcV20Center {
+  0%, 25% { opacity: 0; transform: translate3d(0,10px,0) scale(.97); }
+  43%, 56% { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+  75%,100% { opacity: 0; transform: translate3d(0,-8px,0) scale(1.015); }
+}
+
+@keyframes scmcV20Frame {
+  0%, 18% { opacity: 0; }
+  36%, 62% { opacity: 1; }
+  82%,100% { opacity: 0; }
+}
+
+@keyframes scmcV20PageIn {
+  from { opacity: .94; transform: translate3d(0,8px,0) scale(.998); }
+  to { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+}
+
+/* ---------- Creative aperture preloader ---------- */
+.scmc-cinematic-preloader.scmc-cinematic-preloader--v20 {
+  animation: none;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.scmc-v20-preloader__shutter {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  height: 51%;
+  background:
+    radial-gradient(circle at 50% 55%, rgba(161,211,184,.12), transparent 36%),
+    linear-gradient(135deg, #073629, #05251e 62%, #031813);
+  will-change: transform;
+}
+
+.scmc-v20-preloader__shutter--top {
+  top: 0;
+  clip-path: polygon(0 0,100% 0,100% 92%,0 100%);
+}
+
+.scmc-v20-preloader__shutter--bottom {
+  bottom: 0;
+  clip-path: polygon(0 8%,100% 0,100% 100%,0 100%);
+}
+
+.scmc-v20-preloader__aura {
+  z-index: 2;
+  animation: scmcV20PreloaderAura 1100ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v20-preloader__beam {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: 50%;
+  width: min(74vw, 900px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(230,244,236,.95), transparent);
+  transform: translate(-50%,-50%) scaleX(0);
+  opacity: 0;
+}
+
+.scmc-v20-preloader__content {
+  z-index: 4;
+  animation: scmcV20PreloaderContentIn 520ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-cinematic-preloader--v20.is-exiting {
+  animation: scmcV20PreloaderExit 780ms cubic-bezier(.22,1,.36,1) both !important;
+}
+
+.scmc-cinematic-preloader--v20.is-exiting .scmc-v20-preloader__content {
+  animation: scmcV20PreloaderContentOut 480ms cubic-bezier(.4,0,1,1) both;
+}
+
+.scmc-cinematic-preloader--v20.is-exiting .scmc-v20-preloader__shutter--top {
+  animation: scmcV20PreloaderTopOut 760ms 70ms cubic-bezier(.76,0,.24,1) both;
+}
+
+.scmc-cinematic-preloader--v20.is-exiting .scmc-v20-preloader__shutter--bottom {
+  animation: scmcV20PreloaderBottomOut 760ms cubic-bezier(.76,0,.24,1) both;
+}
+
+.scmc-cinematic-preloader--v20.is-exiting .scmc-v20-preloader__beam {
+  animation: scmcV20PreloaderBeam 600ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-cinematic-preloader--v20.is-exiting .scmc-v20-preloader__aura {
+  animation: scmcV20PreloaderAuraOut 620ms ease both;
+}
+
+@keyframes scmcV20PreloaderExit {
+  0%, 68% { opacity: 1; visibility: visible; pointer-events: all; }
+  100% { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+@keyframes scmcV20PreloaderTopOut {
+  from { transform: translate3d(0,0,0); }
+  to { transform: translate3d(0,-106%,0); }
+}
+
+@keyframes scmcV20PreloaderBottomOut {
+  from { transform: translate3d(0,0,0); }
+  to { transform: translate3d(0,106%,0); }
+}
+
+@keyframes scmcV20PreloaderBeam {
+  0% { transform: translate(-50%,-50%) scaleX(0); opacity: 0; }
+  35% { transform: translate(-50%,-50%) scaleX(1); opacity: 1; }
+  70% { transform: translate(-50%,-50%) scaleX(1); opacity: .65; }
+  100% { transform: translate(-50%,-50%) scaleX(.12); opacity: 0; }
+}
+
+@keyframes scmcV20PreloaderContentIn {
+  from { opacity: 0; transform: translate3d(0,12px,0) scale(.98); }
+  to { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+}
+
+@keyframes scmcV20PreloaderContentOut {
+  from { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+  to { opacity: 0; transform: translate3d(0,-12px,0) scale(1.035); }
+}
+
+@keyframes scmcV20PreloaderAura {
+  from { opacity: 0; transform: translate(-50%,-50%) scale(.88); }
+  to { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+}
+
+@keyframes scmcV20PreloaderAuraOut {
+  from { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  to { opacity: 0; transform: translate(-50%,-50%) scale(1.35); }
+}
+
+/* ---------- Doctor scrolling: no expensive blur, no per-frame React render ---------- */
+.scmc-doctor-directory--fast .scmc-doctor-card {
+  content-visibility: auto;
+  contain: layout paint style;
+  contain-intrinsic-size: 320px 500px;
+  transform: none;
+}
+
+.scmc-doctor-directory--fast .scmc-doctor-card,
+.scmc-doctor-directory--fast .scmc-doctor-card.scmc-proximity-node,
+.scmc-doctor-directory--fast .scmc-doctor-card.is-away,
+.scmc-doctor-directory--fast .scmc-doctor-card.is-warm,
+.scmc-doctor-directory--fast .scmc-doctor-card.is-near {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+.scmc-doctor-directory--fast .scmc-doctor-card__media {
+  contain: paint;
+}
+
+.scmc-proximity-node {
+  filter: none !important;
+  transition:
+    opacity 360ms cubic-bezier(.22,1,.36,1),
+    transform 420ms cubic-bezier(.22,1,.36,1) !important;
+}
+
+.scmc-proximity-node.is-away {
+  opacity: .66;
+  transform: translate3d(0,9px,0) scale(.996);
+}
+
+.scmc-proximity-node.is-warm {
+  opacity: .88;
+  transform: translate3d(0,3px,0) scale(.999);
+}
+
+.scmc-proximity-node.is-near {
+  opacity: 1;
+  transform: translate3d(0,0,0) scale(1);
+}
+
+.scmc-doctor-discovery__track {
+  contain: layout paint style;
+  will-change: transform;
+}
+
+.scmc-doctor-discovery__card {
+  opacity: .68;
+  transform: scale(.982) translate3d(0,4px,0);
+  transition:
+    opacity 220ms cubic-bezier(.22,1,.36,1),
+    transform 260ms cubic-bezier(.22,1,.36,1);
+}
+
+.scmc-doctor-discovery__card.is-active {
+  opacity: 1;
+  transform: scale(1) translate3d(0,0,0);
+}
+
+.scmc-doctor-discovery__progress span {
+  transition: none !important;
+}
+
+@media (max-width: 620px) {
+  .scmc-v20-transition {
+    animation-duration: 1120ms;
+  }
+
+  .scmc-v20-transition__blade--a,
+  .scmc-v20-transition__blade--b,
+  .scmc-v20-transition__veil,
+  .scmc-v20-transition__beam,
+  .scmc-v20-transition__ring,
+  .scmc-v20-transition__center,
+  .scmc-v20-transition__frame {
+    animation-duration: 1120ms;
+  }
+
+  .scmc-v20-transition__frame,
+  .scmc-preloader-frame {
+    inset: 11px;
+    border-radius: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scmc-v20-transition,
+  .scmc-v20-transition *,
+  .scmc-cinematic-preloader--v20,
+  .scmc-cinematic-preloader--v20 *,
+  .scmc-page-stage--v20-enter {
+    animation-duration: .001ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  .scmc-proximity-node,
+  .scmc-doctor-discovery__card {
+    transition-duration: .001ms !important;
+  }
+}
+
+
+/* ==========================================================================
+   SCMC V20R — HYDRATION-INDEPENDENT CINEMATIC PRELOADER
+   Starts from first paint; React is cleanup only.
+   ========================================================================== */
+
+.scmc-cinematic-preloader.scmc-cinematic-preloader--v20r {
+  z-index: 9000;
+  isolation: isolate;
+  overflow: hidden;
+  animation: scmcV20RPreloaderShell 1720ms linear both !important;
+}
+
+.scmc-v20r-preloader__shutter {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  height: 51%;
+  background:
+    radial-gradient(circle at 50% 58%, rgba(164,216,187,.13), transparent 37%),
+    linear-gradient(145deg, #07392b 0%, #05281f 56%, #031813 100%);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.scmc-v20r-preloader__shutter::after {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  background:
+    linear-gradient(
+      108deg,
+      transparent 28%,
+      rgba(255,255,255,.025) 42%,
+      rgba(255,255,255,.11) 50%,
+      rgba(255,255,255,.025) 58%,
+      transparent 72%
+    );
+  transform: translate3d(-76%,0,0);
+  animation: scmcV20RPreloaderSheen 1720ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v20r-preloader__shutter--top {
+  top: 0;
+  clip-path: polygon(0 0,100% 0,100% 91%,0 100%);
+  animation: scmcV20RPreloaderTop 1720ms cubic-bezier(.76,0,.24,1) both;
+}
+
+.scmc-v20r-preloader__shutter--bottom {
+  bottom: 0;
+  clip-path: polygon(0 9%,100% 0,100% 100%,0 100%);
+  animation: scmcV20RPreloaderBottom 1720ms cubic-bezier(.76,0,.24,1) both;
+}
+
+.scmc-v20r-preloader__aura {
+  z-index: 2;
+  animation: scmcV20RPreloaderAura 1720ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v20r-preloader__orb {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  width: 74px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(230,244,236,.28);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 14px rgba(255,255,255,.018),
+    0 0 52px rgba(168,220,192,.14);
+  transform: translate(-50%,-50%) scale(.48);
+  opacity: 0;
+  animation: scmcV20RPreloaderOrb 1720ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v20r-preloader__beam {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: 50%;
+  width: min(76vw, 920px);
+  height: 1px;
+  background:
+    linear-gradient(90deg, transparent, rgba(230,244,236,.96), transparent);
+  box-shadow: 0 0 28px rgba(183,228,204,.46);
+  transform: translate(-50%,-50%) scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  animation: scmcV20RPreloaderBeam 1720ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v20r-preloader__frame {
+  z-index: 6;
+  animation: scmcV20RPreloaderFrame 1720ms ease both;
+}
+
+.scmc-v20r-preloader__content {
+  z-index: 4;
+  animation: scmcV20RPreloaderContent 1720ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v20r-preloader__progress .scmc-preloader-track > span {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform-origin: left center;
+  background: #f4f8f5;
+  animation: scmcV20RProgress 920ms 100ms cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes scmcV20RPreloaderShell {
+  0%, 88% {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@keyframes scmcV20RPreloaderTop {
+  0%, 57% { transform: translate3d(0,0,0); }
+  100% { transform: translate3d(0,-106%,0); }
+}
+
+@keyframes scmcV20RPreloaderBottom {
+  0%, 55% { transform: translate3d(0,0,0); }
+  100% { transform: translate3d(0,106%,0); }
+}
+
+@keyframes scmcV20RPreloaderSheen {
+  0%, 18% { transform: translate3d(-76%,0,0); opacity: 0; }
+  42% { opacity: .9; }
+  73%,100% { transform: translate3d(76%,0,0); opacity: 0; }
+}
+
+@keyframes scmcV20RPreloaderAura {
+  0% { opacity: 0; transform: translate(-50%,-50%) scale(.88); }
+  30%, 56% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%,-50%) scale(1.5); }
+}
+
+@keyframes scmcV20RPreloaderOrb {
+  0%, 24% { opacity: 0; transform: translate(-50%,-50%) scale(.48); }
+  46% { opacity: .9; transform: translate(-50%,-50%) scale(1); }
+  64% { opacity: .34; transform: translate(-50%,-50%) scale(1.55); }
+  82%,100% { opacity: 0; transform: translate(-50%,-50%) scale(2.5); }
+}
+
+@keyframes scmcV20RPreloaderBeam {
+  0%, 50% { opacity: 0; transform: translate(-50%,-50%) scaleX(0); }
+  64% { opacity: 1; transform: translate(-50%,-50%) scaleX(1); }
+  82% { opacity: .55; transform: translate(-50%,-50%) scaleX(.9); }
+  100% { opacity: 0; transform: translate(-50%,-50%) scaleX(.08); }
+}
+
+@keyframes scmcV20RPreloaderContent {
+  0% { opacity: 0; transform: translate3d(0,12px,0) scale(.98); }
+  22%, 55% { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+  75%,100% { opacity: 0; transform: translate3d(0,-14px,0) scale(1.035); }
+}
+
+@keyframes scmcV20RPreloaderFrame {
+  0% { opacity: 0; }
+  18%, 60% { opacity: 1; }
+  85%,100% { opacity: 0; }
+}
+
+@keyframes scmcV20RProgress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@media (max-width: 620px) {
+  .scmc-cinematic-preloader.scmc-cinematic-preloader--v20r,
+  .scmc-cinematic-preloader--v20r * {
+    animation-duration: 1580ms;
+  }
+
+  .scmc-v20r-preloader__progress .scmc-preloader-track > span {
+    animation-duration: 820ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scmc-cinematic-preloader.scmc-cinematic-preloader--v20r,
+  .scmc-cinematic-preloader--v20r * {
+    animation-duration: 160ms !important;
+    animation-delay: 0ms !important;
+  }
+}
+
+
+/* ==========================================================================
+   SCMC V21 — FINAL CINEMATIC + DOCTOR PERFORMANCE LOCK
+   ========================================================================== */
+
+/* ----- page transition: independent from React route lifecycle ----- */
+.scmc-v21-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 8300;
+  overflow: hidden;
+  pointer-events: all;
+  isolation: isolate;
+  animation: scmcV21Overlay 1220ms linear both;
+}
+
+.scmc-v21-transition__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(142,205,174,.13), transparent 33%),
+    rgba(2,15,11,.56);
+  animation: scmcV21Veil 1220ms ease both;
+}
+
+.scmc-v21-transition__plane {
+  position: absolute;
+  top: -12%;
+  bottom: -12%;
+  width: 68%;
+  backface-visibility: hidden;
+  will-change: transform;
+  background:
+    radial-gradient(circle at 48% 46%, rgba(157,215,185,.12), transparent 34%),
+    linear-gradient(145deg, #073b2d 0%, #062b22 52%, #031713 100%);
+  box-shadow: 0 0 70px rgba(0,0,0,.22);
+}
+
+.scmc-v21-transition__plane--a {
+  left: -11%;
+  clip-path: polygon(0 0,88% 0,100% 100%,12% 100%);
+  animation: scmcV21PlaneA 1220ms cubic-bezier(.72,0,.22,1) both;
+}
+
+.scmc-v21-transition__plane--b {
+  right: -11%;
+  clip-path: polygon(12% 0,100% 0,88% 100%,0 100%);
+  animation: scmcV21PlaneB 1220ms cubic-bezier(.72,0,.22,1) both;
+}
+
+.scmc-v21-transition__plane--c {
+  left: 50%;
+  width: 22%;
+  opacity: .34;
+  background:
+    linear-gradient(90deg, transparent, rgba(232,246,238,.13), transparent),
+    linear-gradient(145deg, #0b4b38, #05271e);
+  clip-path: polygon(28% 0,100% 0,72% 100%,0 100%);
+  animation: scmcV21PlaneC 1220ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v21-transition__sweep {
+  position: absolute;
+  z-index: 4;
+  left: -28%;
+  top: 50%;
+  width: 156%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(234,247,240,.95), transparent);
+  box-shadow: 0 0 28px rgba(185,228,205,.42);
+  transform: rotate(-7deg) scaleX(0);
+  animation: scmcV21Sweep 1220ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v21-transition__halo {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  width: 74px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(230,244,236,.34);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 14px rgba(255,255,255,.015),
+    0 0 48px rgba(165,222,190,.14);
+  animation: scmcV21Halo 1220ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v21-transition__center {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  color: #f3f8f5;
+  text-align: center;
+  animation: scmcV21Center 1220ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v21-transition__center img {
+  width: min(174px, 44vw);
+  height: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.scmc-v21-transition__center span {
+  color: rgba(241,247,243,.68);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.scmc-v21-transition__center i {
+  width: 84px;
+  height: 1px;
+  display: block;
+  background: rgba(230,244,236,.58);
+  transform-origin: center;
+  animation: scmcV21CenterLine 1220ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v21-transition__frame {
+  position: absolute;
+  inset: 15px;
+  z-index: 6;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 23px;
+  pointer-events: none;
+  animation: scmcV21Frame 1220ms ease both;
+}
+
+.scmc-page-stage--v21-enter {
+  animation: scmcV21PageIn 620ms cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes scmcV21Overlay {
+  0%, 91% { opacity: 1; visibility: visible; pointer-events: all; }
+  100% { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+@keyframes scmcV21Veil {
+  0% { opacity: 0; }
+  18%, 66% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes scmcV21PlaneA {
+  0% { transform: translate3d(-120%,0,0); }
+  31% { transform: translate3d(0,0,0); }
+  52% { transform: translate3d(7%,0,0); }
+  100% { transform: translate3d(128%,0,0); }
+}
+
+@keyframes scmcV21PlaneB {
+  0%, 3% { transform: translate3d(120%,0,0); }
+  34% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(-7%,0,0); }
+  100% { transform: translate3d(-128%,0,0); }
+}
+
+@keyframes scmcV21PlaneC {
+  0%, 17% { opacity: 0; transform: translate3d(-260%,0,0) skewX(-9deg); }
+  43% { opacity: .38; transform: translate3d(-50%,0,0) skewX(-9deg); }
+  72%,100% { opacity: 0; transform: translate3d(240%,0,0) skewX(-9deg); }
+}
+
+@keyframes scmcV21Sweep {
+  0%, 27% { opacity: 0; transform: rotate(-7deg) scaleX(0); }
+  45% { opacity: 1; transform: rotate(-7deg) scaleX(1); }
+  62% { opacity: .72; transform: rotate(-7deg) scaleX(.88); }
+  82%,100% { opacity: 0; transform: rotate(-7deg) scaleX(.08); }
+}
+
+@keyframes scmcV21Halo {
+  0%, 25% { opacity: 0; transform: translate(-50%,-50%) scale(.45); }
+  45% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  64% { opacity: .42; transform: translate(-50%,-50%) scale(1.72); }
+  82%,100% { opacity: 0; transform: translate(-50%,-50%) scale(2.7); }
+}
+
+@keyframes scmcV21Center {
+  0%, 25% { opacity: 0; transform: translate3d(0,11px,0) scale(.97); }
+  43%, 54% { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+  73%,100% { opacity: 0; transform: translate3d(0,-9px,0) scale(1.018); }
+}
+
+@keyframes scmcV21CenterLine {
+  0%, 31% { transform: scaleX(0); opacity: 0; }
+  46%, 58% { transform: scaleX(1); opacity: 1; }
+  74%,100% { transform: scaleX(.15); opacity: 0; }
+}
+
+@keyframes scmcV21Frame {
+  0%, 18% { opacity: 0; }
+  36%, 62% { opacity: 1; }
+  82%,100% { opacity: 0; }
+}
+
+@keyframes scmcV21PageIn {
+  from { opacity: .95; transform: translate3d(0,7px,0) scale(.998); }
+  to { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+}
+
+/* ----- preloader: continuous aperture / slash reveal ----- */
+.scmc-cinematic-preloader.scmc-cinematic-preloader--v21 {
+  z-index: 9000;
+  isolation: isolate;
+  overflow: hidden;
+  animation: scmcV21PreloaderShell 1580ms linear both !important;
+}
+
+.scmc-v21-preloader__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(170,219,193,.14), transparent 32%),
+    linear-gradient(135deg, #073629 0%, #05291f 52%, #031713 100%);
+}
+
+.scmc-v21-preloader__shutter {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  height: 51%;
+  background:
+    radial-gradient(circle at 50% 62%, rgba(157,213,183,.10), transparent 36%),
+    linear-gradient(145deg, #07392b, #05271f 58%, #031713);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.scmc-v21-preloader__shutter--top {
+  top: 0;
+  clip-path: polygon(0 0,100% 0,100% 91%,0 100%);
+  animation: scmcV21PreloaderTop 1580ms cubic-bezier(.76,0,.24,1) both;
+}
+
+.scmc-v21-preloader__shutter--bottom {
+  bottom: 0;
+  clip-path: polygon(0 9%,100% 0,100% 100%,0 100%);
+  animation: scmcV21PreloaderBottom 1580ms cubic-bezier(.76,0,.24,1) both;
+}
+
+.scmc-v21-preloader__slash {
+  position: absolute;
+  z-index: 3;
+  top: -18%;
+  bottom: -18%;
+  width: 22%;
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(229,244,235,.12),
+    rgba(229,244,235,.36),
+    rgba(229,244,235,.12),
+    transparent
+  );
+  filter: blur(.2px);
+}
+
+.scmc-v21-preloader__slash--a {
+  left: 30%;
+  transform: skewX(-14deg);
+  animation: scmcV21PreloaderSlashA 1580ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v21-preloader__slash--b {
+  right: 30%;
+  transform: skewX(14deg);
+  animation: scmcV21PreloaderSlashB 1580ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v21-preloader__halo {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  width: 88px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(231,245,237,.28);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 14px rgba(255,255,255,.015),
+    0 0 58px rgba(170,221,194,.16);
+  animation: scmcV21PreloaderHalo 1580ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v21-preloader__beam {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: 50%;
+  width: min(78vw, 920px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(233,246,239,.98), transparent);
+  box-shadow: 0 0 30px rgba(183,229,205,.46);
+  transform-origin: center;
+  animation: scmcV21PreloaderBeam 1580ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v21-preloader__center {
+  position: relative;
+  z-index: 4;
+  width: min(540px, calc(100vw - 56px));
+  display: grid;
+  place-items: center;
+  gap: 26px;
+  animation: scmcV21PreloaderCenter 1580ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v21-preloader__center img {
+  width: min(224px, 58vw);
+  height: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.scmc-v21-preloader__progress {
+  width: min(390px, 72vw);
+  height: 1px;
+  overflow: hidden;
+  background: rgba(255,255,255,.16);
+}
+
+.scmc-v21-preloader__progress span {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #f2f8f4;
+  transform-origin: left center;
+  animation: scmcV21PreloaderProgress 760ms 110ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.scmc-v21-preloader__meta {
+  width: min(390px, 72vw);
+  padding-top: 13px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: rgba(244,248,245,.52);
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.scmc-v21-preloader__frame {
+  position: absolute;
+  inset: 16px;
+  z-index: 6;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 24px;
+  pointer-events: none;
+  animation: scmcV21PreloaderFrame 1580ms ease both;
+}
+
+@keyframes scmcV21PreloaderShell {
+  0%, 88% { opacity: 1; visibility: visible; pointer-events: all; }
+  100% { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+@keyframes scmcV21PreloaderTop {
+  0%, 54% { transform: translate3d(0,0,0) rotate(.001deg); }
+  100% { transform: translate3d(0,-107%,0) rotate(-1.1deg); }
+}
+
+@keyframes scmcV21PreloaderBottom {
+  0%, 52% { transform: translate3d(0,0,0) rotate(.001deg); }
+  100% { transform: translate3d(0,107%,0) rotate(1.1deg); }
+}
+
+@keyframes scmcV21PreloaderSlashA {
+  0%, 18% { opacity: 0; transform: translate3d(-180%,0,0) skewX(-14deg); }
+  42% { opacity: .7; }
+  72%,100% { opacity: 0; transform: translate3d(230%,0,0) skewX(-14deg); }
+}
+
+@keyframes scmcV21PreloaderSlashB {
+  0%, 23% { opacity: 0; transform: translate3d(180%,0,0) skewX(14deg); }
+  47% { opacity: .46; }
+  76%,100% { opacity: 0; transform: translate3d(-230%,0,0) skewX(14deg); }
+}
+
+@keyframes scmcV21PreloaderHalo {
+  0%, 20% { opacity: 0; transform: translate(-50%,-50%) scale(.42); }
+  44% { opacity: .9; transform: translate(-50%,-50%) scale(1); }
+  66% { opacity: .34; transform: translate(-50%,-50%) scale(1.72); }
+  84%,100% { opacity: 0; transform: translate(-50%,-50%) scale(2.7); }
+}
+
+@keyframes scmcV21PreloaderBeam {
+  0%, 48% { opacity: 0; transform: translate(-50%,-50%) scaleX(0); }
+  62% { opacity: 1; transform: translate(-50%,-50%) scaleX(1); }
+  78% { opacity: .58; transform: translate(-50%,-50%) scaleX(.9); }
+  100% { opacity: 0; transform: translate(-50%,-50%) scaleX(.08); }
+}
+
+@keyframes scmcV21PreloaderCenter {
+  0% { opacity: 0; transform: translate3d(0,12px,0) scale(.98); }
+  20%, 53% { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+  73%,100% { opacity: 0; transform: translate3d(0,-13px,0) scale(1.035); }
+}
+
+@keyframes scmcV21PreloaderProgress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes scmcV21PreloaderFrame {
+  0% { opacity: 0; }
+  17%, 59% { opacity: 1; }
+  84%,100% { opacity: 0; }
+}
+
+/* ----- doctors: steady-state scroll must be cheap ----- */
+.scmc-doctor-directory--v21 .scmc-doctor-card {
+  content-visibility: visible !important;
+  contain: layout paint style;
+  contain-intrinsic-size: auto;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+.scmc-doctor-directory--v21 .scmc-doctor-card__media {
+  contain: paint;
+  transform: translateZ(0);
+}
+
+.scmc-doctor-directory--v21 .scmc-doctor-card__media img {
+  transform: none !important;
+  transition: none !important;
+  backface-visibility: hidden;
+}
+
+.scmc-doctor-directory--v21 .scmc-doctor-card:hover {
+  transform: none !important;
+}
+
+.scmc-doctor-discovery__track {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+@media (max-width: 620px) {
+  .scmc-v21-transition {
+    animation-duration: 1100ms;
+  }
+
+  .scmc-v21-transition *,
+  .scmc-page-stage--v21-enter {
+    animation-duration: 1100ms;
+  }
+
+  .scmc-cinematic-preloader.scmc-cinematic-preloader--v21,
+  .scmc-cinematic-preloader--v21 * {
+    animation-duration: 1460ms;
+  }
+
+  .scmc-v21-preloader__progress span {
+    animation-duration: 700ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scmc-v21-transition,
+  .scmc-v21-transition *,
+  .scmc-cinematic-preloader--v21,
+  .scmc-cinematic-preloader--v21 *,
+  .scmc-page-stage--v21-enter {
+    animation-duration: .001ms !important;
+    animation-delay: 0ms !important;
+  }
+}
