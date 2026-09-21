@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ScmcFrame } from "@/components/ScmcFrame";
-import { DoctorsScrollDiscovery } from "@/components/DoctorsScrollDiscovery";
+import { officialDoctors } from "@/lib/officialDoctors";
 import { useScmcLocale } from "@/lib/locale-client";
 
 export default function DoctorsPage() {
@@ -25,9 +25,23 @@ export default function DoctorsPage() {
         </div>
       </section>
 
-      <DoctorsScrollDiscovery />
+      <section className="scmc-section scmc-section--soft">
+        <div className="scmc-shell scmc-doctor-directory">
+          {officialDoctors.map((doctor, index) => (
+            <Link href={href(`/doctors/${doctor.slug}`)} className="scmc-doctor-card" key={doctor.slug}>
+              <div className="scmc-doctor-card__media">
+                <img src={doctor.image} alt={ar ? doctor.nameAr : doctor.nameEn} loading={index < 4 ? "eager" : "lazy"} />
+                <span>{String(index + 1).padStart(2, "0")}</span>
+              </div>
+              <div className="scmc-doctor-card__body">
+                <p>{ar ? doctor.specialtyAr : doctor.specialtyEn}</p>
+                <h2>{ar ? doctor.nameAr : doctor.nameEn}</h2>
+                <span>{ar ? "عرض الملف الطبي" : "View profile"} <ArrowUpRight size={11} /></span>
+              </div>
+            </Link>
+          ))}
+        </div>
 
-      <section className="scmc-section">
         <div className="scmc-shell scmc-directory-cta">
           <div>
             <p className="scmc-eyebrow">{ar ? "الحجز" : "APPOINTMENTS"}</p>
