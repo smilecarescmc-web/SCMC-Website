@@ -1189,6 +1189,97 @@ html[data-theme="dark"] .scmc-header__brand img {
   transform-origin: right center;
 }
 
+/* mobile doctors loop */
+.scmc-doctor-loop-shell {
+  display: none;
+}
+
+@keyframes scmcDoctorLoop {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(calc(-50% - 6px), 0, 0); }
+}
+
+.scmc-doctor-loop {
+  width: max-content;
+}
+
+.scmc-doctor-loop.is-rtl {
+  animation-direction: reverse;
+}
+
+.scmc-doctor-loop.is-paused {
+  animation-play-state: paused !important;
+}
+
+.scmc-doctor-loop__card {
+  min-width: 0;
+}
+
+.scmc-doctor-loop__media {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--scmc-line);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 50% 16%, color-mix(in srgb, var(--scmc-accent) 10%, transparent), transparent 40%),
+    var(--scmc-surface);
+  box-shadow: var(--scmc-shadow-sm);
+  cursor: pointer;
+  appearance: none;
+}
+
+.scmc-doctor-loop__media > span {
+  position: absolute;
+  z-index: 2;
+  top: 9px;
+  inset-inline-start: 9px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--scmc-line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--scmc-surface) 78%, transparent);
+  color: var(--scmc-text-soft);
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.scmc-doctor-loop__body {
+  padding: 9px 2px 0;
+}
+
+.scmc-doctor-loop__body p {
+  margin: 0 0 4px;
+  color: var(--scmc-accent);
+  font-size: 8.5px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.scmc-doctor-loop__body h3 {
+  margin: 0 0 7px;
+  color: var(--scmc-text);
+  font-size: 12px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.scmc-doctor-loop__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--scmc-text-soft);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.scmc-is-ar .scmc-doctor-loop__link svg {
+  transform: scaleX(-1);
+}
+
 /* doctors */
 .scmc-doctor-strip {
   display: grid;
@@ -2257,15 +2348,21 @@ html[data-theme="dark"] .scmc-transition-panel {
   z-index: 2;
 }
 
-.scmc-transition-content {
+.scmc-transition-center {
   position: absolute;
+  inset: 0;
   z-index: 3;
-  left: 50%;
-  top: 50%;
   display: grid;
   place-items: center;
-  gap: 14px;
-  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.scmc-transition-content {
+  display: grid;
+  place-items: center;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
 }
 
 .scmc-transition-logo {
@@ -2904,6 +3001,68 @@ html[data-theme="dark"] .scmc-transition-panel {
   .scmc-footer__meta {
     gap: 8px;
   }
+
+  .scmc-doctor-discovery {
+    padding: 66px 0;
+  }
+
+  .scmc-doctor-discovery__head {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 14px;
+  }
+
+  .scmc-doctor-discovery__head h2 {
+    max-width: 12ch;
+    font-size: clamp(24px, 7vw, 32px);
+  }
+
+  .scmc-doctor-discovery__head-side {
+    width: auto;
+    min-width: max-content;
+    justify-items: end;
+  }
+
+  .scmc-doctor-discovery__viewport--desktop {
+    display: none !important;
+  }
+
+  .scmc-doctor-loop-shell {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+    overflow: hidden;
+    padding-inline: var(--scmc-gutter);
+  }
+
+  .scmc-doctor-loop {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    animation: scmcDoctorLoop 34s linear infinite;
+    will-change: transform;
+  }
+
+  .scmc-doctor-loop__card {
+    width: clamp(146px, 42vw, 172px);
+    flex: 0 0 clamp(146px, 42vw, 172px);
+  }
+
+  .scmc-doctor-loop__media {
+    height: 205px;
+  }
+
+  .scmc-proximity-node.is-away {
+    opacity: .42;
+    filter: blur(4px);
+    transform: translateY(10px);
+  }
+
+  .scmc-proximity-node.is-warm {
+    opacity: .82;
+    filter: blur(1.25px);
+    transform: translateY(4px);
+  }
 }
 
 @media (max-width: 430px) {
@@ -2963,5 +3122,16 @@ html[data-theme="dark"] .scmc-transition-panel {
     opacity: 1 !important;
     filter: none !important;
     transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scmc-doctor-loop {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .scmc-doctor-loop-shell {
+    overflow-x: auto;
   }
 }
