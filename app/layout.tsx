@@ -71,7 +71,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html lang="en" dir="ltr" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={almarai.variable}>
         <SCMCLocaleRuntime />
         <SCMCPerformancePolicy />
