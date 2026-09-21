@@ -11,6 +11,7 @@ const lightweightDoctorImage: Record<string, string> = {
   "dr-nael-adel": "/assets/smilecare-official/doctors/dr-nael-adel.jpg",
   "dr-mohamed-taha": "/assets/smilecare-official/doctors/dr-mohammed-taha.jpg",
   "dr-asmaa-shehadeh": "/assets/smilecare-official/doctors/dr-asmaa-shehadeh.jpg",
+  "dr-javier-hernandez-hernandez": "/assets/smilecare-official/doctors/IMG_4967.jpg",
 };
 
 function doctorImage(slug: string, fallback: string) {
