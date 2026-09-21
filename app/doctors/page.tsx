@@ -28,7 +28,7 @@ export default function DoctorsPage() {
       <section className="scmc-section scmc-section--soft">
         <div className="scmc-shell scmc-doctor-directory">
           {officialDoctors.map((doctor, index) => (
-            <Link href={href(`/doctors/${doctor.slug}`)} className="scmc-doctor-card" key={doctor.slug}>
+            <Link href={doctor.profileUrl ?? href(`/doctors/${doctor.slug}`)} className="scmc-doctor-card" key={doctor.slug}>
               <div className="scmc-doctor-card__media">
                 <img src={doctor.image} alt={ar ? doctor.nameAr : doctor.nameEn} loading={index < 4 ? "eager" : "lazy"} />
                 <span>{String(index + 1).padStart(2, "0")}</span>
