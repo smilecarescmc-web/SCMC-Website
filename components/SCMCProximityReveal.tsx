@@ -12,6 +12,8 @@ const SELECTOR = [
   ".scmc-service-card",
   ".scmc-service-row",
   ".scmc-doctor-mini",
+  ".scmc-doctor-card",
+  ".scmc-directory-cta",
   ".scmc-insurance-card",
   ".scmc-contact-photo",
   ".scmc-location-card",
