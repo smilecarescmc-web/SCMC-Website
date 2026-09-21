@@ -432,6 +432,36 @@ html[data-theme="dark"] .scmc-header__brand img {
   display: none;
 }
 
+/* stable LTR contact values inside RTL UI */
+.scmc-ltr-value,
+.scmc-ltr-value bdi {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  text-align: left;
+}
+
+.scmc-is-ar .scmc-header__phone {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+}
+
+.scmc-is-ar .scmc-footer__contact .scmc-ltr-value {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.scmc-is-ar .scmc-contact-row .scmc-ltr-value {
+  display: inline-block;
+  text-align: right;
+}
+
+input[type="tel"],
+input[type="email"] {
+  direction: ltr;
+  unicode-bidi: plaintext;
+  text-align: left;
+}
+
 /* hero */
 .scmc-hero {
   position: relative;
@@ -1044,6 +1074,8 @@ html[data-theme="dark"] .scmc-header__brand img {
 
 .scmc-doctor-discovery__counter {
   min-width: 126px;
+  direction: ltr;
+  unicode-bidi: isolate;
   display: grid;
   grid-template-columns: auto 48px auto;
   align-items: center;
@@ -1074,11 +1106,8 @@ html[data-theme="dark"] .scmc-header__brand img {
   display: flex;
   gap: clamp(16px, 1.7vw, 24px);
   align-items: stretch;
+  direction: ltr;
   will-change: transform;
-}
-
-.scmc-doctor-discovery__track.is-rtl {
-  flex-direction: row-reverse;
 }
 
 .scmc-doctor-discovery__card {
@@ -1201,10 +1230,6 @@ html[data-theme="dark"] .scmc-header__brand img {
 
 .scmc-doctor-loop {
   width: max-content;
-}
-
-.scmc-doctor-loop.is-rtl {
-  animation-direction: reverse;
 }
 
 .scmc-doctor-loop.is-paused {
