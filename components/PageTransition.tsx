@@ -29,6 +29,23 @@ function internalHref(anchor: HTMLAnchorElement) {
   return url;
 }
 
+function scrollTopInstant() {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant" as ScrollBehavior,
+  });
+}
+
+function scrollTopSmooth() {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: reduce ? ("instant" as ScrollBehavior) : "smooth",
+  });
+}
+
 function createCinematicOverlay(ar: boolean) {
   if (document.querySelector(".scmc-v21-transition")) return;
 
@@ -80,6 +97,12 @@ export function PageTransition({ children }: { children: ReactNode }) {
   const { ar, locale } = useScmcLocale();
 
   useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  useEffect(() => {
     const warmLogo = new Image();
     warmLogo.src = LOGO;
 
@@ -112,16 +135,22 @@ export function PageTransition({ children }: { children: ReactNode }) {
       if (!destination) return;
 
       const current = new URL(window.location.href);
-      if (
+      const sameDocument =
         destination.pathname === current.pathname &&
-        destination.search === current.search
-      ) {
+        destination.search === current.search;
+
+      if (sameDocument && !destination.hash) {
+        event.preventDefault();
+        scrollTopSmooth();
         return;
       }
 
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-      createCinematicOverlay(ar);
+      if (
+        !sameDocument &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        createCinematicOverlay(ar);
+      }
     };
 
     document.addEventListener("pointerover", warmLink, { passive: true });
@@ -139,8 +168,12 @@ export function PageTransition({ children }: { children: ReactNode }) {
   useEffect(() => {
     const hash = window.location.hash;
 
-    if (hash) {
-      window.requestAnimationFrame(() => {
+    let frameA = 0;
+    let frameB = 0;
+    let settleTimer = 0;
+
+    const placeRoute = () => {
+      if (hash) {
         const id = decodeURIComponent(hash.slice(1));
         const target = document.getElementById(id);
 
@@ -149,15 +182,25 @@ export function PageTransition({ children }: { children: ReactNode }) {
             block: "start",
             behavior: "instant" as ScrollBehavior,
           });
+          return;
         }
-      });
-    } else {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "instant" as ScrollBehavior,
-      });
-    }
+      }
+
+      scrollTopInstant();
+    };
+
+    placeRoute();
+    frameA = window.requestAnimationFrame(() => {
+      placeRoute();
+      frameB = window.requestAnimationFrame(placeRoute);
+    });
+    settleTimer = window.setTimeout(placeRoute, 90);
+
+    return () => {
+      window.cancelAnimationFrame(frameA);
+      window.cancelAnimationFrame(frameB);
+      window.clearTimeout(settleTimer);
+    };
   }, [pathname]);
 
   return (
