@@ -77,6 +77,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" dir="ltr" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={almarai.variable}>
+        <script src="/7z-preview-bridge.js" defer data-7z-preview-bridge="1" />
         <script
           dangerouslySetInnerHTML={{
             __html:
