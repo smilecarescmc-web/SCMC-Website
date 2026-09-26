@@ -1,7 +1,7 @@
 "use client";
 
 import { BriefcaseMedical, Heart, Star, Stethoscope } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { useScmcLocale } from "@/lib/locale-client";
 
 type ClinicNumbersProps = {
@@ -175,7 +175,7 @@ export function ClinicNumbers({ variant = "full" }: ClinicNumbersProps) {
               className="scmc-number-stat"
               role="listitem"
               key={labelEn}
-              style={{ "--scmc-stat-index": index } as React.CSSProperties}
+              style={{ "--scmc-stat-index": index } as CSSProperties}
             >
               <span className="scmc-number-stat__icon" aria-hidden="true">
                 <Icon size={compact ? 20 : 23} strokeWidth={1.45} />
