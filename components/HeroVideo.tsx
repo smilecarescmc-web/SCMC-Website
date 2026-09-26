@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef } from "react";
 
@@ -54,14 +54,21 @@ export function HeroVideo() {
     <video
       ref={videoRef}
       className="scmc-hero__video"
-      src="/assets/HERO-Final.mp4"
       muted
       loop
       playsInline
       preload="metadata"
+      poster="/assets/HERO-Final-poster.webp"
       disablePictureInPicture
       aria-hidden="true"
-    />
+    >
+      <source
+        src="/assets/HERO-Final-1080.mp4"
+        type="video/mp4"
+        media="(max-width: 900px)"
+      />
+      <source src="/assets/HERO-Final-1440.mp4" type="video/mp4" />
+    </video>
   );
 }
 
