@@ -8,6 +8,7 @@ import { DoctorsScrollDiscovery } from "@/components/DoctorsScrollDiscovery";
 import { HeroVideo } from "@/components/HeroVideo";
 import { HomeWhyStandOut, HomeFaq, HomeReviews, HomeCarePillars, HomeSpecialDiscounts } from "@/components/HomeLegacySections";
 import { MediaImage } from "@/components/MediaImage";
+import { ClinicNumbers } from "@/components/ClinicNumbers";
 import { services } from "@/lib/scmcFullData";
 import { scmcResolvedMedia } from "@/lib/scmcResolvedMedia";
 import { useScmcLocale } from "@/lib/locale-client";
@@ -97,6 +98,8 @@ export default function HomePage() {
           </figure>
         </div>
       </section>
+
+      <ClinicNumbers variant="compact" />
 
       <section className="scmc-section scmc-section--soft">
         <div className="scmc-shell">
