@@ -36,7 +36,7 @@ export const officialDoctors: readonly OfficialDoctorSummary[] = [
     nameAr: "د. ولاء أبو اليزيد",
     specialtyEn: "Aesthetic & Dermatologist",
     specialtyAr: "طبيبة تجميل وأمراض جلدية",
-    image: "/media/doctors-fast/dr-wallaa-abo-elyazeed.webp",
+    image: "/media/doctors-fast/dr-wallaa-abo-elyazeed-v2.webp",
     noteEn: "Aesthetic and dermatology care at Smile Care Medical Center.",
     noteAr: "رعاية تجميلية وجلدية في مركز سمايل كير الطبي.",
   },
