@@ -5395,3 +5395,209 @@ html[lang="ar"] .scmc-skip-ar { display: inline; }
     transition-duration: .001ms !important;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Clinic numbers — isolated About + Home proof-point section
+   Scoped intentionally so the existing cinematic runtime and page motion
+   remain untouched.
+   -------------------------------------------------------------------------- */
+.scmc-numbers {
+  overflow: clip;
+}
+
+.scmc-numbers__head {
+  width: min(900px, 100%);
+  margin: 0 auto clamp(42px, 5vw, 62px);
+  text-align: center;
+}
+
+.scmc-numbers__head h2 {
+  margin: 0;
+  color: var(--scmc-text);
+  font-size: clamp(27px, 3vw, 38px);
+  line-height: 1.28;
+  letter-spacing: -.028em;
+  font-weight: 500;
+}
+
+.scmc-numbers__head h2 em {
+  color: var(--scmc-accent);
+  font-style: italic;
+  font-weight: 600;
+}
+
+.scmc-numbers__head > p:last-child {
+  max-width: 780px;
+  margin: 22px auto 0;
+  color: var(--scmc-text-soft);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.scmc-numbers__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid var(--scmc-line);
+}
+
+.scmc-number-stat {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 28px clamp(16px, 2.2vw, 30px);
+  border-inline-end: 1px solid var(--scmc-line);
+}
+
+.scmc-number-stat:last-child {
+  border-inline-end: 0;
+}
+
+.scmc-number-stat__icon {
+  width: 54px;
+  height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--scmc-line);
+  border-radius: 14px;
+  color: var(--scmc-accent);
+  background: color-mix(in srgb, var(--scmc-surface) 82%, transparent);
+}
+
+.scmc-number-stat__copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.scmc-number-stat__copy strong {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 3px;
+  color: var(--scmc-text);
+  font-size: clamp(25px, 2.7vw, 36px);
+  line-height: 1;
+  letter-spacing: -.04em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.scmc-number-stat__copy strong sup {
+  position: relative;
+  top: .08em;
+  color: var(--scmc-accent);
+  font-size: .42em;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.scmc-number-stat__copy > span {
+  color: var(--scmc-text-soft);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.scmc-numbers--compact {
+  padding: clamp(42px, 5vw, 64px) 0;
+  background: var(--scmc-bg);
+}
+
+.scmc-numbers__compact-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 22px;
+}
+
+.scmc-numbers__compact-head .scmc-eyebrow {
+  margin-bottom: 0;
+}
+
+.scmc-numbers__compact-title {
+  max-width: 520px;
+  margin: 0;
+  color: var(--scmc-text-soft);
+  font-size: 12px;
+  line-height: 1.65;
+  text-align: end;
+}
+
+.scmc-numbers--compact .scmc-number-stat {
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  padding-block: 20px;
+}
+
+.scmc-numbers--compact .scmc-number-stat__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+}
+
+.scmc-numbers--compact .scmc-number-stat__copy strong {
+  font-size: clamp(22px, 2.2vw, 30px);
+}
+
+.scmc-is-ar .scmc-numbers__compact-title {
+  text-align: start;
+}
+
+@media (max-width: 900px) {
+  .scmc-numbers__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .scmc-number-stat:nth-child(2) {
+    border-inline-end: 0;
+  }
+
+  .scmc-number-stat:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--scmc-line);
+  }
+}
+
+@media (max-width: 640px) {
+  .scmc-numbers__head {
+    margin-bottom: 34px;
+    text-align: start;
+  }
+
+  .scmc-numbers__head > p:last-child {
+    margin-inline: 0;
+  }
+
+  .scmc-numbers__compact-head {
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .scmc-numbers__compact-title {
+    margin-top: 8px;
+    text-align: start;
+  }
+
+  .scmc-number-stat {
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 12px;
+    padding: 19px 12px;
+  }
+
+  .scmc-number-stat__icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .scmc-number-stat__copy strong {
+    font-size: 24px;
+  }
+
+  .scmc-number-stat__copy > span {
+    font-size: 11px;
+  }
+}
