@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ScmcFrame } from "@/components/ScmcFrame";
 import { MediaImage } from "@/components/MediaImage";
+import { ClinicNumbers } from "@/components/ClinicNumbers";
 import { clinic } from "@/lib/scmcFullData";
 import { scmcResolvedMedia } from "@/lib/scmcResolvedMedia";
 import { useScmcLocale } from "@/lib/locale-client";
@@ -37,6 +38,8 @@ export default function AboutPage() {
           </figure>
         </div>
       </section>
+
+      <ClinicNumbers />
 
       <section className="scmc-section">
         <div className="scmc-shell scmc-story scmc-story--reverse">
