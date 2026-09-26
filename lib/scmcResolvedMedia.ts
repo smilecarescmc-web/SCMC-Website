@@ -13,7 +13,7 @@ export const scmcResolvedMedia = {
   doctors: {
     nael: "/assets/smilecare-official/doctors/dr-nael-adel.jpg",
     hijazi: "/assets/smilecare-official/doctors/dr-mohammed-hijazi.jpg",
-    walaa: "/media/doctors-fast/dr-wallaa-abo-elyazeed-v2.webp",
+    walaa: "/media/doctors-fast/dr-wallaa-abo-elyazeed-v3.webp",
     javier: "/scmc-luxe/doctors/javier.jpeg",
     asmaa: "/assets/smilecare-official/doctors/dr-asmaa-shehadeh.jpg",
     taha: "/assets/smilecare-official/doctors/dr-mohammed-taha.jpg",
