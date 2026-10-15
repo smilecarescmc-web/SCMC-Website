@@ -136,7 +136,7 @@ export const officialDoctors: readonly OfficialDoctorSummary[] = [
     nameAr: "الدكتور محمد موافي",
     specialtyEn: "Specialist of Orthodontics",
     specialtyAr: "أخصائي تقويم الأسنان",
-    image: "/media/doctors-fast/dr-mohammed-mwafi.png",
+    image: "/media/doctors-fast/dr-mohammed-mwafi.webp",
     noteEn: "Specialist orthodontic care including braces, clear aligners and functional appliances.",
     noteAr: "رعاية تخصصية في تقويم الأسنان تشمل التقويم الثابت والشفاف والأجهزة الوظيفية.",
   },
