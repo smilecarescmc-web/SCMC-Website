@@ -31,6 +31,7 @@ export function middleware(request: NextRequest) {
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-scmc-locale", locale);
+  requestHeaders.set("x-scmc-path", cleanPath);
 
   let response: NextResponse;
 
@@ -47,8 +48,7 @@ export function middleware(request: NextRequest) {
     response = NextResponse.next({ request: { headers: requestHeaders } });
   }
 
-  const configuredOrigin = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "");
-  const origin = configuredOrigin || request.nextUrl.origin;
+  const origin = "https://smilecare.ae";
   const canonicalLocale = locale;
   const canonicalPath = localize(cleanPath, canonicalLocale);
   const enPath = localize(cleanPath, "en");
