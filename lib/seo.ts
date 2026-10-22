@@ -186,7 +186,7 @@ export async function getScmcMetadata(overrides: {
     },
     openGraph: {
       type: "website",
-      locale: locale === "ar" ? "ar_AE" : "en_AE",
+      locale: canonicalLocale === "ar" ? "ar_AE" : "en_AE",
       url: canonical,
       siteName: "Smile Care Medical Center",
       title,
