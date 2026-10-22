@@ -48,22 +48,6 @@ export function middleware(request: NextRequest) {
     response = NextResponse.next({ request: { headers: requestHeaders } });
   }
 
-  const origin = "https://smilecare.ae";
-  const canonicalLocale = locale;
-  const canonicalPath = localize(cleanPath, canonicalLocale);
-  const enPath = localize(cleanPath, "en");
-  const arPath = localize(cleanPath, "ar");
-
-  response.headers.set(
-    "Link",
-    [
-      `<${origin}${canonicalPath}>; rel="canonical"`,
-      `<${origin}${enPath}>; rel="alternate"; hreflang="en"`,
-      `<${origin}${arPath}>; rel="alternate"; hreflang="ar"`,
-      `<${origin}${enPath}>; rel="alternate"; hreflang="x-default"`,
-    ].join(", ")
-  );
-
   if (request.nextUrl.hostname.endsWith(".vercel.app")) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
