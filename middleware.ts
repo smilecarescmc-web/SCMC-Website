@@ -10,6 +10,11 @@ const verifiedLegacyRedirects: Record<string, string> = {
   "/digital-smile-design-5-stages-that-guarantee-accurate-results-before-starting-treatment": "/en/blog/digital-smile-design-5-stages-that-guarantee-accurate-results-before-starting-treatment",
   "/ar/أهمية-تحليل-البشرة-قبل-أي-روتين-جمالي": "/ar/blog/precise-skin-analysis-5-essential-steps",
   "/how-to-manage-oily-skin-and-large-pores": "/en/blog/how-to-manage-oily-skin-and-large-pores",
+  "/dermatologist-ras-al-khaimah": "/en/services/dermatology",
+  "/ar/services/facial-treatments-ras-al-khaimah": "/ar/services/facials",
+  "/ar/dental-clinic": "/ar/services/dental",
+  "/ar/dermatologist-ras-al-khaimah": "/ar/services/dermatology",
+  "/ar/portfolio/د-سارة-عودة": "/ar/doctors/dr-sara-odeh",
 };
 
 function normalizeLegacyPath(pathname: string) {
