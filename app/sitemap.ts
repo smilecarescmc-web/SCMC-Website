@@ -3,14 +3,26 @@ import { officialDoctors } from "@/lib/officialDoctors";
 import { officialBlogData } from "@/lib/official-blog.generated";
 import { services } from "@/lib/scmcFullData";
 
-const SITE_ORIGIN = "https://smilecare.ae";
-const baseRoutes = ["/", "/services", "/doctors", "/about", "/contact", "/blog", "/faqs", "/clinic-gallery", "/events", "/privacy-policy"];
+const BASE_URL = "https://smilecare.ae";
 
-type SitemapRoute = {
-  path: string;
-  lastModified?: Date;
-  hasArabic: boolean;
-};
+const baseRoutes = [
+  "",
+  "/services",
+  "/doctors",
+  "/about",
+  "/contact",
+  "/blog",
+  "/faqs",
+  "/clinic-gallery",
+  "/events",
+  "/privacy-policy",
+];
+
+function siteUrl() {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "");
+  if (configured) return configured;
+  return BASE_URL;
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes: SitemapRoute[] = [
@@ -24,21 +36,43 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
-  return routes.flatMap(({ path, lastModified, hasArabic }) => {
-    const cleanPath = path === "/" ? "" : path;
-    const en = SITE_ORIGIN + "/en" + cleanPath;
-    const ar = SITE_ORIGIN + "/ar" + cleanPath;
-    const languages = {
-      en,
-      ...(hasArabic ? { ar } : {}),
-      "x-default": en,
-    };
+  const now = new Date();
+
+  return paths.flatMap((path) => {
+    const isRoot = path === "" || path === "/";
+    const clean = isRoot ? "" : path;
+    const en = `${site}/en${clean}`;
+    const ar = `${site}/ar${clean}`;
+
+    const priority = isRoot ? 1.0 : path.startsWith("/doctors/") || path.startsWith("/services/") ? 0.8 : 0.7;
+    const changeFrequency = path.startsWith("/blog/") ? "monthly" : "weekly";
 
     return [
       {
         url: en,
-        ...(lastModified ? { lastModified } : {}),
-        alternates: { languages },
+        lastModified: now,
+        changeFrequency,
+        priority,
+        alternates: {
+          languages: {
+            en,
+            ar,
+            "x-default": en,
+          },
+        },
+      },
+      {
+        url: ar,
+        lastModified: now,
+        changeFrequency,
+        priority,
+        alternates: {
+          languages: {
+            en,
+            ar,
+            "x-default": en,
+          },
+        },
       },
       ...(hasArabic
         ? [{
