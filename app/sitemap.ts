@@ -1,4 +1,4 @@
-import type { MetadataRoute } from "next";
+﻿import type { MetadataRoute } from "next";
 import { officialDoctors } from "@/lib/officialDoctors";
 import { officialBlogData } from "@/lib/official-blog.generated";
 import { services } from "@/lib/scmcFullData";
@@ -18,6 +18,12 @@ const baseRoutes = [
   "/privacy-policy",
 ];
 
+type SitemapRoute = {
+  path: string;
+  lastModified?: Date;
+  hasArabic: boolean;
+};
+
 function siteUrl() {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "");
   if (configured) return configured;
@@ -25,62 +31,58 @@ function siteUrl() {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const site = siteUrl();
   const routes: SitemapRoute[] = [
     ...baseRoutes.map((path) => ({ path, hasArabic: true })),
     ...services.map((service) => ({ path: service.route, hasArabic: true })),
     ...officialDoctors.map((doctor) => ({ path: "/doctors/" + doctor.slug, hasArabic: true })),
     ...officialBlogData.map((article) => ({
       path: "/blog/" + article.slug,
-      lastModified: new Date(article.date),
+      lastModified: article.date ? new Date(article.date) : undefined,
       hasArabic: Boolean(article.contentAr),
     })),
   ];
 
   const now = new Date();
 
-  return paths.flatMap((path) => {
+  return routes.flatMap(({ path, lastModified, hasArabic }) => {
     const isRoot = path === "" || path === "/";
     const clean = isRoot ? "" : path;
     const en = `${site}/en${clean}`;
     const ar = `${site}/ar${clean}`;
+    const modDate = lastModified && !Number.isNaN(lastModified.getTime()) ? lastModified : now;
 
     const priority = isRoot ? 1.0 : path.startsWith("/doctors/") || path.startsWith("/services/") ? 0.8 : 0.7;
-    const changeFrequency = path.startsWith("/blog/") ? "monthly" : "weekly";
+    const changeFrequency = path.startsWith("/blog/") ? ("monthly" as const) : ("weekly" as const);
 
-    return [
+    const languages: Record<string, string> = {
+      en,
+      "x-default": en,
+    };
+    if (hasArabic) {
+      languages.ar = ar;
+    }
+
+    const entries: MetadataRoute.Sitemap = [
       {
         url: en,
-        lastModified: now,
+        lastModified: modDate,
         changeFrequency,
         priority,
-        alternates: {
-          languages: {
-            en,
-            ar,
-            "x-default": en,
-          },
-        },
+        alternates: { languages },
       },
-      {
-        url: ar,
-        lastModified: now,
-        changeFrequency,
-        priority,
-        alternates: {
-          languages: {
-            en,
-            ar,
-            "x-default": en,
-          },
-        },
-      },
-      ...(hasArabic
-        ? [{
-            url: ar,
-            ...(lastModified ? { lastModified } : {}),
-            alternates: { languages },
-          }]
-        : []),
     ];
+
+    if (hasArabic) {
+      entries.push({
+        url: ar,
+        lastModified: modDate,
+        changeFrequency,
+        priority,
+        alternates: { languages },
+      });
+    }
+
+    return entries;
   });
 }
