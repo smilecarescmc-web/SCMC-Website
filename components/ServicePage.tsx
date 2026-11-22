@@ -7,6 +7,7 @@ import { MediaImage } from "@/components/MediaImage";
 import { clinic, type Service } from "@/lib/scmcFullData";
 import { scmcResolvedMedia } from "@/lib/scmcResolvedMedia";
 import { useScmcLocale } from "@/lib/locale-client";
+import type { SanityService } from "@/sanity/lib/fetchers";
 
 const arService: Record<string, { title: string; kicker: string; description: string; intro: string; next: string }> = {
   dental: {
@@ -101,7 +102,8 @@ const arBullets: Record<string, readonly string[]> = {
   ],
 };
 
-function serviceImage(service: Service) {
+function serviceImage(service: Service | SanityService) {
+  if (service.image) return service.image;
   switch (service.key) {
     case "dental": return scmcResolvedMedia.clinic.dental;
     case "botox-fillers": return scmcResolvedMedia.clinic.botoxFillers;
@@ -109,15 +111,29 @@ function serviceImage(service: Service) {
     case "facials": return scmcResolvedMedia.clinic.facials;
     case "laser-hair-removal": return scmcResolvedMedia.clinic.laser;
     case "laboratory": return scmcResolvedMedia.clinic.laboratory;
+    default: return scmcResolvedMedia.clinic.dental;
   }
 }
 
-export function ServicePage({ service }: { service: Service }) {
+export function ServicePage({ service }: { service: Service | SanityService }) {
   const { ar, href } = useScmcLocale();
-  const localized = arService[service.key];
-  const title = ar ? localized.title : service.title;
-  const description = ar ? localized.description : service.description;
-  const kicker = ar ? localized.kicker : service.kicker;
+  const localized = arService[service.key] || {
+    title: service.title,
+    kicker: service.kicker,
+    description: service.description,
+    intro: service.intro,
+    next: "ابدأ باستشارة طبية لتحديد الخطة المناسبة.",
+  };
+
+  const sanitySvc = service as SanityService;
+  const title = ar ? sanitySvc.titleAr || localized.title : service.title;
+  const description = ar ? sanitySvc.descriptionAr || localized.description : service.description;
+  const kicker = ar ? sanitySvc.kickerAr || localized.kicker : service.kicker;
+  const intro = ar ? sanitySvc.introAr || localized.intro : service.intro;
+  const nextText = ar ? sanitySvc.nextAr || localized.next : sanitySvc.nextEn || "Suitability, treatment plan and expected next steps are confirmed by the Smile Care clinical team.";
+  const bullets = ar && sanitySvc.bulletsAr && sanitySvc.bulletsAr.length > 0
+    ? sanitySvc.bulletsAr
+    : service.bullets;
 
   return (
     <ScmcFrame>
@@ -146,13 +162,13 @@ export function ServicePage({ service }: { service: Service }) {
           <div className="scmc-section-copy">
             <p className="scmc-eyebrow">{ar ? "نهج الرعاية" : "CARE APPROACH"}</p>
             <h2>{ar ? "رعاية سريرية بلا أجواء سريرية تقليدية." : "Clinical care without the traditional clinical feel."}</h2>
-            <p>{ar ? localized.intro : service.intro}</p>
+            <p>{intro}</p>
           </div>
           <div className="scmc-benefit-list">
-            {service.bullets.map((bullet, index) => (
-              <div className="scmc-benefit" key={bullet}>
+            {bullets.map((bullet, index) => (
+              <div className="scmc-benefit" key={index}>
                 <span><Check size={12} /></span>
-                <p>{ar ? arBullets[service.key][index] : bullet}</p>
+                <p>{bullet}</p>
               </div>
             ))}
           </div>
@@ -164,7 +180,7 @@ export function ServicePage({ service }: { service: Service }) {
           <div>
             <p className="scmc-eyebrow">{ar ? "الخطوة التالية" : "NEXT STEP"}</p>
             <h2>{ar ? "ابدأ باستشارة." : "Start with a consultation."}</h2>
-            <p>{ar ? localized.next : "Suitability, treatment plan and expected next steps are confirmed by the Smile Care clinical team."}</p>
+            <p>{nextText}</p>
           </div>
           <Link href={href("/contact#appointment")} className="scmc-button scmc-button--primary">
             {ar ? "طلب موعد" : "Request appointment"} <ArrowUpRight size={13} />

@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useScmcLocale } from "@/lib/locale-client";
 import { ScmcFrame } from "@/components/ScmcFrame";
 import { officialDoctors } from "@/lib/officialDoctors";
+import type { SanityDoctor } from "@/sanity/lib/fetchers";
 
 type Doctor = {
   slug: string;
@@ -22,10 +23,32 @@ type Doctor = {
   hasOfficialArabic: boolean;
 };
 
-export function OfficialDoctorPage({ slug }: { slug: string }) {
+export function OfficialDoctorPage({
+  slug,
+  initialDoctor,
+}: {
+  slug: string;
+  initialDoctor?: SanityDoctor | null;
+}) {
   const { ar, href } = useScmcLocale();
 
   const summaryFallback = useMemo<Doctor | null>(() => {
+    if (initialDoctor) {
+      return {
+        slug: initialDoctor.slug,
+        nameEn: initialDoctor.nameEn,
+        nameAr: initialDoctor.nameAr,
+        specialtyEn: initialDoctor.specialtyEn,
+        specialtyAr: initialDoctor.specialtyAr,
+        sourceUrl: initialDoctor.sourceUrl || "",
+        fetchedUrl: "",
+        image: initialDoctor.image,
+        contentEn: initialDoctor.noteEn,
+        contentAr: initialDoctor.noteAr,
+        hasOfficialArabic: Boolean(initialDoctor.noteAr),
+      };
+    }
+
     const summary = officialDoctors.find((item) => item.slug === slug);
     if (!summary) return null;
 
@@ -42,7 +65,7 @@ export function OfficialDoctorPage({ slug }: { slug: string }) {
       contentAr: summary.noteAr,
       hasOfficialArabic: false,
     };
-  }, [slug]);
+  }, [slug, initialDoctor]);
 
   const [doctor, setDoctor] = useState<Doctor | null>(summaryFallback);
 

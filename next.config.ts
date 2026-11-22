@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
     qualities: [58, 62, 75],
     minimumCacheTTL: 604800,
     deviceSizes: [390, 430, 620, 768, 1024, 1280, 1536],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+      },
+    ],
   },
   async redirects() {
     return [

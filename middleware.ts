@@ -40,6 +40,26 @@ function localize(pathname: string, locale: "en" | "ar") {
 
 export function middleware(request: NextRequest) {
   const originalPath = request.nextUrl.pathname;
+
+  // Handle Sanity Studio route cleanly: never redirect to locale or rewrite
+  if (originalPath === "/studio" || originalPath.startsWith("/studio/")) {
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-scmc-is-studio", "1");
+    return NextResponse.next({ request: { headers: requestHeaders } });
+  }
+
+  // If studio is accessed with a locale prefix, redirect to clean studio route
+  if (originalPath === "/en/studio" || originalPath.startsWith("/en/studio/")) {
+    const target = request.nextUrl.clone();
+    target.pathname = originalPath.replace(/^\/en/, "");
+    return NextResponse.redirect(target, 308);
+  }
+  if (originalPath === "/ar/studio" || originalPath.startsWith("/ar/studio/")) {
+    const target = request.nextUrl.clone();
+    target.pathname = originalPath.replace(/^\/ar/, "");
+    return NextResponse.redirect(target, 308);
+  }
+
   const legacyTarget = verifiedLegacyRedirects[normalizeLegacyPath(originalPath)];
 
   if (legacyTarget) {

@@ -1,7 +1,5 @@
 ﻿import type { MetadataRoute } from "next";
-import { officialDoctors } from "@/lib/officialDoctors";
-import { officialBlogData } from "@/lib/official-blog.generated";
-import { services } from "@/lib/scmcFullData";
+import { getDoctors, getBlogPosts, getServices } from "@/sanity/lib/fetchers";
 
 const BASE_URL = "https://smilecare.ae";
 
@@ -30,16 +28,22 @@ function siteUrl() {
   return BASE_URL;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const site = siteUrl();
+  const [doctors, blogPosts, services] = await Promise.all([
+    getDoctors(),
+    getBlogPosts(),
+    getServices(),
+  ]);
+
   const routes: SitemapRoute[] = [
     ...baseRoutes.map((path) => ({ path, hasArabic: true })),
     ...services.map((service) => ({ path: service.route, hasArabic: true })),
-    ...officialDoctors.map((doctor) => ({ path: "/doctors/" + doctor.slug, hasArabic: true })),
-    ...officialBlogData.map((article) => ({
+    ...doctors.map((doctor) => ({ path: "/doctors/" + doctor.slug, hasArabic: true })),
+    ...blogPosts.map((article) => ({
       path: "/blog/" + article.slug,
       lastModified: article.date ? new Date(article.date) : undefined,
-      hasArabic: Boolean(article.contentAr),
+      hasArabic: Boolean(article.contentAr || article.rawHtmlAr),
     })),
   ];
 

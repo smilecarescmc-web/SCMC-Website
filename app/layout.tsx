@@ -77,6 +77,18 @@ const clinicStructuredData = [
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const requestHeaders = await headers();
+  const isStudio = requestHeaders.get("x-scmc-is-studio") === "1";
+
+  if (isStudio) {
+    return (
+      <html lang="en">
+        <body style={{ margin: 0, padding: 0, height: "100vh", overflow: "hidden" }}>
+          {children}
+        </body>
+      </html>
+    );
+  }
+
   const locale = requestHeaders.get("x-scmc-locale") === "ar" ? "ar" : "en";
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} data-scroll-behavior="smooth" suppressHydrationWarning>
