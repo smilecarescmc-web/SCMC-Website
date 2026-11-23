@@ -60,7 +60,7 @@ export type SanityService = Service & {
   bulletsAr?: string[]
 }
 
-const DEFAULT_REVALIDATE = 60 // ISR revalidation cadence in seconds
+const DEFAULT_REVALIDATE = 300 // ISR revalidation cadence in seconds
 
 /**
  * Fetch all published doctors from Sanity with safe fallback to local bundled data.
