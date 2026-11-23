@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Sanity Studio | Smile Care Medical Center",
@@ -21,8 +22,11 @@ export default function StudioLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
-      {children}
+    <div className="scmc-studio-shell" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <div style={{ flex: 1, minHeight: "calc(100vh - 80px)", position: "relative" }}>
+        {children}
+      </div>
+      <Footer />
     </div>
   );
 }

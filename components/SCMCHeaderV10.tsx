@@ -1,11 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useScmcLocale, stripLocale, localePath } from "@/lib/locale-client";
 
 export function SCMCHeaderV10() {
+  const currentPathname = usePathname();
+  if (currentPathname?.startsWith("/studio")) {
+    return null;
+  }
+
   const { locale, ar, pathname, href } = useScmcLocale();
   const base = stripLocale(pathname);
   const [theme, setTheme] = useState<"light" | "dark">("light");

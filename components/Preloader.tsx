@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useScmcLocale } from "@/lib/locale-client";
 import { useEffect, useState } from "react";
 
@@ -7,10 +8,12 @@ const LOGO = "/assets/smilecare-official/brand/logo.png";
 const CLEANUP_MS = 1700;
 
 export function Preloader() {
+  const pathname = usePathname();
   const { ar } = useScmcLocale();
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    if (pathname?.startsWith("/studio")) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const timer = window.setTimeout(
       () => setVisible(false),
@@ -18,9 +21,9 @@ export function Preloader() {
     );
 
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [pathname]);
 
-  if (!visible) return null;
+  if (pathname?.startsWith("/studio") || !visible) return null;
 
   return (
     <div
