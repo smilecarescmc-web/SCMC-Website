@@ -17,10 +17,10 @@ type SmoothScrollProps = PropsWithChildren<{
 
 export function SmoothScroll({ children, className = "" }: SmoothScrollProps) {
   const pathname = usePathname();
-  if (pathname?.startsWith("/studio")) return <>{children}</>;
   const cursorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (pathname?.startsWith("/studio")) return;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
 
@@ -150,7 +150,7 @@ export function SmoothScroll({ children, className = "" }: SmoothScrollProps) {
       if (ticker) gsap.ticker.remove(ticker);
       lenis?.destroy();
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <div className={`scmc-site ${className}`.trim()}>
