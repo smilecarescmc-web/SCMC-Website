@@ -76,7 +76,7 @@ export function SCMCHeaderV10() {
   ] as const;
 
   return (
-    <header className="scmc-header" data-menu-open={menuOpen ? "true" : "false"}>
+    <header className="scmc-header" data-menu-open={menuOpen ? "true" : "false"} style={isStudio ? { position: "relative", top: 0, left: 0, right: 0, transform: "none", margin: "12px auto" } : undefined}>
       <Link className="scmc-header__brand" href={href("/")} aria-label={ar ? "الرئيسية" : "Smile Care home"}>
         <img src="/assets/smilecare-official/brand/logo.png" alt="Smile Care Medical Center" />
       </Link>

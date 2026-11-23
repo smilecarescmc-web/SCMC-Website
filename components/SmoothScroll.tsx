@@ -1,6 +1,7 @@
 "use client";
 
 import type { PropsWithChildren } from "react";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
@@ -15,6 +16,8 @@ type SmoothScrollProps = PropsWithChildren<{
 }>;
 
 export function SmoothScroll({ children, className = "" }: SmoothScrollProps) {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/studio")) return <>{children}</>;
   const cursorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

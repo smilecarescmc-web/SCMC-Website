@@ -93,6 +93,8 @@ function createCinematicOverlay(ar: boolean) {
 
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "/";
+  if (pathname?.startsWith("/studio")) return <>{children}</>;
+
   const router = useRouter();
   const { ar, locale } = useScmcLocale();
 
