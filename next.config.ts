@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+﻿import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -17,11 +17,24 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Legacy WordPress assets & wildcard literal URLs from GSC
       {
         source: "/wp-content/:path*",
         destination: "/",
         statusCode: 301,
       },
+      {
+        source: "/wp-content/plugins/%2A",
+        destination: "/",
+        statusCode: 301,
+      },
+      {
+        source: "/wp-content/themes/fse-solar-power/%2A",
+        destination: "/",
+        statusCode: 301,
+      },
+
+      // Doctors (EN & AR + legacy slugs + /feed)
       {
         source: "/portfolio/dr-mohammed-am-alqasem",
         destination: "/en/doctors/dr-mohammed-ayman-alqasem",
@@ -108,6 +121,11 @@ const nextConfig: NextConfig = {
         statusCode: 301,
       },
       {
+        source: "/portfolio/dr-javier-hernandez-hernandez",
+        destination: "/en/doctors/dr-javier-hernandez-hernandez",
+        statusCode: 301,
+      },
+      {
         source: "/ar/portfolio/د-خافيير-هيرنانديز-هيرنانديز",
         destination: "/ar/doctors/dr-javier-hernandez-hernandez",
         statusCode: 301,
@@ -138,7 +156,17 @@ const nextConfig: NextConfig = {
         statusCode: 301,
       },
       {
+        source: "/portfolio/dr-sara-odeh",
+        destination: "/en/doctors/dr-sara-odeh",
+        statusCode: 301,
+      },
+      {
         source: "/portfolio/dr-sara-odeh/feed",
+        destination: "/en/doctors/dr-sara-odeh",
+        statusCode: 301,
+      },
+      {
+        source: "/portfolio/dr-sarah-audeh",
         destination: "/en/doctors/dr-sara-odeh",
         statusCode: 301,
       },
@@ -168,6 +196,13 @@ const nextConfig: NextConfig = {
         statusCode: 301,
       },
       {
+        source: "/ar/portfolio/dr-nael-adel-ishnineh",
+        destination: "/ar/doctors/dr-nael-adel",
+        statusCode: 301,
+      },
+
+      // Services & Landing Pages (EN & AR)
+      {
         source: "/services/aesthetic-clinic-ras-al-khaimah",
         destination: "/en/services/botox-fillers",
         statusCode: 301,
@@ -180,6 +215,21 @@ const nextConfig: NextConfig = {
       {
         source: "/services/facial-treatments-ras-al-khaimah",
         destination: "/en/services/facials",
+        statusCode: 301,
+      },
+      {
+        source: "/ways-to-choose-facial-treatments-in-ras-al-khaimah",
+        destination: "/en/services/facials",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/طرق-اختيار-علاجات-الوجه-في-رأس-الخيمة",
+        destination: "/ar/services/facials",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/%D8%B7%D8%B1%D9%82-%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1-%D8%B9%D9%84%D8%A7%D8%AC%D8%A7%D8%AA-%D8%A7%D9%84%D9%88%D8%AC%D9%87-%D9%81%D9%8A-%D8%B1%D8%A3%D8%B3-%D8%A7%D9%84%D8%AE%D9%8A%D9%85%D8%A9",
+        destination: "/ar/services/facials",
         statusCode: 301,
       },
       {
@@ -203,6 +253,26 @@ const nextConfig: NextConfig = {
         statusCode: 301,
       },
       {
+        source: "/dental-care-in-ras-al-khaimah-benefits",
+        destination: "/en/services/dental",
+        statusCode: 301,
+      },
+      {
+        source: "/right-dental-clinic-ras-al-khaimah",
+        destination: "/en/services/dental",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/smilefix",
+        destination: "/ar/services/dental",
+        statusCode: 301,
+      },
+      {
+        source: "/aesthetic-clinic-ras-al-khaimah-first-visit",
+        destination: "/en/services/botox-fillers",
+        statusCode: 301,
+      },
+      {
         source: "/ar/عيادة-التجميل-رأس-الخيمة-زيارة-أولى",
         destination: "/ar/services/botox-fillers",
         statusCode: 301,
@@ -210,6 +280,11 @@ const nextConfig: NextConfig = {
       {
         source: "/ar/%D8%B9%D9%8A%D8%A7%D8%AF%D8%A9-%D8%A7%D9%84%D8%AA%D8%AC%D9%85%D9%8A%D9%84-%D8%B1%D8%A3%D8%B3-%D8%A7%D9%84%D8%AE%D9%8A%D9%85%D8%A9-%D8%B2%D9%8A%D8%A7%D8%B1%D8%A9-%D8%A3%D9%88%D9%84%D9%89",
         destination: "/ar/services/botox-fillers",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/get-glowing-skin",
+        destination: "/ar/services/facials",
         statusCode: 301,
       },
       {
@@ -228,13 +303,20 @@ const nextConfig: NextConfig = {
         statusCode: 301,
       },
       {
-        source: "/when-do-your-teeth-require-braces",
-        destination: "/en/blog/clear-aligners-the-modern-solution-for-a-natural-attractive-smile",
+        source: "/pink-october",
+        destination: "/en/events",
         statusCode: 301,
       },
       {
         source: "/ar/pink-october",
         destination: "/ar/events",
+        statusCode: 301,
+      },
+
+      // Blog Posts (EN & AR)
+      {
+        source: "/when-do-your-teeth-require-braces",
+        destination: "/en/blog/clear-aligners-the-modern-solution-for-a-natural-attractive-smile",
         statusCode: 301,
       },
       {
@@ -244,6 +326,16 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/ar/%D8%A3%D9%81%D8%B6%D9%84-%D8%B7%D8%A8%D9%8A%D8%A8-%D8%A3%D8%B3%D9%86%D8%A7%D9%86-%D9%81%D9%8A-%D8%B1%D8%A3%D8%B3-%D8%A7%D9%84%D8%AE%D9%8A%D9%85%D8%A9",
+        destination: "/ar/blog/what-is-the-best-dental-clinic-in-ras-al-khaimah-for-2025",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/توصيات-المرضى-لأفضل-عيادة-اسنان",
+        destination: "/ar/blog/what-is-the-best-dental-clinic-in-ras-al-khaimah-for-2025",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/%D8%AA%D9%88%D8%B5%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B1%D8%B6%D9%89-%D9%84%D8%A3%D9%81%D8%B6%D9%84-%D8%B9%D9%8A%D8%A7%D8%AF%D8%A9-%D8%A7%D8%B3%D9%86%D8%A7%D9%86",
         destination: "/ar/blog/what-is-the-best-dental-clinic-in-ras-al-khaimah-for-2025",
         statusCode: 301,
       },
@@ -310,6 +402,16 @@ const nextConfig: NextConfig = {
       {
         source: "/ar/%D9%85%D8%AA%D9%89-%D8%AA%D8%B2%D9%88%D8%B1-%D8%B7%D8%A8%D9%8A%D8%A8-%D8%A7%D9%84%D8%A3%D8%B3%D9%86%D8%A7%D9%86-%D9%81%D9%8A-%D8%B1%D8%A3%D8%B3-%D8%A7%D9%84%D8%AE%D9%8A%D9%85%D8%A9",
         destination: "/ar/services/dental",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/حساسية-الأسنان-رأس-الخيمة",
+        destination: "/ar/blog/tooth-sensitivity-common-causes-when-to-worry-effective-treatment-and-prevention",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/%D8%AD%D8%B3%D8%A7%D8%B3%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D8%B3%D9%86%D8%A7%D9%86-%D8%B1%D8%A3%D8%B3-%D8%A7%D9%84%D8%AE%D9%8A%D9%85%D8%A9",
+        destination: "/ar/blog/tooth-sensitivity-common-causes-when-to-worry-effective-treatment-and-prevention",
         statusCode: 301,
       },
       {

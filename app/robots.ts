@@ -24,7 +24,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/wp-admin/", "/wp-content/", "/wp-includes/", "/wp-json/", "/xmlrpc.php"],
+        disallow: ["/wp-admin/", "/wp-includes/", "/wp-json/", "/xmlrpc.php", "/studio/"],
       },
     ],
     sitemap: `${site}/sitemap.xml`,
