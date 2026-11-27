@@ -33,6 +33,48 @@ const nextConfig: NextConfig = {
         destination: "/",
         statusCode: 301,
       },
+      // Legacy WordPress Categories, Authors & Search URLs
+      {
+        source: "/portfolio_category/:path*",
+        destination: "/en/doctors",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/portfolio_category/:path*",
+        destination: "/ar/doctors",
+        statusCode: 301,
+      },
+      {
+        source: "/category/:path*",
+        destination: "/en/blog",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/category/:path*",
+        destination: "/ar/blog",
+        statusCode: 301,
+      },
+      {
+        source: "/author/:path*",
+        destination: "/en/blog",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/author/:path*",
+        destination: "/ar/blog",
+        statusCode: 301,
+      },
+      {
+        source: "/search/:path*",
+        destination: "/en/blog",
+        statusCode: 301,
+      },
+      {
+        source: "/ar/search/:path*",
+        destination: "/ar/blog",
+        statusCode: 301,
+      },
+
 
       // Doctors (EN & AR + legacy slugs + /feed)
       {
@@ -504,3 +546,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
